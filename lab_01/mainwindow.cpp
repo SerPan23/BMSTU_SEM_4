@@ -5,10 +5,9 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent), ui(new Ui::MainWin
 {
     ui->setupUi(this);
 
-    QGraphicsScene *scene = new QGraphicsScene(this);
-
-    ui->graphicsView->setScene(scene);
-    ui->graphicsView->setStyleSheet("QGraphicsView {background-color: white}");
+    pxp = QPixmap(ui->graphic_lable->width(), ui->graphic_lable->height());
+    pxp.fill();
+    ui->graphic_lable->setPixmap(pxp);
 
 
     connect(ui->btn_get_result, &QPushButton::clicked, this,
@@ -25,25 +24,75 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent), ui(new Ui::MainWin
 
     connect(ui->btn_task, &QPushButton::clicked, this,
             &MainWindow::show_task);
+
+    points_alloc(&this->points, 10);
 }
 
 MainWindow::~MainWindow()
 {
+    points_free(&this->points);
     delete ui;
 }
 
 return_codes_t MainWindow::draw()
 {
-    auto rcontent = ui->graphicsView->contentsRect();
-    ui->graphicsView->scene()->setSceneRect(0, 0, rcontent.width(),
-                                            rcontent.height());
+    ui->graphic_lable->setPixmap(this->pxp);
 
     return SUCCESS;
 }
 
 void MainWindow::get_result_clicked()
 {
+    this->pxp.fill();
+    triangle_t triangle;
+    double minn = 0;
+    bool flag = true;
 
+    for (size_t i = 0; i < this->points.size; i++)
+    {
+        for (size_t j = i + 1; j < this->points.size; j++)
+        {
+            for (size_t k = j + 1; k < this->points.size; k++)
+            {
+                point_t *pa = this->points.data[i];
+                point_t *pb = this->points.data[j];
+                point_t *pc = this->points.data[k];
+                if (is_triangle(pa, pb, pc))
+                {
+                    double r = find_inscribed_circle_radius(pa, pb, pc);
+                    double cs = circle_sqr(r);
+                    double ts = triangle_sqr(pa, pb, pc);
+                    if (flag || minn > ts - cs)
+                    {
+                        flag = false;
+                        minn = ts - cs;
+                        triangle.a = pa;
+                        triangle.b = pb;
+                        triangle.c = pc;
+                    }
+                }
+            }
+        }
+    }
+
+    point_t *pab = find_bisector_on_front_side(triangle.a, triangle.b, triangle.c);
+    point_t *pbb = find_bisector_on_front_side(triangle.b, triangle.a, triangle.c);
+    point_t *pcb = find_bisector_on_front_side(triangle.c, triangle.a, triangle.b);
+    point_t *pcenter = find_line_cross(triangle.a, pab, triangle.b, pbb);
+
+    QPainter painter(&this->pxp);
+    double h = (double)painter.device()->height();
+    double w = (double)painter.device()->width();
+    draw_view_t view = {
+        .scene = &this->pxp,
+        .painter = &painter,
+        .width = w,
+        .height = h,
+    };
+
+    draw_result(&view, &triangle, pab, pbb, pcb, pcenter);
+
+    draw();
 }
 
 void MainWindow::add_point()
@@ -60,12 +109,18 @@ void MainWindow::add_point()
     table->setItem   ( table->rowCount()-1,
                          1,
                          new QTableWidgetItem(QString::number(y)));
+
+    point_t *p = point_create(x, y);
+
+    points_push(&this->points, p);
 }
 
 void MainWindow::del_point()
 {
-    double index = ui->input_index->value();
+    int index = ui->input_index->value();
     ui->table_points->removeRow(index);
+
+    points_pop(&this->points, index);
 }
 
 void MainWindow::del_all_points()

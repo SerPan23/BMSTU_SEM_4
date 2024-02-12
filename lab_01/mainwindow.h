@@ -4,6 +4,8 @@
 #include <QMainWindow>
 
 #include "return_codes.h"
+#include "draw.h"
+#include "points.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -29,5 +31,7 @@ private slots:
 
 private:
     Ui::MainWindow *ui;
+    QPixmap pxp;
+    points_t points;
 };
 #endif // MAINWINDOW_H

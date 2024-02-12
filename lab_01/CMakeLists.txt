@@ -19,12 +19,14 @@ set(PROJECT_SOURCES
         mainwindow.ui
         ./return_codes/return_codes.h
         ./return_codes/return_codes.cpp
-        ./requests/requests.h
-        ./requests/requests.cpp
         ./draw/draw.h
         ./draw/draw.cpp
         ./geometry/point.h
         ./geometry/point.cpp
+        ./geometry/points.h
+        ./geometry/points.cpp
+        ./geometry/triangle.h
+        ./geometry/triangle.cpp
 )
 
 include_directories("${CMAKE_CURRENT_LIST_DIR}/return_codes")
@@ -36,7 +38,6 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
     qt_add_executable(lab_01
         MANUAL_FINALIZATION
         ${PROJECT_SOURCES}
-
     )
 # Define target properties for Android with Qt 6 as:
 #    set_property(TARGET lab_01 APPEND PROPERTY QT_ANDROID_PACKAGE_SOURCE_DIR
