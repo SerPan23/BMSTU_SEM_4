@@ -58,7 +58,7 @@ point_t *find_bisector_on_front_side(point_t *pa, point_t *pb, point_t *pc)
 
     double ratio = bisector_ratio(ab, ac);
 
-    if (ab >= ac)
+    if (ab < ac)
         tmp = find_point_by_bisector_ratio(pc, pb, ratio);
     else
         tmp = find_point_by_bisector_ratio(pb, pc, ratio);
@@ -90,23 +90,14 @@ point_t *find_line_cross(point_t *pa1, point_t *pb1, point_t *pa2, point_t *pb2)
 
         double b1 = pa1->y - pa1->x * k1;
 
-        std::cout << "first line: (" << pa1->x << ";" << pa1->y << ") (" << pb1->x << ";" << pb1->y << ")\n";
-        std::cout << "k1: " << k1 << " b1:" << b1 << std::endl;
-
         // second line
 
         double b2 = pa2->y - pa2->x * k2;
-
-        std::cout << "second line: (" << pa2->x << ";" << pa2->y << ") (" << pb2->x << ";" << pb2->y << ")\n";
-        std::cout << "k2: " << k2 << " b2:" << b2 << std::endl;
 
 
         x = (b2 - b1) / (k1 - k2);
         y = k1 * x + b1;
     }
-
-    std::cout << "result:\n";
-    std::cout << "x: " << x << " y:" << y << std::endl;
 
     return point_create(x, y);
 }
