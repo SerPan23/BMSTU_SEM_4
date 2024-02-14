@@ -1,4 +1,4 @@
-*/build/*
+**/build/**
 # Created by https://www.toptal.com/developers/gitignore/api/cmake,qml,qt,qtcreator,c++,macos
 # Edit at https://www.toptal.com/developers/gitignore?templates=cmake,qml,qt,qtcreator,c++,macos
 
