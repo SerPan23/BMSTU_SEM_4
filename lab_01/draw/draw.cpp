@@ -9,47 +9,6 @@ return_codes_t clear_scene(const draw_view_t *view)
     return SUCCESS;
 }
 
-point_t *get_normalized(point_t *p, draw_view_t *view, point_t *pmin, point_t *pmax)
-{
-    point_t *tmp = point_create(
-        (p->x - pmin->x) / (pmax->x - pmin->x) * view->width,
-        (pmax->y - p->y) / (pmax->y - pmin->y) * view->height
-    );
-    return tmp;
-}
-
-void transfom_min_max(draw_view_t *view, point_t *pmin, point_t *pmax)
-{
-    point_t pc;
-    // Отступ от краев поля графика
-    pc.x = (pmin->x + pmax->x) / 2;
-    pmin->x = pc.x - (pc.x - pmin->x) * (BORDER_X + pmax->x / view->width + 0.1);
-    pmax->x = pc.x + (pmax->x - pc.x) * (BORDER_X + pmax->x / view->width + 0.1);
-
-    pc.y = (pmin->y + pmax->y) / 2;
-    pmin->y = pc.y - (pc.y - pmin->y) * (BORDER_Y + pmax->y / view->height + 0.1);
-    pmax->y = pc.y + (pmax->y - pc.y) * (BORDER_Y + pmax->y / view->height + 0.1);
-
-    // Коэффициенты доли в экране
-    double kx = (pmax->x - pmin->x) / view->width;
-    double ky = (pmax->y - pmin->y) / view->height;
-
-    if (kx < ky)
-    {
-        // Координаты центра растяжения
-        pc.x = (pmin->x + pmax->x) / 2;
-        pmin->x = pc.x - (pc.x - pmin->x) * (ky / kx);
-        pmax->x = pc.x + (pmax->x - pc.x) * (ky / kx);
-    }
-    else
-    {
-        // Координаты центра растяжения
-        pc.y = (pmin->y + pmax->y) / 2;
-        pmin->y = pc.y  - (pc.y  - pmin->y) * (kx / ky);
-        pmax->y = pc.y  + (pmax->y - pc.y ) * (kx / ky);
-    }
-}
-
 return_codes_t draw_line(draw_view_t *view, point_t *p1, point_t *p2)
 {
     if (!view->scene)
@@ -104,6 +63,18 @@ void draw_triangle(draw_view_t *view, triangle_t *triangle_norm, triangle_t *tri
     draw_line(view, triangle_norm->b, triangle_norm->c);
 }
 
+point_t *transform_to_screen(draw_view_t *view, point_t *point, point_t *scale_center, point_t *scale)
+{
+    point_t *tmp = point_scale(point, scale_center, scale);
+
+    tmp->x += view->width / 2 - scale_center->x ;
+    tmp->y += view->height / 2 - scale_center->y ;
+
+    tmp->y = (-1) * tmp->y + view->height;
+
+    return tmp;
+}
+
 return_codes_t draw_result(draw_view_t *view, triangle_t *triangle, point_t *pab, point_t *pbb, point_t *pcb, point_t *pcenters)
 {
     point_t pmin = {std::min(std::min(triangle->a->x, triangle->b->x), triangle->c->x),
@@ -112,26 +83,31 @@ return_codes_t draw_result(draw_view_t *view, triangle_t *triangle, point_t *pab
     point_t pmax = {std::max(std::max(triangle->a->x, triangle->b->x), triangle->c->x),
                     std::max(std::max(triangle->a->y, triangle->b->y), triangle->c->y)};
 
-    //--for points text--
-    point_t *pmin_norm = get_normalized(&pmin, view, &pmin, &pmax);
-    point_t *pmax_norm = get_normalized(&pmax, view, &pmin, &pmax);
-    //----
+    point_t p1 = {pmin.x, pmax.y};
+    point_t p2 = {pmax.x, pmin.y};
+
+    point_t *scale_center = find_line_cross(&pmin, &pmax, &p1, &p2);
+
+    double max_size = std::max(pmax.x - pmin.x, pmax.y - pmin.y);
+    double min_size_screen = std::max(view->height, view->width);
+    double k = min_size_screen / max_size * 0.8;
+
+    point_t scale = {k, k};
 
 
-    // add border
-    transfom_min_max(view, &pmin, &pmax);
+    triangle_t triangle_norm = {transform_to_screen(view, triangle->a, scale_center, &scale),
+                                transform_to_screen(view, triangle->b, scale_center, &scale),
+                                transform_to_screen(view, triangle->c, scale_center, &scale)};
 
-
-    triangle_t triangle_norm = {get_normalized(triangle->a, view, &pmin, &pmax),
-                                get_normalized(triangle->b, view, &pmin, &pmax),
-                                get_normalized(triangle->c, view, &pmin, &pmax)};
-
-    point_t *pab_norm = get_normalized(pab, view, &pmin, &pmax);
-    point_t *pbb_norm = get_normalized(pbb, view, &pmin, &pmax);
-    point_t *pcb_norm = get_normalized(pcb, view, &pmin, &pmax);
-    point_t *pcenter_norm = get_normalized(pcenters, view, &pmin, &pmax);
+    point_t *pab_norm = transform_to_screen(view, pab, scale_center, &scale);
+    point_t *pbb_norm = transform_to_screen(view, pbb, scale_center, &scale);
+    point_t *pcb_norm = transform_to_screen(view, pcb, scale_center, &scale);
+    point_t *pcenter_norm = transform_to_screen(view, pcenters, scale_center, &scale);
 
     double r = find_inscribed_circle_radius(triangle_norm.a, triangle_norm.b, triangle_norm.c);
+
+    point_t *pmin_norm = transform_to_screen(view, &pmin, scale_center, &scale);
+    point_t *pmax_norm = transform_to_screen(view, &pmax, scale_center, &scale);
 
 
     // draw

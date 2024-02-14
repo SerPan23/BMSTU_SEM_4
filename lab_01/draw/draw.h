@@ -9,6 +9,7 @@
 
 #define BORDER_X 1
 #define BORDER_Y 1
+#define BORDER_SIZE 30
 
 struct draw_view
 {

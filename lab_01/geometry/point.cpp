@@ -25,3 +25,10 @@ void point_set_default(point_t *point)
     point->x = 0.0;
     point->y = 0.0;
 }
+
+point_t *point_scale(point_t *point, point_t *scale_center, point_t *scale)
+{
+    return point_create(
+        point->x * scale->x + scale_center->x * (1 - scale->x),
+        point->y * scale->y + scale_center->y * (1 - scale->y));
+}

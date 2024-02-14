@@ -159,7 +159,8 @@ void MainWindow::add_point()
 void MainWindow::del_point()
 {
     int index = ui->input_index->value();
-    if (index - 1 >= this->points.size)
+    // if (index - 1 >= this->points.size)
+    if (index - 1 >= this->ui->table_points->rowCount())
     {
         this->ui->lable_answer->setText("Точки под таким номером не существует");
     }
@@ -176,7 +177,8 @@ void MainWindow::del_point()
 
 void MainWindow::del_all_points()
 {
-    size_t size = this->points.size;
+    // size_t size = this->points.size;
+    size_t size = this->ui->table_points->rowCount();
     for (size_t i = 0; i < size; i++)
     {
         ui->table_points->removeRow(0);
