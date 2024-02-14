@@ -13,6 +13,15 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent), ui(new Ui::MainWin
     ItemDelegate *itDelegate = new  ItemDelegate;
     ui->table_points->setItemDelegate(itDelegate);
 
+    QLocale locale(QLocale::C);
+    locale.setNumberOptions(QLocale::RejectGroupSeparator);
+
+    auto validator = new QDoubleValidator;
+    validator->setLocale(locale);
+
+    ui->input_X->setValidator(validator);
+    ui->input_Y->setValidator(validator);
+
     connect(ui->btn_get_result, &QPushButton::clicked, this,
             &MainWindow::get_result_clicked);
 
@@ -138,8 +147,8 @@ void MainWindow::get_result_clicked()
 
 void MainWindow::add_point()
 {
-    double x = ui->input_X->value();
-    double y = ui->input_Y->value();
+    double x = ui->input_X->text().toDouble();
+    double y = ui->input_Y->text().toDouble();
 
     auto table = ui->table_points;
 

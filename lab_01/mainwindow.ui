@@ -186,14 +186,18 @@
                     </widget>
                    </item>
                    <item>
-                    <widget class="QDoubleSpinBox" name="input_X">
-                     <property name="font">
-                      <font>
-                       <pointsize>16</pointsize>
-                      </font>
+                    <widget class="QLineEdit" name="input_X">
+                     <property name="sizePolicy">
+                      <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+                       <horstretch>0</horstretch>
+                       <verstretch>0</verstretch>
+                      </sizepolicy>
                      </property>
-                     <property name="maximum">
-                      <double>9999999999.000000000000000</double>
+                     <property name="text">
+                      <string>0</string>
+                     </property>
+                     <property name="placeholderText">
+                      <string/>
                      </property>
                     </widget>
                    </item>
@@ -214,14 +218,15 @@
                     </widget>
                    </item>
                    <item>
-                    <widget class="QDoubleSpinBox" name="input_Y">
-                     <property name="font">
-                      <font>
-                       <pointsize>16</pointsize>
-                      </font>
+                    <widget class="QLineEdit" name="input_Y">
+                     <property name="sizePolicy">
+                      <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+                       <horstretch>0</horstretch>
+                       <verstretch>0</verstretch>
+                      </sizepolicy>
                      </property>
-                     <property name="maximum">
-                      <double>9999999999.000000000000000</double>
+                     <property name="text">
+                      <string>0</string>
                      </property>
                     </widget>
                    </item>
