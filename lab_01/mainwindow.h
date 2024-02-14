@@ -25,6 +25,7 @@ private:
     void add_point();
     void del_point();
     void del_all_points();
+    void read_table();
 
 private slots:
     return_codes_t draw();

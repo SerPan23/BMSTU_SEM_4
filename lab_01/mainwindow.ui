@@ -82,6 +82,18 @@
                <verstretch>0</verstretch>
               </sizepolicy>
              </property>
+             <property name="editTriggers">
+              <set>QAbstractItemView::DoubleClicked|QAbstractItemView::EditKeyPressed</set>
+             </property>
+             <property name="tabKeyNavigation">
+              <bool>false</bool>
+             </property>
+             <property name="showDropIndicator" stdset="0">
+              <bool>true</bool>
+             </property>
+             <property name="dragDropOverwriteMode">
+              <bool>false</bool>
+             </property>
              <property name="rowCount">
               <number>0</number>
              </property>
@@ -131,7 +143,7 @@
                <rect>
                 <x>10</x>
                 <y>0</y>
-                <width>331</width>
+                <width>339</width>
                 <height>80</height>
                </rect>
               </property>
@@ -159,6 +171,9 @@
                        <pointsize>16</pointsize>
                       </font>
                      </property>
+                     <property name="maximum">
+                      <double>9999999999.000000000000000</double>
+                     </property>
                     </widget>
                    </item>
                   </layout>
@@ -183,6 +198,9 @@
                       <font>
                        <pointsize>16</pointsize>
                       </font>
+                     </property>
+                     <property name="maximum">
+                      <double>9999999999.000000000000000</double>
                      </property>
                     </widget>
                    </item>
@@ -244,6 +262,12 @@
                       <font>
                        <pointsize>16</pointsize>
                       </font>
+                     </property>
+                     <property name="minimum">
+                      <number>1</number>
+                     </property>
+                     <property name="maximum">
+                      <number>999999999</number>
                      </property>
                     </widget>
                    </item>

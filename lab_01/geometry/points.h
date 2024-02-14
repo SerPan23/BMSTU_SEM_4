@@ -21,5 +21,6 @@ return_codes_t points_realloc(points_t *points, size_t new_size);
 
 return_codes_t points_push(points_t *points, point_t *new_el);
 return_codes_t points_pop(points_t *points, size_t ind);
+return_codes_t points_clear(points_t *points);
 
 #endif // POINTS_H

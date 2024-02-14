@@ -71,3 +71,16 @@ return_codes_t points_pop(points_t *points, size_t ind)
 
     return SUCCESS;
 }
+
+return_codes_t points_clear(points_t *points)
+{
+    if (points->size == 0)
+        return ERROR_ARR_EMPTY;
+
+    for (size_t i = 0; i < points->size; i++)
+        point_free(&points->data[i]);
+
+    points->size = 0;
+
+    return SUCCESS;
+}

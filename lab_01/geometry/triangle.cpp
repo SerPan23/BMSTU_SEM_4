@@ -1,5 +1,4 @@
 #include "triangle.h"
-#include <iostream>
 
 void triangle_free(triangle_t *triangle)
 {
