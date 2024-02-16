@@ -18,7 +18,7 @@ bool is_triangle(point_t *pa, point_t *pb, point_t *pc)
     double ac = segment_len(pa, pc);
     double bc = segment_len(pb, pc);
 
-    if (abs(ab + ac - bc) < EPS or abs(ac + bc - ab) < EPS or abs(ab + bc - ac) < EPS)
+    if (fabs(ab + ac - bc) < EPS or fabs(ac + bc - ab) < EPS or fabs(ab + bc - ac) < EPS)
         return false;
     return true;
 }
@@ -26,7 +26,7 @@ bool is_triangle(point_t *pa, point_t *pb, point_t *pc)
 // ratio = longer_side / second_side
 double bisector_ratio(double side_a, double side_b)
 {
-    if (abs(side_a) < EPS || abs(side_b) < EPS)
+    if (fabs(side_a) < EPS || fabs(side_b) < EPS)
         return 0.0;
 
     double ratio = 0.0;

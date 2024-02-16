@@ -29,6 +29,8 @@ private:
 
 private slots:
     return_codes_t draw();
+    void clear_draw();
+    void edit_table();
 
 private:
     Ui::MainWindow *ui;

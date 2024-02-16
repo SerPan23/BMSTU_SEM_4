@@ -2,8 +2,6 @@ import IO as io
 from Algorithms import *
 
 # TODO: Make Hermit method
-# TODO: Calc same results by Hermit method
-# TODO: Compare Newton and Hermit with const x and dynamic n = 1..5
 
 
 points = io.read_table_from_file("./data/data_1.txt")
@@ -18,22 +16,29 @@ index = get_index(points, x)
 working_points = get_works_points(points, index, n)
 
 newton_table = get_newton_table(working_points)
+hermit_table = get_hermit_table(working_points)
 
 print("Newton subs table:")
 io.print_sub_table(newton_table)
 
-# print("Hermit subs table:")
-# io.print_sub_table(hermit_table)
+print("Hermit subs table:")
+io.print_sub_table(hermit_table)
 
 # RESULTS
 newton_result = get_approximate_value(newton_table, x, n)
 print("Newton result: ", newton_result)
 print("Root by Newton: ", get_root_by_Newton(points, n))
 
+hermit_result = get_approximate_value(newton_table, x, n)
+print("Hermit result: ", hermit_result)
+print("Root by Hermit: ", get_root_by_Hermit(points, n))
+
 compare_table = get_compare_Newton_Hermit(points, x)
 print("Compare table:")
 io.print_compare_table(compare_table)
 
+
+print("\n\n--------Solving nonlinear equations--------\n")
 
 # Solve system of nonlinear equations
 data_func_1_y_x = [

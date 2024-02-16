@@ -17,6 +17,8 @@ set(PROJECT_SOURCES
         mainwindow.cpp
         mainwindow.h
         mainwindow.ui
+        itemdelegate.h
+        itemdelegate.cpp
         ./return_codes/return_codes.h
         ./return_codes/return_codes.cpp
         ./draw/draw.h
@@ -38,8 +40,6 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
     qt_add_executable(lab_01
         MANUAL_FINALIZATION
         ${PROJECT_SOURCES}
-        itemdelegate.h
-        itemdelegate.cpp
     )
 # Define target properties for Android with Qt 6 as:
 #    set_property(TARGET lab_01 APPEND PROPERTY QT_ANDROID_PACKAGE_SOURCE_DIR

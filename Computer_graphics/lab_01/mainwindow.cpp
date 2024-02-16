@@ -38,6 +38,16 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent), ui(new Ui::MainWin
             &MainWindow::show_task);
 
     points_alloc(&this->points, 10);
+
+    connect(ui->table_points, &QTableWidget::cellChanged, this,
+            &MainWindow::edit_table);
+
+}
+
+void MainWindow::edit_table()
+{
+    this->ui->lable_answer->setText("");
+    clear_draw();
 }
 
 MainWindow::~MainWindow()
@@ -51,6 +61,12 @@ return_codes_t MainWindow::draw()
     ui->graphic_lable->setPixmap(this->pxp);
 
     return SUCCESS;
+}
+
+void MainWindow::clear_draw()
+{
+    this->pxp.fill();
+    draw();
 }
 
 void MainWindow::read_table()
@@ -70,6 +86,7 @@ void MainWindow::read_table()
 
 void MainWindow::get_result_clicked()
 {
+    clear_draw();
     read_table();
 
     if (this->points.size < 3)
@@ -147,18 +164,32 @@ void MainWindow::get_result_clicked()
 
 void MainWindow::add_point()
 {
-    double x = ui->input_X->text().toDouble();
-    double y = ui->input_Y->text().toDouble();
+    clear_draw();
+    bool x_ok, y_ok;
 
-    auto table = ui->table_points;
+    double x = ui->input_X->text().toDouble(&x_ok);
+    double y = ui->input_Y->text().toDouble(&y_ok);
 
-    table->insertRow ( table->rowCount() );
-    table->setItem   ( table->rowCount()-1,
-                         0,
-                         new QTableWidgetItem(QString::number(x)));
-    table->setItem   ( table->rowCount()-1,
-                         1,
-                         new QTableWidgetItem(QString::number(y)));
+
+    if (x_ok && y_ok)
+    {
+        auto table = ui->table_points;
+
+        table->insertRow ( table->rowCount() );
+        table->setItem   ( table->rowCount()-1,
+                       0,
+                       new QTableWidgetItem(QString::number(x)));
+        table->setItem   ( table->rowCount()-1,
+                       1,
+                       new QTableWidgetItem(QString::number(y)));
+
+        this->ui->lable_answer->setText("Точка (" + QString::number(x) + "; "
+                                        + QString::number(y) + ") успешно добавленна\n");
+    }
+    else
+    {
+        this->ui->lable_answer->setText("Координаты одной из точки не указаны\nили введенны не верно\n");
+    }
 
     // point_t *p = point_create(x, y);
 
@@ -167,38 +198,51 @@ void MainWindow::add_point()
 
 void MainWindow::del_point()
 {
-    int index = ui->input_index->value();
-    // if (index - 1 >= this->points.size)
-    if (index - 1 >= this->ui->table_points->rowCount())
+    clear_draw();
+    int index = ui->input_index->value() - 1;
+    if (index < 0 || index >= this->ui->table_points->rowCount())
     {
-        this->ui->lable_answer->setText("Точки под таким номером не существует");
+        this->ui->lable_answer->setText("Точки под таким номером не существует!");
     }
     else
     {
-        ui->table_points->removeRow(index - 1);
-        double x = this->points.data[index - 1]->x;
-        double y = this->points.data[index - 1]->y;
+        QString text_x = this->ui->table_points->item(index, 0)->text();
+        QString text_y = this->ui->table_points->item(index, 1)->text();
+
+        ui->table_points->removeRow(index);
+
+        this->ui->lable_answer->setText("Точка (" + text_x + "; " + text_y + ") успешно удаленна\n");
+
+        // double x = this->points.data[index - 1]->x;
+        // double y = this->points.data[index - 1]->y;
         // points_pop(&this->points, index - 1);
-        this->ui->lable_answer->setText("Точка (" + QString::number(x) + "; "
-                                        + QString::number(y) + ") успешно удаленна\n");
+        // this->ui->lable_answer->setText("Точка (" + QString::number(x) + "; "
+        //                                 + QString::number(y) + ") успешно удаленна\n");
     }
 }
 
 void MainWindow::del_all_points()
 {
     // size_t size = this->points.size;
+    clear_draw();
     size_t size = this->ui->table_points->rowCount();
-    for (size_t i = 0; i < size; i++)
+    if (size == 0)
+        this->ui->lable_answer->setText("Список точек пуст!");
+    else
     {
-        ui->table_points->removeRow(0);
-        // points_pop(&this->points, 0);
+        for (size_t i = 0; i < size; i++)
+        {
+            ui->table_points->removeRow(0);
+            // points_pop(&this->points, 0);
+        }
+        this->ui->lable_answer->setText("Все точки успешно удаленны\n");
     }
 }
 
 void MainWindow::show_task()
 {
     QMessageBox::information(NULL, "Условие задачи",
-                             "Найти минимальную разность площадей между площадь треугольника "
-                             "и вписанной в него окружностью.");
+                             "Найти треугольник с минимальной разностью площадей между площадь "
+                             "самого треугольника и вписанной в него окружностью.");
 }
 
