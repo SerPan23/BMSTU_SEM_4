@@ -2,6 +2,7 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include "figure.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -18,6 +19,18 @@ public:
     ~MainWindow();
 
 private:
+    void draw_screen();
+    void clear_screen();
+    void create_figure();
+
+    void move_btn_clicked();
+    void rotate_btn_clicked();
+    void scale_btn_clicked();
+
+private:
     Ui::MainWindow *ui;
+    QPixmap pxp;
+    figure_t figure;
+
 };
 #endif // MAINWINDOW_H

@@ -17,12 +17,33 @@ set(PROJECT_SOURCES
         mainwindow.cpp
         mainwindow.h
         mainwindow.ui
+        geometry/arc.cpp
+        geometry/arc.h
+        geometry/ellipse.cpp
+        geometry/ellipse.h
+        geometry/line.cpp
+        geometry/line.h
+        geometry/point.cpp
+        geometry/point.h
+        geometry/rectangle.cpp
+        geometry/rectangle.h
+        geometry/shape.cpp
+        geometry/shape.h
+        draw/draw_screen.h
+        draw/draw_screen.cpp
+        geometry/shapes.h
+        geometry/shapes.cpp
 )
+
+include_directories("${CMAKE_CURRENT_LIST_DIR}/geometry")
+include_directories("${CMAKE_CURRENT_LIST_DIR}/draw")
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
     qt_add_executable(lab_02
         MANUAL_FINALIZATION
         ${PROJECT_SOURCES}
+        geometry/figure.h
+        geometry/figure.cpp
     )
 # Define target properties for Android with Qt 6 as:
 #    set_property(TARGET lab_02 APPEND PROPERTY QT_ANDROID_PACKAGE_SOURCE_DIR
