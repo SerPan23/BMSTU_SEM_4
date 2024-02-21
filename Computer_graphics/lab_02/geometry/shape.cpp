@@ -102,7 +102,7 @@ shape_t *shape_move(shape_t *shape, point_t *offset)
     return new_shape;
 }
 
-shape_t *shape_rotate(shape_t *shape, point_t *rotate_center, int angel)
+shape_t *shape_rotate(shape_t *shape, point_t *rotate_center, double angel)
 {
     shape_t *new_shape = NULL;
     switch (shape->type)

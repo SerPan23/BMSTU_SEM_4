@@ -27,7 +27,7 @@ int shapes_pop(shapes_t *shapes, size_t ind);
 int shapes_clear(shapes_t *shapes);
 
 shapes_t shapes_move(shapes_t *figure, point_t *offset);
-shapes_t shapes_rotate(shapes_t *figure, point_t *rotate_center, int angel);
+shapes_t shapes_rotate(shapes_t *figure, point_t *rotate_center, double angel);
 shapes_t shapes_scale(shapes_t *figure, point_t *scale_center, point_t *scale);
 
 #endif // SHAPES_H

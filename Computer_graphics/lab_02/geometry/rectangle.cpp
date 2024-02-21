@@ -37,7 +37,7 @@ rectangle_t *rectangle_move(rectangle_t * rect, point_t *offset)
         point_move(rect->d, offset));
 }
 
-rectangle_t *rectangle_rotate(rectangle_t * rect, point_t *rotate_center, int angel)
+rectangle_t *rectangle_rotate(rectangle_t * rect, point_t *rotate_center, double angel)
 {
     return rectangle_create(
         point_rotate(rect->a, rotate_center, angel),

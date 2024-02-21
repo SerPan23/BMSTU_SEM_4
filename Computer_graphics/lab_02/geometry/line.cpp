@@ -37,7 +37,7 @@ line_t *line_move(line_t *line, point_t *offset)
         point_move(line->end, offset));
 }
 
-line_t *line_rotate(line_t *line, point_t *rotate_center, int angel)
+line_t *line_rotate(line_t *line, point_t *rotate_center, double angel)
 {
     return line_create(
         point_rotate(line->start, rotate_center, angel),

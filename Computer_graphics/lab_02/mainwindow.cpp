@@ -16,22 +16,15 @@ void MainWindow::create_figure()
     shape_t *tmp = NULL;
 
     tmp = shape_create(
-        ellipse_create(
-            rectangle_create(
-                point_create(this->figure.center->x - 50, this->figure.center->y - 50),
-                point_create(this->figure.center->x + 50, this->figure.center->y - 50),
-                point_create(this->figure.center->x + 50, this->figure.center->y + 50),
-                point_create(this->figure.center->x - 50, this->figure.center->y + 50))));
+        ellipse_create(point_create(this->figure.center->x, this->figure.center->y), 150, 50));
 
     shapes_push(&this->figure.shapes, tmp);
 
+
     tmp = shape_create(
         arc_create(
-            rectangle_create(
-                point_create(this->figure.center->x - 70, this->figure.center->y - 70),
-                point_create(this->figure.center->x + 70, this->figure.center->y - 70),
-                point_create(this->figure.center->x + 70, this->figure.center->y + 70),
-                point_create(this->figure.center->x - 70, this->figure.center->y + 70)),
+                point_create(this->figure.center->x, this->figure.center->y),
+                70, 70,
                 45, 90
             ));
 
@@ -39,35 +32,15 @@ void MainWindow::create_figure()
 
     tmp = shape_create(
         arc_create(
-            rectangle_create(
-                point_create(this->figure.center->x - 90, this->figure.center->y - 90),
-                point_create(this->figure.center->x + 90, this->figure.center->y - 90),
-                point_create(this->figure.center->x + 90, this->figure.center->y + 90),
-                point_create(this->figure.center->x - 90, this->figure.center->y + 90)),
+            point_create(this->figure.center->x, this->figure.center->y),
+            250, 90,
             45, 90
             ));
 
     shapes_push(&this->figure.shapes, tmp);
 
     tmp = shape_create(
-        arc_create(
-            rectangle_create(
-                point_create(this->figure.center->x - 90, this->figure.center->y - 90),
-                point_create(this->figure.center->x + 90, this->figure.center->y - 90),
-                point_create(this->figure.center->x + 90, this->figure.center->y + 90),
-                point_create(this->figure.center->x - 90, this->figure.center->y + 90)),
-            45, 90
-            ));
-
-    shapes_push(&this->figure.shapes, tmp);
-
-    tmp = shape_create(
-        ellipse_create(
-            rectangle_create(
-                point_create(this->figure.center->x - 10, this->figure.center->y - 110),
-                point_create(this->figure.center->x + 10, this->figure.center->y - 110),
-                point_create(this->figure.center->x + 10, this->figure.center->y - 90),
-                point_create(this->figure.center->x - 10, this->figure.center->y - 90))));
+        ellipse_create(point_create(this->figure.center->x, this->figure.center->y - 110), 10, 10));
 
     shapes_push(&this->figure.shapes, tmp);
 }

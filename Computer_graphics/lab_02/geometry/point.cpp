@@ -1,5 +1,10 @@
 #include "point.h"
 
+double to_rad(int angel)
+{
+    return angel * M_PI / 180;
+}
+
 point_t *point_create(double x, double y)
 {
     point_t *point = (point_t *) malloc(sizeof(point_t));
@@ -33,9 +38,9 @@ point_t *point_move(point_t * point, point_t *offset)
         point->y + offset->y);
 }
 
-point_t *point_rotate(point_t * point, point_t *rotate_center, int angel)
+point_t *point_rotate(point_t * point, point_t *rotate_center, double angel)
 {
-    double angel_radian = angel;
+    double angel_radian = to_rad(angel);
     return point_create(
         rotate_center->x + (point->x - rotate_center->x) * cos(angel_radian)
             + (point->y - rotate_center->y) * sin(angel_radian),

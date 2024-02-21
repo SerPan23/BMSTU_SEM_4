@@ -38,7 +38,7 @@ shape_t *shape_create(arc_t *arc);
 void shape_free(shape_t **shape);
 
 shape_t *shape_move(shape_t * shape, point_t *offset);
-shape_t *shape_rotate(shape_t * shape, point_t *rotate_center, int angel);
+shape_t *shape_rotate(shape_t * shape, point_t *rotate_center, double angel);
 shape_t *shape_scale(shape_t * shape, point_t *scale_center, point_t *scale);
 
 #endif // SHAPE_H

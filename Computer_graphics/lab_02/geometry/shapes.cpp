@@ -91,7 +91,7 @@ shapes_t shapes_move(shapes_t *figure, point_t *offset)
     return new_figure;
 }
 
-shapes_t shapes_rotate(shapes_t *figure, point_t *rotate_center, int angel)
+shapes_t shapes_rotate(shapes_t *figure, point_t *rotate_center, double angel)
 {
     shapes_t new_figure;
     shapes_alloc(&new_figure, figure->size);

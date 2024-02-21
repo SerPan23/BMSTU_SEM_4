@@ -18,8 +18,9 @@ void point_free(point_t **point);
 
 void point_set_default(point_t *point);
 point_t *point_move(point_t * point, point_t *offset);
-point_t *point_rotate(point_t * point, point_t *rotate_center, int angel);
+point_t *point_rotate(point_t * point, point_t *rotate_center, double angel);
 point_t *point_scale(point_t * point, point_t *scale_center, point_t *scale);
+double to_rad(int angel);
 
 
 #endif // POINT_H

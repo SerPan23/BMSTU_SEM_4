@@ -16,7 +16,7 @@ figure_t figure_move(figure_t *figure, point_t *offset)
     return new_figure;
 }
 
-figure_t figure_rotate(figure_t *figure, point_t *rotate_center, int angel)
+figure_t figure_rotate(figure_t *figure, point_t *rotate_center, double angel)
 {
     figure_t new_figure;
     new_figure.center = point_rotate(figure->center, rotate_center, angel);
