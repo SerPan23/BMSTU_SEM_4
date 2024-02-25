@@ -1,5 +1,7 @@
 #include "line.h"
 
+#define EPS 1e-8
+
 line_t *line_create(point_t *start, point_t *end, int width)
 {
     line_t *line = (line_t *) malloc(sizeof(line_t));
@@ -49,4 +51,48 @@ line_t *line_scale(line_t *line, point_t *scale_center, point_t *scale)
     return line_create(
         point_scale(line->start, scale_center, scale),
         point_scale(line->end, scale_center, scale));
+}
+
+point_t *get_lines_cross(line_t *a, line_t *b)
+{
+    double x, y;
+
+    double k1 = (a->end->y - a->start->y) / (a->end->x - a->start->x);
+    double k2 = (b->end->y - b->start->y) / (b->end->x - b->start->x);
+
+    if (a->start->x == a->end->x)
+    {
+        x = a->start->x;
+        y = k2 * x + b->start->y - k2 * b->start->x;
+    }
+    else if (b->start->x == b->end->x)
+    {
+        x = b->start->x;
+        y = k1 * x + a->start->y - k1 * a->start->x;
+    }
+    else
+    {
+        // first line
+
+        double b1 = a->start->y - a->start->x * k1;
+
+        // second line
+
+        double b2 = b->start->y - b->start->x * k2;
+
+
+        x = (b2 - b1) / (k1 - k2);
+        y = k1 * x + b1;
+    }
+
+    return point_create(x, y);
+}
+
+void get_min_max_point(line_t *a, point_t *pmin, point_t *pmax)
+{
+    pmin->x = std::fmin(pmin->x, std::fmin(a->start->x, a->end->x));
+    pmin->y = std::fmin(pmin->y, std::fmin(a->start->y, a->end->y));
+
+    pmax->x = std::fmax(pmax->x, std::fmax(a->start->x, a->end->x));
+    pmax->y = std::fmax(pmax->y, std::fmax(a->start->y, a->end->y));
 }

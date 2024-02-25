@@ -26,11 +26,22 @@ private:
     void move_btn_clicked();
     void rotate_btn_clicked();
     void scale_btn_clicked();
+    void move_to_center_clicked();
+
+    void set_center_label();
+
+    void set_prev_figure();
+    void get_prev_figure();
+    void get_prev_clicked();
+    void reset_figure_clicked();
+
 
 private:
     Ui::MainWindow *ui;
     QPixmap pxp;
     figure_t figure;
+    bool is_prev;
+    figure_t prev_figure;
 
 };
 #endif // MAINWINDOW_H

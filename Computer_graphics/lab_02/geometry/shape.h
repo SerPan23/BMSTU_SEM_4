@@ -41,4 +41,6 @@ shape_t *shape_move(shape_t * shape, point_t *offset);
 shape_t *shape_rotate(shape_t * shape, point_t *rotate_center, double angel);
 shape_t *shape_scale(shape_t * shape, point_t *scale_center, point_t *scale);
 
+void get_min_max_point(shape_t *a, point_t *pmin, point_t *pmax);
+
 #endif // SHAPE_H

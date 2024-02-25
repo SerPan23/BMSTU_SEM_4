@@ -151,3 +151,28 @@ shape_t *shape_scale(shape_t *shape, point_t *scale_center, point_t *scale)
 
     return new_shape;
 }
+
+void get_min_max_point(shape_t *a, point_t *pmin, point_t *pmax)
+{
+    switch (a->type)
+    {
+    case POINT:
+        pmin->x = std::fmin(pmin->x, a->shape.point->x);
+        pmin->y = std::fmin(pmin->y, a->shape.point->y);
+        pmax->x = std::fmax(pmax->x, a->shape.point->x);
+        pmax->y = std::fmax(pmax->y, a->shape.point->y);
+        break;
+
+    case ARC:
+        get_min_max_point(a->shape.arc, pmin, pmax);
+        break;
+
+    case ELLIPSE:
+        get_min_max_point(a->shape.ellipse, pmin, pmax);
+        break;
+
+    case LINE:
+        get_min_max_point(a->shape.line, pmin, pmax);
+        break;
+    }
+}
