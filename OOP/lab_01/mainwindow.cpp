@@ -27,6 +27,24 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent), ui(new Ui::MainWin
     connect(ui->btn_save, &QPushButton::clicked, this,
             &MainWindow::btn_save_clicked);
 
+
+    QLocale locale(QLocale::C);
+    locale.setNumberOptions(QLocale::RejectGroupSeparator);
+
+    QDoubleValidator *double_validator = new QDoubleValidator;
+    double_validator->setLocale(locale);
+
+    ui->input_dx->setValidator(double_validator);
+    ui->input_dy->setValidator(double_validator);
+    ui->input_dz->setValidator(double_validator);
+
+    ui->input_angle_x->setValidator(double_validator);
+    ui->input_angle_x->setValidator(double_validator);
+    ui->input_angle_x->setValidator(double_validator);
+
+    ui->input_kx->setValidator(double_validator);
+    ui->input_kx->setValidator(double_validator);
+    ui->input_kx->setValidator(double_validator);
 }
 
 MainWindow::~MainWindow()

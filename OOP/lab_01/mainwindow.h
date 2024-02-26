@@ -6,6 +6,7 @@
 #include "return_codes.h"
 #include "request.h"
 #include <QFileDialog>
+#include <QDoubleValidator>
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
