@@ -8,9 +8,6 @@ void error_show(return_codes_t code)
         case ERROR_FILE_OPEN:
             QMessageBox::critical(NULL, "Ошибка!", "Не удалось открыть файл");
             break;
-        // case FILE_CLOSE_ERROR:
-        //     QMessageBox::critical(NULL, "Ошибка!", "Не удалось закрыть файл");
-        //     break;
         case ERROR_FILE_READ:
             QMessageBox::critical(NULL, "Ошибка!", "Не удалось прочитать файл!");
             break;
@@ -29,9 +26,6 @@ void error_show(return_codes_t code)
         case ERROR_WRONG_SCENE:
             QMessageBox::critical(NULL, "Ошибка!", "При попытке нарисовать, фигуру произошла ошибка!");
             break;
-        // case ERROR_EMPTY_FIELD:
-        //     QMessageBox::critical(NULL, "Ошибка!", "Коэффициенты масштабирования не должны равняться 0!");
-        //     break;
         case ERROR_EMPTY_DATA:
             QMessageBox::information(NULL, "Информация!", "Нет данных фигуры для записи!");
             break;
@@ -39,6 +33,6 @@ void error_show(return_codes_t code)
             QMessageBox::information(NULL, "Информация!", "Фигура не загружена!");
             break;
         default:
-            QMessageBox::critical(NULL, "Ошибка!", "Что-то пошло не по плану...");
+            QMessageBox::critical(NULL, "Ошибка!", "Что-то пошло не так");
     }
 }
