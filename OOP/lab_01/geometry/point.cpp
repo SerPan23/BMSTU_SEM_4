@@ -23,31 +23,30 @@ static void rotate_x(point_t &point, point_t &rotate_center, double angle)
 {
     double r_cos = cos(to_rad(angle));
     double r_sin = sin(to_rad(angle));
-
-    double y = point.y;
+    double tmp_y = point.y;
 
     point.y = rotate_center.y + (point.y - rotate_center.y) * r_cos + (point.z - rotate_center.z) * r_sin;
-    point.z = rotate_center.z - (y - rotate_center.y) * r_sin + (point.z - rotate_center.z) * r_cos;
+    point.z = rotate_center.z - (tmp_y - rotate_center.y) * r_sin + (point.z - rotate_center.z) * r_cos;
 }
 
 static void rotate_y(point_t &point, point_t &rotate_center, double angle)
 {
     double r_cos = cos(to_rad(angle));
     double r_sin = sin(to_rad(angle));
-    double x = point.x;
+    double tmp_x = point.x;
 
     point.x = rotate_center.x + (point.x - rotate_center.x) * r_cos - (point.z - rotate_center.z) * r_sin;
-    point.z = rotate_center.z + (x - rotate_center.x) * r_sin + (point.z - rotate_center.z) * r_cos;
+    point.z = rotate_center.z + (tmp_x - rotate_center.x) * r_sin + (point.z - rotate_center.z) * r_cos;
 }
 
 static void rotate_z(point_t &point, point_t &rotate_center, double angle)
 {
     double r_cos = cos(to_rad(angle));
     double r_sin = sin(to_rad(angle));
-    double x = point.x;
+    double tmp_x = point.x;
 
     point.x = rotate_center.x + (point.x - rotate_center.x) * r_cos + (point.y - rotate_center.y)* r_sin;
-    point.y = rotate_center.y -(x - rotate_center.x) * r_sin + (point.y - rotate_center.y) * r_cos;
+    point.y = rotate_center.y -(tmp_x - rotate_center.x) * r_sin + (point.y - rotate_center.y) * r_cos;
 }
 
 void point_rotate(point_t &point, point_t &rotate_center, rotate_data_t &coeff)
@@ -68,7 +67,8 @@ return_codes_t point_fread(point_t &point, FILE *in)
 {
     if (in == NULL)
         return ERROR_FILE_OPEN;
-    else if(fscanf(in, "%lf %lf %lf", &point.x, &point.y, &point.z) != 3)
+
+    if(fscanf(in, "%lf %lf %lf", &point.x, &point.y, &point.z) != 3)
         return ERROR_FILE_READ;
 
     return SUCCESS;

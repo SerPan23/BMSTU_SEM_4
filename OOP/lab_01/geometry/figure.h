@@ -24,10 +24,7 @@ return_codes_t figure_move(figure_t &figure, move_data_t &coeff);
 return_codes_t figure_rotate(figure_t &figure, rotate_data_t &coeff);
 return_codes_t figure_scale(figure_t &figure, scale_data_t &coeff);
 
-return_codes_t figure_fread(figure_t &figure, FILE *in);
-return_codes_t figure_fwrite(figure_t &figure, FILE *out);
-
-return_codes_t figure_load(figure_t &figure, const char *filename);
-return_codes_t figure_save(figure_t &figure, const char *filename);
+return_codes_t figure_load(figure_t &figure, char *filename);
+return_codes_t figure_save(figure_t &figure, char *filename);
 
 #endif // FIGURE_H

@@ -22,9 +22,6 @@ return_codes_t points_rotate_all(points_t &points, point_t &rotate_center, rotat
 return_codes_t points_scale_all(points_t &points, point_t &scale_center, scale_data_t &coeff);
 
 return_codes_t points_fread(points_t &points, FILE *in);
-return_codes_t points_count_fread(points_t &points, FILE *in);
-return_codes_t points_data_fread(points_t &points, FILE *in);
-
 return_codes_t points_fwrite(points_t &points, FILE *out);
 
 #endif // POINTS_H

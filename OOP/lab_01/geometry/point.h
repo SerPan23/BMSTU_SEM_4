@@ -1,7 +1,6 @@
 #ifndef POINT_H
 #define POINT_H
 
-#include <cstdlib>
 #include <cmath>
 #include "request_data.h"
 #include "return_codes.h"

@@ -60,63 +60,75 @@ return_codes_t points_scale_all(points_t &points, point_t &scale_center, scale_d
     return SUCCESS;
 }
 
+static return_codes_t points_count_fread(points_t &points, FILE *in)
+{
+    if (in == NULL)
+        return ERROR_FILE_OPEN;
+
+    if (fscanf(in, "%d", &points.size) != 1)
+        return ERROR_FILE_READ;
+
+    if (points.size <= 0)
+        return ERROR_POINTS_SIZE;
+
+    return SUCCESS;
+}
+
+static return_codes_t points_data_fread(points_t &points, FILE *in)
+{
+    if (in == NULL)
+        return ERROR_FILE_OPEN;
+
+    if (points.size <= 0)
+        return ERROR_POINTS_SIZE;
+
+    if (!points.data)
+        return ERROR_MEM_ALLOC;
+
+    return_codes_t rc = SUCCESS;
+
+    for (int i = 0; rc == SUCCESS && i < points.size; i++)
+        rc = point_fread(points.data[i], in);
+
+    return rc;
+}
+
 return_codes_t points_fread(points_t &points, FILE *in)
 {
     if (in == NULL)
         return ERROR_FILE_OPEN;
 
     return_codes_t rc = points_count_fread(points, in);
-    if (!rc)
-    {
-        rc = points_alloc(points);
-        if (!rc)
-        {
-            rc = points_data_fread(points, in);
-            if (rc)
-                points_free(points);
-        }
-    }
+
+    if (rc != SUCCESS)
+        return rc;
+
+    rc = points_alloc(points);
+
+    if (rc != SUCCESS)
+        return rc;
+
+    rc = points_data_fread(points, in);
+
+    if (rc != SUCCESS)
+        points_free(points);
 
     return rc;
 }
 
-return_codes_t points_count_fread(points_t &points, FILE *in)
-{
-    if (in == NULL)
-        return ERROR_FILE_OPEN;
-    else if (fscanf(in, "%d", &points.size) != 1)
-        return ERROR_FILE_READ;
-    else if (points.size <= 0)
-        return ERROR_POINTS_SIZE;
-
-    return SUCCESS;
-}
-
-return_codes_t points_data_fread(points_t &points, FILE *in)
-{
-    return_codes_t rc = SUCCESS;
-    if (in == NULL)
-        rc = ERROR_FILE_OPEN;
-    else if (points.size <= 0)
-        rc = ERROR_POINTS_SIZE;
-    else if (!points.data)
-        rc = ERROR_MEM_ALLOC;
-    else
-        for (int i = 0; rc == SUCCESS && i < points.size; i++)
-            rc = point_fread(points.data[i], in);
-
-    return rc;
-}
 
 return_codes_t points_fwrite(points_t &points, FILE *out)
 {
-    return_codes_t rc = SUCCESS;
     if (!points.data)
-        rc = ERROR_EMPTY_DATA;
-    else if (fprintf(out, "%d\n", points.size) < 0)
-        rc = ERROR_FILE_WRITE;
-    else
-        for (int i = 0; rc == SUCCESS && i < points.size; i++)
-            rc = point_fwrite(points.data[i], out);
+        return ERROR_EMPTY_DATA;
+
+    if (fprintf(out, "%d\n", points.size) < 0)
+        return ERROR_FILE_WRITE;
+
+    return_codes_t rc = SUCCESS;
+
+    for (int i = 0; rc == SUCCESS && i < points.size; i++)
+        rc = point_fwrite(points.data[i], out);
+
     return rc;
 }

@@ -31,11 +31,11 @@ return_codes_t figure_rotate(figure_t &figure, rotate_data_t &coeff)
 }
 
 return_codes_t figure_scale(figure_t &figure, scale_data_t &coeff)
-{
+{   
     return points_scale_all(figure.points, figure.center, coeff);
 }
 
-return_codes_t figure_fread(figure_t &figure, FILE *in)
+static return_codes_t figure_fread(figure_t &figure, FILE *in)
 {
     if (in == NULL)
         return ERROR_FILE_OPEN;
@@ -43,29 +43,32 @@ return_codes_t figure_fread(figure_t &figure, FILE *in)
     figure = figure_create();
 
     return_codes_t rc = points_fread(figure.points, in);
-    if (rc == SUCCESS)
-    {
-        rc = edges_fread(figure.edges, in);
-        if (rc)
-            points_free(figure.points);
-    }
+
+    if (rc != SUCCESS)
+        return rc;
+
+    rc = edges_fread(figure.edges, in);
+
+    if (rc != SUCCESS)
+        points_free(figure.points);
 
     return rc;
 }
 
-return_codes_t figure_load(figure_t &figure, const char *filename)
+return_codes_t figure_load(figure_t &figure, char *filename)
 {
     if (filename == NULL)
         return ERROR_FILE_OPEN;
 
-    return_codes_t rc = SUCCESS;
     FILE *in = fopen(filename, "r");
+
     if (in == NULL)
         return ERROR_FILE_OPEN;
 
     figure_t current_figure;
 
-    rc = figure_fread(current_figure, in);
+    return_codes_t rc = figure_fread(current_figure, in);
+
     fclose(in);
 
     if (rc == SUCCESS)
@@ -77,22 +80,26 @@ return_codes_t figure_load(figure_t &figure, const char *filename)
     return rc;
 }
 
-return_codes_t figure_fwrite(figure_t &figure, FILE *out)
+static return_codes_t figure_fwrite(figure_t &figure, FILE *out)
 {
     return_codes_t rc = points_fwrite(figure.points, out);
+
     if (rc == SUCCESS)
         rc = edges_fwrite(figure.edges, out);
+
     return rc;
 }
 
-return_codes_t figure_save(figure_t &figure, const char *filename)
+return_codes_t figure_save(figure_t &figure, char *filename)
 {
     if (filename == NULL)
         return ERROR_FILE_OPEN;
+
     if (!figure.points.data || !figure.edges.data)
         return ERROR_EMPTY_DATA;
 
     FILE *out = fopen(filename, "w");
+
     if (out == NULL)
         return ERROR_FILE_WRITE;
 

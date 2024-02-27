@@ -27,7 +27,6 @@ private:
 
     void btn_save_clicked();
 
-private slots:
     return_codes_t draw();
 
     void btn_move_clicked();
