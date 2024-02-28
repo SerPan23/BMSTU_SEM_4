@@ -6,11 +6,11 @@
 #include "draw_screen.h"
 #include <QMessageBox>
 
-void MainWindow::create_figure()
+void MainWindow::create_figure(figure_t &figure)
 {
-    shapes_alloc(&this->figure.shapes, 10);
+    shapes_alloc(&figure.shapes, 10);
 
-    point_t *circles_center = point_create(400, 350);
+    point_t *circles_center = point_create(400 + 0.058, 350 + 17.322);
     double cir_1_r = 50;
     double cir_2_r = 10;
 
@@ -27,7 +27,7 @@ void MainWindow::create_figure()
     tmp = shape_create(
         ellipse_create(point_create(circles_center->x, circles_center->y), cir_1_r, cir_1_r));
 
-    shapes_push(&this->figure.shapes, tmp);
+    shapes_push(&figure.shapes, tmp);
 
 
     tmp = shape_create(
@@ -35,7 +35,7 @@ void MainWindow::create_figure()
                                     circles_center->y - arc_2_r_y - cir_2_r),
                        cir_2_r, cir_2_r));
 
-    shapes_push(&this->figure.shapes, tmp);
+    shapes_push(&figure.shapes, tmp);
 
 
     tmp = shape_create(
@@ -45,7 +45,7 @@ void MainWindow::create_figure()
                 arc_angle_start, arc_angle_span
             ));
 
-    shapes_push(&this->figure.shapes, tmp);
+    shapes_push(&figure.shapes, tmp);
 
     tmp = shape_create(
         arc_create(
@@ -54,27 +54,54 @@ void MainWindow::create_figure()
             arc_angle_start, arc_angle_span
             ));
 
-    shapes_push(&this->figure.shapes, tmp);
+    shapes_push(&figure.shapes, tmp);
+
+    arc_t *a1 = figure.shapes.data[figure.shapes.size - 1 - 1]->shape.arc;
+    arc_t *a2 = figure.shapes.data[figure.shapes.size - 1]->shape.arc;
+
+    // tmp = shape_create(
+    //     line_create(
+    //         get_arc_point(circles_center, arc_1_r_x, arc_1_r_y, to_rad(arc_angle_start) + M_PI),
+    //         get_arc_point(circles_center, arc_2_r_x, arc_2_r_y, to_rad(arc_angle_start) + M_PI)
+    //         )
+    //     );
 
     tmp = shape_create(
         line_create(
-            get_arc_point(circles_center, arc_1_r_x, arc_1_r_y, to_rad(arc_angle_start) + M_PI),
-            get_arc_point(circles_center, arc_2_r_x, arc_2_r_y, to_rad(arc_angle_start) + M_PI)
-            )
-        );
+            point_create(
+                a1->points[0]->x,
+                a1->points[0]->y
+                ),
+            point_create(
+                a2->points[0]->x,
+                a2->points[0]->y
+                )
+            ));
 
-    shapes_push(&this->figure.shapes, tmp);
+    shapes_push(&figure.shapes, tmp);
 
     tmp = shape_create(
         line_create(
-            get_arc_point(circles_center, arc_1_r_x, arc_1_r_y,
-                          to_rad(arc_angle_start + arc_angle_span) + M_PI),
-            get_arc_point(circles_center, arc_2_r_x, arc_2_r_y,
-                          to_rad(arc_angle_start + arc_angle_span) + M_PI)
+            point_create(
+                a1->points[a1->points.size() - 1]->x,
+                a1->points[a1->points.size() - 1]->y
+            ),
+            point_create(
+                a2->points[a2->points.size() - 1]->x,
+                a2->points[a2->points.size() - 1]->y
             )
-        );
+            ));
 
-    shapes_push(&this->figure.shapes, tmp);
+    // tmp = shape_create(
+    //     line_create(
+    //         get_arc_point(circles_center, arc_1_r_x, arc_1_r_y,
+    //                       to_rad(arc_angle_start + arc_angle_span) + M_PI),
+    //         get_arc_point(circles_center, arc_2_r_x, arc_2_r_y,
+    //                       to_rad(arc_angle_start + arc_angle_span) + M_PI)
+    //         )
+    //     );
+
+    shapes_push(&figure.shapes, tmp);
 
     point_t *t = get_ellipse_point(circles_center, cir_1_r, cir_1_r,
                                    to_rad(45));
@@ -83,7 +110,7 @@ void MainWindow::create_figure()
         line_create(t, point_create(t->x + legs_x, t->y + legs_y))
         );
 
-    shapes_push(&this->figure.shapes, tmp);
+    shapes_push(&figure.shapes, tmp);
 
     t = get_ellipse_point(circles_center, cir_1_r, cir_1_r,
                                    to_rad(135));
@@ -92,7 +119,7 @@ void MainWindow::create_figure()
         line_create(t, point_create(t->x - legs_x, t->y + legs_y))
         );
 
-    shapes_push(&this->figure.shapes, tmp);
+    shapes_push(&figure.shapes, tmp);
 
     t = get_ellipse_point(circles_center, cir_1_r, cir_1_r,
                           to_rad(0));
@@ -101,7 +128,7 @@ void MainWindow::create_figure()
         line_create(t, point_create(t->x - dash_len, t->y))
         );
 
-    shapes_push(&this->figure.shapes, tmp);
+    shapes_push(&figure.shapes, tmp);
 
     t = get_ellipse_point(circles_center, cir_1_r, cir_1_r,
                           to_rad(90));
@@ -110,7 +137,7 @@ void MainWindow::create_figure()
         line_create(t, point_create(t->x, t->y - dash_len))
         );
 
-    shapes_push(&this->figure.shapes, tmp);
+    shapes_push(&figure.shapes, tmp);
 
     t = get_ellipse_point(circles_center, cir_1_r, cir_1_r,
                           to_rad(180));
@@ -119,7 +146,7 @@ void MainWindow::create_figure()
         line_create(t, point_create(t->x + dash_len, t->y))
         );
 
-    shapes_push(&this->figure.shapes, tmp);
+    shapes_push(&figure.shapes, tmp);
 
     t = get_ellipse_point(circles_center, cir_1_r, cir_1_r,
                           to_rad(270));
@@ -128,26 +155,34 @@ void MainWindow::create_figure()
         line_create(t, point_create(t->x, t->y + dash_len))
         );
 
-    shapes_push(&this->figure.shapes, tmp);
+    shapes_push(&figure.shapes, tmp);
 
     tmp = shape_create(
         line_create(point_create(circles_center->x, circles_center->y),
                     point_create(circles_center->x, circles_center->y - minute_hand_len))
         );
 
-    shapes_push(&this->figure.shapes, tmp);
+    shapes_push(&figure.shapes, tmp);
 
     tmp = shape_create(
         line_create(point_create(circles_center->x, circles_center->y),
                     point_create(circles_center->x + hour_hand_len, circles_center->y))
         );
 
-    shapes_push(&this->figure.shapes, tmp);
+    shapes_push(&figure.shapes, tmp);
 
 
-    figure_find_and_set_center(&this->figure);
+    figure_find_and_set_center(&figure);
 
-    set_center_label();
+    double dx = (double) this->pxp.width() / 2 - this->figure.center->x;
+    double dy = (double) this->pxp.height() / 2 - this->figure.center->y;
+
+    figure = figure_move(&figure, point_create(dx, dy));
+}
+
+void MainWindow::create_figure()
+{
+    create_figure(this->figure);
 }
 
 void MainWindow::set_center_label()
@@ -206,9 +241,10 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent), ui(new Ui::MainWin
 
 
     create_figure();
+    set_center_label();
     this->is_prev = false;
 
-
+    create_figure(this->standart_figure);
 
     draw_screen();
 }
@@ -224,6 +260,9 @@ void MainWindow::draw_screen()
         .width = w,
         .height = h,
     };
+
+    // if we want see standart figure
+    draw(&view, &this->standart_figure, Qt::lightGray);
 
     draw(&view, &this->figure);
 
@@ -387,8 +426,9 @@ void MainWindow::get_prev_clicked()
 
 void MainWindow::reset_figure_clicked()
 {
+    set_prev_figure();
     create_figure();
-    this->is_prev = false;
+    // this->is_prev = false;
     clear_screen();
     draw_screen();
 }

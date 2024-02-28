@@ -1,4 +1,5 @@
 #include "ellipse.h"
+#include <iostream>
 
 point_t *get_ellipse_point(point_t *center, double radius_x, double radius_y, double angle)
 {
@@ -20,6 +21,8 @@ ellipse_t *ellipse_create(point_t *center, double radius_x, double radius_y)
 
 
     double step = 1 / std::max(radius_x, radius_y) / 2;
+
+    // std::cout << step << std::endl;
 
     for (double angle = 0; angle <= 2 * M_PI; angle += step)
         ellipse->points.push_back(

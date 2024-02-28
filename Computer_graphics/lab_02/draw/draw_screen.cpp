@@ -75,12 +75,15 @@ void draw_ellipse(draw_view_t *view, shape_t *shape)
             path.lineTo(get_rounded(tmp->x), get_rounded(tmp->y));
     }
 
+    if (shape->type == ELLIPSE && is_started)
+        path.closeSubpath();
+
     view->painter->drawPath(path);
 }
 
-void draw_shape(draw_view_t *view, shape_t *shape)
+void draw_shape(draw_view_t *view, shape_t *shape, QColor color)
 {
-    QPen pen(Qt::black);
+    QPen pen(color);
     switch (shape->type)
     {
     case POINT:
@@ -116,6 +119,11 @@ void draw_shape(draw_view_t *view, shape_t *shape)
 
 void draw(draw_view_t *view, figure_t *figure)
 {
+    draw(view, figure, Qt::black);
+}
+
+void draw(draw_view_t *view, figure_t *figure, QColor color)
+{
     for (size_t i = 0; i < figure->shapes.size; i++)
-        draw_shape(view, figure->shapes.data[i]);
+        draw_shape(view, figure->shapes.data[i], color);
 }

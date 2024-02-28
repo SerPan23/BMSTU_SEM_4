@@ -57,20 +57,22 @@ def print_sub_table(sub_table):
     max_len = len(sub_table[0])
 
 
-    print(("+" + "-" * 13) * count_array + "+")
-    print("| {:^11s} | {:^11s}".format("X", "Y"), end=' ')
+    print(("+" + "-" * 10) * count_array + "+")
+    print("|{:^10s}|{:^10s}".format("X", "Y"), end='')
     for k in range(2, count_array):
         # print("| {:^11s}".format("Y" + "\'" * (k - 1)), end=' ')
-        print("| {:^11s}".format("Y" + str(k - 1)), end=' ')
+        print("|{:^10s}".format("Y" + str(k - 1)), end='')
     print("|")
-    print(("+" + "-" * 13) * count_array + "+")
+    print(("+" + "-" * 10) * count_array + "+")
 
     for i in range(max_len):
         for j in range(count_array):
             if j >= count_array - i:
-                print("| {:^11s}".format(" "), end=' ')
+                print("|{:^10s}".format(" "), end='')
             else:
-                print("| {:^11.7f}".format(sub_table[j][i]), end=' ')
+                print("|{:^10.3f}".format(sub_table[j][i]), end='')
         print("|")
 
-    print(("+" + "-" * 13) * count_array + "+")
+    print(("+" + "-" * 10) * count_array + "+")
+    
+            

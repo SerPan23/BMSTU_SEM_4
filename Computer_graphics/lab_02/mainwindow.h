@@ -22,6 +22,7 @@ private:
     void draw_screen();
     void clear_screen();
     void create_figure();
+    void create_figure(figure_t &figure);
 
     void move_btn_clicked();
     void rotate_btn_clicked();
@@ -40,6 +41,7 @@ private:
     Ui::MainWindow *ui;
     QPixmap pxp;
     figure_t figure;
+    figure_t standart_figure;
     bool is_prev;
     figure_t prev_figure;
 

@@ -535,7 +535,7 @@
            <item>
             <widget class="QPushButton" name="btn_reset">
              <property name="text">
-              <string>Отменить все преобразования</string>
+              <string>Вывести исходное изображение</string>
              </property>
             </widget>
            </item>

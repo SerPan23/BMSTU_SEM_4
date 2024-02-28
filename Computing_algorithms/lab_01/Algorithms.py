@@ -53,13 +53,43 @@ def get_newton_table(data):
     return table_subs
 
 
-def get_hermit_table(data):
+def get_ermit_table(data):
     data_cols_count = 2
     derivative_count = 2
-    table_subs = []
 
-    
-    
+    table_subs = []
+    yd_row = []
+    ydd_row = []
+    for point in data:
+        for _ in range(derivative_count + 1):
+            table_subs.append([point.x, point.y])
+            yd_row.append(point.derivative)
+            ydd_row.append(point.second_derivative)
+
+    table_subs = transpose(table_subs)
+
+    x_row = table_subs[0]
+
+    for args_count in range(1, len(x_row)):
+        table_subs.append([])
+        cur_y_row = table_subs[len(table_subs) - data_cols_count]
+
+        # print(cur_y_row)
+
+        for j in range(0, len(x_row) - args_count):
+            if ((args_count == 2 or args_count == 1) and abs(x_row[j] - x_row[j + args_count]) < EPS):
+                if args_count == 2:
+                    cur = ydd_row[j] / 2
+                else:
+                    cur = yd_row[j]
+            else:
+                cur = (cur_y_row[j] - cur_y_row[j + 1]) / \
+                    (x_row[j] - x_row[j + args_count])
+
+            # print(x_row[j], x_row[j + args_count], cur, "| args_count:", args_count)
+
+            table_subs[args_count + data_cols_count - 1].append(cur)
+
     return table_subs
 
 
@@ -79,6 +109,7 @@ def get_rev_data(data):
         rev_data.append(Point(i.y, i.x,
                         i.derivative, i.second_derivative))
         
+    rev_data.sort(key=lambda point: point.x)
     return rev_data
 
 def get_root_by_Newton(data, n):
@@ -90,25 +121,26 @@ def get_root_by_Newton(data, n):
     table = get_newton_table(working_points)
     return get_approximate_value(table, 0, n)
 
-def get_root_by_Hermit(data, n):
+def get_root_by_Ermit(data, n):
     rev_data = get_rev_data(data)
 
     index = get_index(rev_data, 0)
     working_points = get_works_points(rev_data, index, n)
 
-    table = get_hermit_table(working_points)
+    table = get_ermit_table(working_points)
     return get_approximate_value(table, 0, n)
 
-def get_compare_Newton_Hermit(points, x, max_n = 5):
+
+def get_compare_Newton_Ermit(points, x, max_n = 5):
     index = get_index(points, x)
 
     result = []
     for n in range(max_n + 1):
         working_points = get_works_points(points, index, n)
         newton_table = get_newton_table(working_points)
-        hermit_table = get_hermit_table(working_points)
+        ermit_table = get_ermit_table(working_points)
 
         result.append([get_approximate_value(newton_table, x, n),
-                      get_approximate_value(hermit_table, x, n)])
+                      get_approximate_value(ermit_table, x, n)])
         
     return result

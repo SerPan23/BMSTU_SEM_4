@@ -16,5 +16,6 @@ struct draw_view
 using draw_view_t = struct draw_view;
 
 void draw(draw_view_t *view, figure_t *figure);
+void draw(draw_view_t *view, figure_t *figure, QColor color);
 
 #endif // DRAW_SCREEN_H
