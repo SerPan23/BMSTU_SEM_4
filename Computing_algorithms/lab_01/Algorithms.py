@@ -1,4 +1,5 @@
 from Point import Point
+import math
 
 EPS = 1e-8
 
@@ -53,7 +54,7 @@ def get_newton_table(data):
     return table_subs
 
 
-def get_ermit_table(data):
+def get_ermite_table(data):
     data_cols_count = 2
     derivative_count = 2
 
@@ -121,26 +122,26 @@ def get_root_by_Newton(data, n):
     table = get_newton_table(working_points)
     return get_approximate_value(table, 0, n)
 
-def get_root_by_Ermit(data, n):
+def get_root_by_Ermite(data, n):
     rev_data = get_rev_data(data)
 
     index = get_index(rev_data, 0)
     working_points = get_works_points(rev_data, index, n)
 
-    table = get_ermit_table(working_points)
+    table = get_ermite_table(working_points)
     return get_approximate_value(table, 0, n)
 
 
-def get_compare_Newton_Ermit(points, x, max_n = 5):
+def get_compare_Newton_Ermite(points, x, max_n = 5):
     index = get_index(points, x)
 
     result = []
     for n in range(max_n + 1):
         working_points = get_works_points(points, index, n)
         newton_table = get_newton_table(working_points)
-        ermit_table = get_ermit_table(working_points)
+        ermite_table = get_ermite_table(working_points)
 
         result.append([get_approximate_value(newton_table, x, n),
-                      get_approximate_value(ermit_table, x, n)])
+                      get_approximate_value(ermite_table, x, n)])
         
     return result

@@ -1,7 +1,7 @@
 import IO as io
 from Algorithms import *
 
-# TODO: Make Ermit method
+# TODO: Make Ermite method
 
 
 points = io.read_table_from_file("./data/data_1.txt")
@@ -16,24 +16,24 @@ index = get_index(points, x)
 working_points = get_works_points(points, index, n)
 
 newton_table = get_newton_table(working_points)
-ermit_table = get_ermit_table(working_points)
+ermite_table = get_ermite_table(working_points)
 
 print("Newton subs table:")
 io.print_sub_table(newton_table)
 
-print("Ermit subs table:")
-io.print_sub_table(ermit_table)
+print("Ermite subs table:")
+io.print_sub_table(ermite_table)
 
 # RESULTS
 newton_result = get_approximate_value(newton_table, x, n)
 print("Newton result: ", newton_result)
 print("Root by Newton: ", get_root_by_Newton(points, n))
 
-ermit_result = get_approximate_value(ermit_table, x, n)
-print("Ermit result: ", ermit_result)
-print("Root by Ermit: ", get_root_by_Ermit(points, n))
+ermite_result = get_approximate_value(ermite_table, x, n)
+print("Ermite result: ", ermite_result)
+# print("Root by Ermite: ", get_root_by_Ermite(points, n))
 
-compare_table = get_compare_Newton_Ermit(points, x)
+compare_table = get_compare_Newton_Ermite(points, x)
 print("Compare table:")
 io.print_compare_table(compare_table)
 

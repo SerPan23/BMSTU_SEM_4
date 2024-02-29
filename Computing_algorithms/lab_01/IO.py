@@ -30,10 +30,10 @@ def print_compare_table(comapre_table):
 
     print("+" + "-" * 7 + ("+" + "-" * 12) * COL_COUNT + "+")
     print("| {:^5s} | {:^10s} | {:^10s} |".format(
-        "N", "Newton", "Hermit"))
+        "N", "Newton", "Ermite"))
     print("+" + "-" * 7 + ("+" + "-" * 12) * COL_COUNT + "+")
     for i in range(len(comapre_table)):
-        print("| {:^5d} | {:^10.3f} | {:^10.3f} |".format(i,
+        print("| {:^5d} | {:^10.5f} | {:^10.5f} |".format(i,
             comapre_table[i][0],
             comapre_table[i][1]))
     print("+" + "-" * 7 + ("+" + "-" * 12) * COL_COUNT + "+")
