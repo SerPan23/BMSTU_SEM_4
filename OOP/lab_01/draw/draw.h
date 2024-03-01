@@ -16,7 +16,7 @@ struct draw_view
 
 using draw_view_t = struct draw_view;
 
-return_codes draw_figure(figure_t &figure, draw_view_t &view);
+return_codes draw_figure(const figure_t &figure, draw_view_t &view);
 
 return_codes scene_clear(draw_view_t &view);
 

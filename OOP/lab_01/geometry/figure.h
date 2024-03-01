@@ -18,13 +18,14 @@ using figure_t = struct figure;
 
 figure_t &figure_create(void);
 void figure_free(figure_t &figure);
+return_codes_t figure_copy(figure_t &figure_dst, const figure_t &figure_src);
 
 
-return_codes_t figure_move(figure_t &figure, move_data_t &coeff);
-return_codes_t figure_rotate(figure_t &figure, rotate_data_t &coeff);
-return_codes_t figure_scale(figure_t &figure, scale_data_t &coeff);
+return_codes_t figure_move(figure_t &figure, const move_data_t &coeff);
+return_codes_t figure_rotate(figure_t &figure, const rotate_data_t &coeff);
+return_codes_t figure_scale(figure_t &figure, const scale_data_t &coeff);
 
-return_codes_t figure_load(figure_t &figure, char *filename);
-return_codes_t figure_save(figure_t &figure, char *filename);
+return_codes_t figure_load(figure_t &figure, const char *filename);
+return_codes_t figure_save(const figure_t &figure, const char *filename);
 
 #endif // FIGURE_H

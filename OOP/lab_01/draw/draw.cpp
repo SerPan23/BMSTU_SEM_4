@@ -8,7 +8,7 @@ struct line
 using line_t = struct line;
 
 
-static point_t point_transform_to_screen(point_t point, draw_view_t &view)
+static point_t point_transform_to_screen(point_t point, const draw_view_t &view)
 {
     point.x += view.width / 2;
     point.y += view.height / 2;
@@ -16,7 +16,7 @@ static point_t point_transform_to_screen(point_t point, draw_view_t &view)
     return point;
 }
 
-static line_t get_line(draw_view_t &view, edge_t &edge, points_t &points)
+static line_t get_line(draw_view_t &view, const edge_t &edge, const points_t &points)
 {
     line_t line;
 
@@ -26,7 +26,7 @@ static line_t get_line(draw_view_t &view, edge_t &edge, points_t &points)
     return line;
 }
 
-static return_codes draw_line(draw_view_t &view, line_t &line)
+static return_codes_t draw_line(draw_view_t &view, const line_t &line)
 {
     if (!view.scene)
         return ERROR_WRONG_SCENE;
@@ -36,25 +36,33 @@ static return_codes draw_line(draw_view_t &view, line_t &line)
     return SUCCESS;
 }
 
-return_codes draw_figure(figure_t &figure, draw_view_t &view)
+static return_codes_t draw_lines(const points_t &points, const edges_t &edges, draw_view_t &view)
 {
-    return_codes rc = scene_clear(view);
-
-    if (rc != SUCCESS)
-        return rc;
-
-    if (figure.points.data == NULL || figure.edges.data == NULL)
+    if (points.data == NULL || edges.data == NULL)
         return ERROR_MEM_ALLOC;
 
     if (!view.scene)
         return ERROR_WRONG_SCENE;
 
+    return_codes rc = SUCCESS;
 
-    for (int i = 0; rc == SUCCESS && i < figure.edges.size; i++)
+    line_t line;
+
+    for (int i = 0; rc == SUCCESS && i < edges.size; i++)
     {
-        line_t line = get_line(view, figure.edges.data[i], figure.points);
+        line = get_line(view, edges.data[i], points);
         rc = draw_line(view, line);
     }
+
+    return rc;
+}
+
+return_codes draw_figure(const figure_t &figure, draw_view_t &view)
+{
+    return_codes rc = scene_clear(view);
+
+    if (rc == SUCCESS)
+        rc = draw_lines(figure.points, figure.edges, view);
 
     return rc;
 }
@@ -65,5 +73,6 @@ return_codes scene_clear(draw_view_t &view)
         return ERROR_WRONG_SCENE;
 
     view.scene->clear();
+
     return SUCCESS;
 }

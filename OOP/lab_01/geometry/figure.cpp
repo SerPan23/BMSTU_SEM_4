@@ -4,11 +4,11 @@ figure_t &figure_create(void)
 {
     static figure_t figure;
 
-    point_set_default(figure.center);
+    figure.center = point_set_default();
 
-    points_set_default(figure.points);
+    figure.points = points_set_default();
 
-    edges_set_default(figure.edges);
+    figure.edges = edges_set_default();
 
     return figure;
 }
@@ -19,18 +19,29 @@ void figure_free(figure_t &figure)
     edges_free(figure.edges);
 }
 
-return_codes_t figure_move(figure_t &figure, move_data_t &coeff)
+return_codes_t figure_copy(figure_t &figure_dst, const figure_t &figure_src)
 {
-    point_move(figure.center, coeff);
-    return points_move_all(figure.points, coeff);
+    figure_dst = figure_src;
+
+    return SUCCESS;
 }
 
-return_codes_t figure_rotate(figure_t &figure, rotate_data_t &coeff)
+return_codes_t figure_move(figure_t &figure, const move_data_t &coeff)
+{
+    return_codes_t rc = point_move(figure.center, coeff);
+
+    if (rc == SUCCESS)
+        rc = points_move_all(figure.points, coeff);
+
+    return rc;
+}
+
+return_codes_t figure_rotate(figure_t &figure, const rotate_data_t &coeff)
 {
     return points_rotate_all(figure.points, figure.center, coeff);
 }
 
-return_codes_t figure_scale(figure_t &figure, scale_data_t &coeff)
+return_codes_t figure_scale(figure_t &figure, const scale_data_t &coeff)
 {   
     return points_scale_all(figure.points, figure.center, coeff);
 }
@@ -44,21 +55,21 @@ static return_codes_t figure_fread(figure_t &figure, FILE *in)
 
     return_codes_t rc = points_fread(figure.points, in);
 
-    if (rc != SUCCESS)
-        return rc;
+    if (rc == SUCCESS)
+    {
+        rc = edges_fread(figure.edges, in);
 
-    rc = edges_fread(figure.edges, in);
-
-    if (rc != SUCCESS)
-        points_free(figure.points);
+        if (rc != SUCCESS)
+            points_free(figure.points);
+    }
 
     return rc;
 }
 
-return_codes_t figure_load(figure_t &figure, char *filename)
+return_codes_t figure_load(figure_t &figure, const char *filename)
 {
     if (filename == NULL)
-        return ERROR_FILE_OPEN;
+        return ERROR_FILE_NAME;
 
     FILE *in = fopen(filename, "r");
 
@@ -74,14 +85,17 @@ return_codes_t figure_load(figure_t &figure, char *filename)
     if (rc == SUCCESS)
     {
         figure_free(figure);
-        figure = current_figure;
+        rc = figure_copy(figure, current_figure);
     }
 
     return rc;
 }
 
-static return_codes_t figure_fwrite(figure_t &figure, FILE *out)
+static return_codes_t figure_fwrite(const figure_t &figure, FILE *out)
 {
+    if (out == NULL)
+        return ERROR_FILE_OPEN;
+
     return_codes_t rc = points_fwrite(figure.points, out);
 
     if (rc == SUCCESS)
@@ -90,10 +104,10 @@ static return_codes_t figure_fwrite(figure_t &figure, FILE *out)
     return rc;
 }
 
-return_codes_t figure_save(figure_t &figure, char *filename)
+return_codes_t figure_save(const figure_t &figure, const char *filename)
 {
     if (filename == NULL)
-        return ERROR_FILE_OPEN;
+        return ERROR_FILE_NAME;
 
     if (!figure.points.data || !figure.edges.data)
         return ERROR_EMPTY_DATA;

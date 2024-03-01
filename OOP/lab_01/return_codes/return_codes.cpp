@@ -14,6 +14,9 @@ void error_show(return_codes_t code)
         case ERROR_FILE_WRITE:
             QMessageBox::critical(NULL, "Ошибка!", "При записи файла даны некорректные данные!");
             break;
+        case ERROR_FILE_NAME:
+            QMessageBox::critical(NULL, "Ошибка!", "Не корректно задано имя файла!");
+            break;
         case ERROR_MEM_ALLOC:
             QMessageBox::critical(NULL, "Ошибка!", "Не удалось выделить память!");
             break;

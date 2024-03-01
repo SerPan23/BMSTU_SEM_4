@@ -18,43 +18,42 @@ return_codes_t edges_alloc(edges_t &edges)
 void edges_free(edges_t &edges)
 {
     free(edges.data);
-    edges_set_default(edges);
+    edges = edges_set_default();
 }
 
-void edges_set_default(edges_t &edges)
+edges_t edges_set_default()
 {
-    edges.data = NULL;
-    edges.size = 0;
+    return edges_t{NULL, 0};
 }
 
-static return_codes_t edges_count_fread(edges_t &edges, FILE *in)
+static return_codes_t edges_count_fread(int &count, FILE *in)
 {
     if (in == NULL)
         return ERROR_FILE_OPEN;
 
-    if (fscanf(in, "%d", &edges.size) != 1)
+    if (fscanf(in, "%d", &count) != 1)
         return ERROR_FILE_READ;
 
-    if (edges.size <= 0)
+    if (count <= 0)
         return ERROR_EDGES_SIZE;
 
     return SUCCESS;
 }
 
-static return_codes_t edges_data_fread(edges_t &edges, FILE *in)
+static return_codes_t edges_data_fread(edge_t *data, const int &count, FILE *in)
 {
     if (in == NULL)
         return ERROR_FILE_OPEN;
 
-    if (edges.size <= 0)
+    if (count <= 0)
         return ERROR_EDGES_SIZE;
 
-    if (!edges.data)
+    if (!data)
         return ERROR_MEM_ALLOC;
 
     return_codes_t rc = SUCCESS;
-    for (int i = 0; rc == SUCCESS && i < edges.size; i++)
-            rc = edge_fread(edges.data[i], in);
+    for (int i = 0; rc == SUCCESS && i < count; i++)
+            rc = edge_fread(data[i], in);
 
     return rc;
 }
@@ -64,26 +63,29 @@ return_codes_t edges_fread(edges_t &edges, FILE *in)
     if (in == NULL)
         return ERROR_FILE_OPEN;
 
-    return_codes_t rc = edges_count_fread(edges, in);
+    return_codes_t rc = edges_count_fread(edges.size, in);
 
-    if (rc != SUCCESS)
-        return rc;
+    if (rc == SUCCESS)
+    {
+        rc = edges_alloc(edges);
 
-    rc = edges_alloc(edges);
+        if (rc == SUCCESS)
+        {
+            rc = edges_data_fread(edges.data, edges.size, in);
 
-    if (rc != SUCCESS)
-        return rc;
-
-    rc = edges_data_fread(edges, in);
-
-    if (rc != SUCCESS)
-        edges_free(edges);
+            if (rc != SUCCESS)
+                edges_free(edges);
+        }
+    }
 
     return rc;
 }
 
-return_codes_t edges_fwrite(edges_t &edges, FILE *out)
+return_codes_t edges_fwrite(const edges_t &edges, FILE *out)
 {
+    if (out == NULL)
+        return ERROR_FILE_OPEN;
+
     if (!edges.data)
         return ERROR_EMPTY_DATA;
 

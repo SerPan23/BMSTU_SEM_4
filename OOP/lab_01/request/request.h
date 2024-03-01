@@ -25,7 +25,7 @@ struct request
     action_t action;
     union
     {
-        char *filename;
+        const char *filename;
         move_data_t move;
         rotate_data_t rotate;
         scale_data_t scale;

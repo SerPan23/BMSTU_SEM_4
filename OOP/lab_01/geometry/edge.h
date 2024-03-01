@@ -12,6 +12,6 @@ struct edge
 using edge_t = struct edge;
 
 return_codes_t edge_fread(edge_t &edge, FILE *in);
-return_codes_t edge_fwrite(edge_t &edge, FILE *out);
+return_codes_t edge_fwrite(const edge_t &edge, FILE *out);
 
 #endif // EDGE_H

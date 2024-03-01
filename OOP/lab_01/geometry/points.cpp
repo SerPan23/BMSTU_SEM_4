@@ -18,77 +18,82 @@ return_codes_t points_alloc(points_t &points)
 void points_free(points_t &points)
 {
     free(points.data);
-    points_set_default(points);
+    points = points_set_default();
 }
 
-void points_set_default(points_t &points)
+points_t points_set_default()
 {
-    points.data = NULL;
-    points.size = 0;
+    return points_t{NULL, 0};
 }
 
-return_codes_t points_move_all(points_t &points, move_data_t &coeff)
-{
-    if (!points.data)
-        return ERROR_FIGURE_NOT_LOADED;
-
-    for (int i = 0; i < points.size; i++)
-        point_move(points.data[i], coeff);
-
-    return SUCCESS;
-}
-
-return_codes_t points_rotate_all(points_t &points, point_t &rotate_center, rotate_data_t &coeff)
+return_codes_t points_move_all(points_t &points, const move_data_t &coeff)
 {
     if (!points.data)
         return ERROR_FIGURE_NOT_LOADED;
-
-    for (int i = 0; i < points.size; i++)
-        point_rotate(points.data[i], rotate_center, coeff);
-
-    return SUCCESS;
-}
-
-return_codes_t points_scale_all(points_t &points, point_t &scale_center, scale_data_t &coeff)
-{
-    if (!points.data)
-        return ERROR_FIGURE_NOT_LOADED;
-
-    for (int i = 0; i < points.size; i++)
-        point_scale(points.data[i], scale_center, coeff);
-
-    return SUCCESS;
-}
-
-static return_codes_t points_count_fread(points_t &points, FILE *in)
-{
-    if (in == NULL)
-        return ERROR_FILE_OPEN;
-
-    if (fscanf(in, "%d", &points.size) != 1)
-        return ERROR_FILE_READ;
-
-    if (points.size <= 0)
-        return ERROR_POINTS_SIZE;
-
-    return SUCCESS;
-}
-
-static return_codes_t points_data_fread(points_t &points, FILE *in)
-{
-    if (in == NULL)
-        return ERROR_FILE_OPEN;
-
-    if (points.size <= 0)
-        return ERROR_POINTS_SIZE;
-
-    if (!points.data)
-        return ERROR_MEM_ALLOC;
 
     return_codes_t rc = SUCCESS;
 
     for (int i = 0; rc == SUCCESS && i < points.size; i++)
-        rc = point_fread(points.data[i], in);
+        rc = point_move(points.data[i], coeff);
+
+    return rc;
+}
+
+return_codes_t points_rotate_all(points_t &points, const point_t &rotate_center, const rotate_data_t &coeff)
+{
+    if (!points.data)
+        return ERROR_FIGURE_NOT_LOADED;
+
+    return_codes_t rc = SUCCESS;
+
+    for (int i = 0; rc == SUCCESS && i < points.size; i++)
+        rc = point_rotate(points.data[i], rotate_center, coeff);
+
+    return SUCCESS;
+}
+
+return_codes_t points_scale_all(points_t &points, const point_t &scale_center, const scale_data_t &coeff)
+{
+    if (!points.data)
+        return ERROR_FIGURE_NOT_LOADED;
+
+    return_codes_t rc = SUCCESS;
+
+    for (int i = 0; rc == SUCCESS && i < points.size; i++)
+        rc = point_scale(points.data[i], scale_center, coeff);
+
+    return SUCCESS;
+}
+
+static return_codes_t points_count_fread(int &count, FILE *in)
+{
+    if (in == NULL)
+        return ERROR_FILE_OPEN;
+
+    if (fscanf(in, "%d", &count) != 1)
+        return ERROR_FILE_READ;
+
+    if (count <= 0)
+        return ERROR_POINTS_SIZE;
+
+    return SUCCESS;
+}
+
+static return_codes_t points_data_fread(point_t *data, const int &count, FILE *in)
+{
+    if (in == NULL)
+        return ERROR_FILE_OPEN;
+
+    if (count <= 0)
+        return ERROR_POINTS_SIZE;
+
+    if (!data)
+        return ERROR_MEM_ALLOC;
+
+    return_codes_t rc = SUCCESS;
+
+    for (int i = 0; rc == SUCCESS && i < count; i++)
+        rc = point_fread(data[i], in);
 
     return rc;
 }
@@ -98,27 +103,30 @@ return_codes_t points_fread(points_t &points, FILE *in)
     if (in == NULL)
         return ERROR_FILE_OPEN;
 
-    return_codes_t rc = points_count_fread(points, in);
+    return_codes_t rc = points_count_fread(points.size, in);
 
-    if (rc != SUCCESS)
-        return rc;
+    if (rc == SUCCESS)
+    {
+        rc = points_alloc(points);
 
-    rc = points_alloc(points);
+        if (rc == SUCCESS)
+        {
+            rc = points_data_fread(points.data, points.size, in);
 
-    if (rc != SUCCESS)
-        return rc;
-
-    rc = points_data_fread(points, in);
-
-    if (rc != SUCCESS)
-        points_free(points);
+            if (rc != SUCCESS)
+                points_free(points);
+        }
+    }
 
     return rc;
 }
 
 
-return_codes_t points_fwrite(points_t &points, FILE *out)
+return_codes_t points_fwrite(const points_t &points, FILE *out)
 {
+    if (out == NULL)
+        return ERROR_FILE_OPEN;
+
     if (!points.data)
         return ERROR_EMPTY_DATA;
 
