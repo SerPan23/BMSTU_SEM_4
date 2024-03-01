@@ -1,5 +1,6 @@
 from Point import Point
 import math
+import IO as io
 
 EPS = 1e-8
 
@@ -56,7 +57,7 @@ def get_newton_table(data):
 
 def get_ermite_table(data):
     data_cols_count = 2
-    derivative_count = 2
+    derivative_count = 1
 
     table_subs = []
     yd_row = []
@@ -79,9 +80,9 @@ def get_ermite_table(data):
 
         for j in range(0, len(x_row) - args_count):
             if ((args_count == 2 or args_count == 1) and abs(x_row[j] - x_row[j + args_count]) < EPS):
-                if args_count == 2:
+                if args_count == 2 and derivative_count == 2:
                     cur = ydd_row[j] / 2
-                else:
+                elif args_count == 1:
                     cur = yd_row[j]
             else:
                 cur = (cur_y_row[j] - cur_y_row[j + 1]) / \
@@ -94,11 +95,12 @@ def get_ermite_table(data):
     return table_subs
 
 
+
 def get_approximate_value(table_subs, x, n):
     args_count = 2
     sum_ = table_subs[1][0]
     mainPart = 1
-    for i in range(n):
+    for i in range(len(table_subs) - args_count):
         mainPart *= (x - table_subs[0][i])
         sum_ += mainPart * table_subs[i + args_count][0]
     return sum_
@@ -110,7 +112,31 @@ def get_rev_data(data):
         rev_data.append(Point(i.y, i.x,
                         i.derivative, i.second_derivative))
         
-    rev_data.sort(key=lambda point: point.x)
+    # rev_data.sort(key=lambda point: point.x)
+    return rev_data
+
+def get_rev_data_for_ermite(data):
+    rev_data = []
+    for i in data:
+        # if i.derivative == 0:
+        #     d = math.inf
+        # else:
+        #     d = 1 / i.derivative
+
+        # if i.second_derivative == 0:
+        #     dd = math.inf
+        # else:
+        #     dd = 1 / i.second_derivative
+        if i.derivative == 0:
+            continue
+        d = 1 / i.derivative
+        # dd = 1 / i.second_derivative
+        dd = - (i.second_derivative / (i.derivative ** 3))
+        rev_data.append(Point(i.y, i.x,
+                        d, dd))
+
+    # rev_data.sort(key=lambda point: point.x)
+    # io.print_table(rev_data)
     return rev_data
 
 def get_root_by_Newton(data, n):
@@ -120,15 +146,17 @@ def get_root_by_Newton(data, n):
     working_points = get_works_points(rev_data, index, n)
 
     table = get_newton_table(working_points)
+    io.print_sub_table(table)
     return get_approximate_value(table, 0, n)
 
 def get_root_by_Ermite(data, n):
-    rev_data = get_rev_data(data)
+    rev_data = get_rev_data_for_ermite(data)
 
     index = get_index(rev_data, 0)
     working_points = get_works_points(rev_data, index, n)
 
     table = get_ermite_table(working_points)
+    # io.print_sub_table(table)
     return get_approximate_value(table, 0, n)
 
 
