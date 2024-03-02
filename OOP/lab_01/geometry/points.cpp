@@ -121,7 +121,6 @@ return_codes_t points_fread(points_t &points, FILE *in)
     return rc;
 }
 
-
 return_codes_t points_fwrite(const points_t &points, FILE *out)
 {
     if (out == NULL)
