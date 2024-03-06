@@ -55,6 +55,21 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
+void MainWindow::error_show(return_codes_t code)
+{
+    error_msg_t msg = get_error_msg(code);
+
+    switch (msg.type)
+    {
+        case INFORMATION:
+            QMessageBox::information(NULL, msg.title, msg.text);
+            break;
+        case CRITICAL:
+            QMessageBox::critical(NULL, msg.title, msg.text);
+            break;
+    }
+}
+
 return_codes_t MainWindow::draw()
 {
     QRect rcontent = ui->graphicsView->contentsRect();

@@ -36,13 +36,24 @@ static return_codes_t draw_line(draw_view_t &view, const line_t &line)
     return SUCCESS;
 }
 
+static return_codes_t check_lines_corrects(const edge_t &edge, const int &points_size)
+{
+    return_codes_t rc = SUCCESS;
+
+    if (edge.first_point_index < 0 || edge.first_point_index >= points_size
+        || edge.second_point_index < 0 || edge.second_point_index >= points_size)
+        rc =  ERROR_WRONG_POINT_INDEX;
+
+    return rc;
+}
+
 static return_codes_t draw_lines(const points_t &points, const edges_t &edges, draw_view_t &view)
 {
-    if (points.data == NULL || edges.data == NULL)
-        return ERROR_MEM_ALLOC;
-
     if (!view.scene)
         return ERROR_WRONG_SCENE;
+
+    if (points.data == NULL || edges.data == NULL)
+        return ERROR_MEM_ALLOC;
 
     return_codes rc = SUCCESS;
 
@@ -50,8 +61,14 @@ static return_codes_t draw_lines(const points_t &points, const edges_t &edges, d
 
     for (int i = 0; rc == SUCCESS && i < edges.size; i++)
     {
-        line = get_line(view, edges.data[i], points);
-        rc = draw_line(view, line);
+        rc = check_lines_corrects(edges.data[i], points.size);
+        if (rc == SUCCESS)
+        {
+            line = get_line(view, edges.data[i], points);
+            rc = draw_line(view, line);
+        }
+        else
+            scene_clear(view);
     }
 
     return rc;

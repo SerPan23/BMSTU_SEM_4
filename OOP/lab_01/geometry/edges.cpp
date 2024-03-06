@@ -7,12 +7,14 @@ return_codes_t edges_alloc(edges_t &edges)
 
     edge_t *tmp = (edge_t *) malloc(edges.size * sizeof(edge_t));
 
+    return_codes_t rc = SUCCESS;
+
     if (!tmp)
-        return ERROR_MEM_ALLOC;
+        rc = ERROR_MEM_ALLOC;
+    else
+        edges.data = tmp;
 
-    edges.data = tmp;
-
-    return SUCCESS;
+    return rc;
 }
 
 void edges_free(edges_t &edges)

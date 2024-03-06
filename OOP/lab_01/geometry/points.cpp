@@ -7,12 +7,14 @@ return_codes_t points_alloc(points_t &points)
 
     point_t *tmp = (point_t *) malloc(points.size * sizeof(point_t));
 
+    return_codes_t rc = SUCCESS;
+
     if (!tmp)
-        return ERROR_MEM_ALLOC;
+        rc = ERROR_MEM_ALLOC;
+    else
+        points.data = tmp;
 
-    points.data = tmp;
-
-    return SUCCESS;
+    return rc;
 }
 
 void points_free(points_t &points)

@@ -18,10 +18,30 @@ enum return_codes
     ERROR_FIGURE_NOT_LOADED,
     ERROR_EDGES_SIZE,
     ERROR_WRONG_SCENE,
+    ERROR_WRONG_POINT_INDEX,
 };
 
 using return_codes_t = enum return_codes;
 
-void error_show(return_codes_t code);
+//TODO: get_return_text_msg with struct
+//struct enum msg_type and title + msg
+enum msg_type
+{
+    INFORMATION,
+    CRITICAL,
+};
+
+using msg_type_t = enum msg_type;
+
+struct error_msg
+{
+    msg_type_t type;
+    char *title;
+    char *text;
+};
+
+using error_msg_t = struct error_msg;
+
+error_msg_t get_error_msg(return_codes_t code);
 
 #endif // RETURN_CODES_H

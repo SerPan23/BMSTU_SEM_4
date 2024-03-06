@@ -24,4 +24,7 @@ return_codes_t point_scale(point_t &point, const point_t &scale_center, const sc
 return_codes_t point_fread(point_t &point, FILE *in);
 return_codes_t point_fwrite(const point_t &point, FILE *out);
 
+move_data_t point_to_move_data(const point_t &point);
+point_t point_to_negative(const point_t &point);
+
 #endif // POINT_H

@@ -35,6 +35,8 @@ private:
 
     void btn_scale_clicked();
 
+    void error_show(return_codes_t code);
+
 private:
     Ui::MainWindow *ui;
 };
