@@ -17,7 +17,16 @@ set(PROJECT_SOURCES
         mainwindow.cpp
         mainwindow.h
         mainwindow.ui
+        algorithms/algorithms.h
+        algorithms/algorithms.cpp
+        algorithms/bresenham.cpp
+        algorithms/dda.cpp
+        algorithms/wu_alg.cpp
 )
+
+
+include_directories("${CMAKE_CURRENT_LIST_DIR}/algorithms")
+include_directories("${CMAKE_CURRENT_LIST_DIR}/draw")
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
     qt_add_executable(lab_03
