@@ -10,7 +10,7 @@ void MainWindow::create_figure(figure_t &figure)
 {
     shapes_alloc(&figure.shapes, 10);
 
-    point_t *circles_center = point_create(400 + 0.058, 350 + 17.322);
+    point_t *circles_center = point_create(400, 350);
     double cir_1_r = 50;
     double cir_2_r = 10;
 
@@ -174,8 +174,8 @@ void MainWindow::create_figure(figure_t &figure)
 
     figure_find_and_set_center(&figure);
 
-    double dx = (double) this->pxp.width() / 2 - this->figure.center->x;
-    double dy = (double) this->pxp.height() / 2 - this->figure.center->y;
+    double dx = (double) this->pxp.width() / 2 - figure.center->x;
+    double dy = (double) this->pxp.height() / 2 - figure.center->y;
 
     figure = figure_move(&figure, point_create(dx, dy));
 }
