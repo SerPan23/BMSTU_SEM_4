@@ -1,6 +1,6 @@
 #include "algorithms.h"
 
-std::vector <pixel_t> dda(point_t start, point_t end)
+line_t dda(point_t start, point_t end)
 {
     std::vector <pixel_t> pixels;
 
@@ -31,5 +31,5 @@ std::vector <pixel_t> dda(point_t start, point_t end)
         }
     }
 
-    return pixels;
+    return line_t{pixels};
 }

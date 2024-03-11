@@ -24,17 +24,25 @@ struct pixel
 
 using pixel_t = struct pixel;
 
+struct line
+{
+    std::vector <pixel_t> pixels;
+};
+using line_t = struct line;
+
 pixel_t pixel_create(int x, int y);
 pixel_t pixel_create(int x, int y, double intensity);
 
-std::vector <pixel_t> dda(point_t start, point_t end);
+line_t dda(point_t start, point_t end);
 
-std::vector <pixel_t> bresenham_double(point_t start, point_t end);
-std::vector <pixel_t> bresenham_integer(point_t start, point_t end);
-std::vector <pixel_t> bresenham_smooth(point_t start, point_t end);
-std::vector <pixel_t> bresenham_smooth(point_t start, point_t end, double max_intensity);
+line_t bresenham_double(point_t start, point_t end);
+line_t bresenham_integer(point_t start, point_t end);
+line_t bresenham_smooth(point_t start, point_t end);
+line_t bresenham_smooth(point_t start, point_t end, double max_intensity);
 
-std::vector <pixel_t> wu(point_t start, point_t end);
-std::vector <pixel_t> wu(point_t start, point_t end, double max_intensity);
+line_t wu(point_t start, point_t end);
+line_t wu(point_t start, point_t end, double max_intensity);
+
+int count_steps(line_t line);
 
 #endif // ALGORITHMS_H

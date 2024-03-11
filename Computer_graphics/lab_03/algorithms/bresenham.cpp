@@ -1,6 +1,6 @@
 #include "algorithms.h"
 
-std::vector <pixel_t> bresenham_double(point_t start, point_t end)
+line_t bresenham_double(point_t start, point_t end)
 {
     std::vector<pixel_t> pixels;
 
@@ -57,10 +57,10 @@ std::vector <pixel_t> bresenham_double(point_t start, point_t end)
         }
     }
 
-    return pixels;
+    return line_t{pixels};
 }
 
-std::vector <pixel_t> bresenham_integer(point_t start, point_t end)
+line_t bresenham_integer(point_t start, point_t end)
 {
     std::vector<pixel_t> pixels;
 
@@ -116,15 +116,15 @@ std::vector <pixel_t> bresenham_integer(point_t start, point_t end)
         }
     }
 
-    return pixels;
+    return line_t{pixels};
 }
 
-std::vector <pixel_t> bresenham_smooth(point_t start, point_t end)
+line_t bresenham_smooth(point_t start, point_t end)
 {
     return bresenham_smooth(start, end, 255);
 }
 
-std::vector <pixel_t> bresenham_smooth(point_t start, point_t end, double max_intensity)
+line_t bresenham_smooth(point_t start, point_t end, double max_intensity)
 {
     std::vector<pixel_t> pixels;
 
@@ -178,5 +178,5 @@ std::vector <pixel_t> bresenham_smooth(point_t start, point_t end, double max_in
         }
     }
 
-    return pixels;
+    return line_t{pixels};
 }

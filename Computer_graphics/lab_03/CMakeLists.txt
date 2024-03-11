@@ -22,6 +22,9 @@ set(PROJECT_SOURCES
         algorithms/bresenham.cpp
         algorithms/dda.cpp
         algorithms/wu_alg.cpp
+        draw/draw.h
+        draw/draw.cpp
+        mygraphicsscene.h mygraphicsscene.cpp
 )
 
 
