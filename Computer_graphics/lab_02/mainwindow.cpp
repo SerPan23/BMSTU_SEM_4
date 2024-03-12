@@ -262,7 +262,7 @@ void MainWindow::draw_screen()
     };
 
     // if we want see standart figure
-    draw(&view, &this->standart_figure, Qt::lightGray);
+    // draw(&view, &this->standart_figure, Qt::lightGray);
 
     draw(&view, &this->figure);
 
