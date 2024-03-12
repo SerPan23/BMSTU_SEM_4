@@ -45,4 +45,6 @@ line_t wu(point_t start, point_t end, double max_intensity);
 
 int count_steps(line_t line);
 
+long time_measurement(point_t start, point_t end, line_t (*alg)(point_t start, point_t end));
+
 #endif // ALGORITHMS_H

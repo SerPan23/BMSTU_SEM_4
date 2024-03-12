@@ -47,5 +47,9 @@ private:
     void scene_clicked();
     void set_scale_center_text();
     void reset_scale_center();
+
+    void go_to_main_page();
+    void btn_time_cmp_clicked();
+    void btn_steps_cmp_clicked();
 };
 #endif // MAINWINDOW_H

@@ -4,6 +4,8 @@
 #include "algorithms/algorithms.h"
 #include <iostream>
 
+#include <QtCharts>
+
 void print_vector(std::vector <pixel_t> vec)
 {
     for (int i = 0; i < vec.size(); i++)
@@ -53,6 +55,18 @@ MainWindow::MainWindow(QWidget *parent):
             &MainWindow::reset_scale_center);
 
 
+    connect(ui->back_btn, &QPushButton::clicked, this,
+            &MainWindow::go_to_main_page);
+    connect(ui->back_btn_2, &QPushButton::clicked, this,
+            &MainWindow::go_to_main_page);
+
+    connect(ui->btn_time_cmp, &QPushButton::clicked, this,
+            &MainWindow::btn_time_cmp_clicked);
+
+    connect(ui->btn_steps_cmp, &QPushButton::clicked, this,
+            &MainWindow::btn_steps_cmp_clicked);
+
+
     connect(ui->scale_slider, &QSlider::valueChanged, this,
             &MainWindow::slider_scale_changed);
 
@@ -77,6 +91,8 @@ MainWindow::MainWindow(QWidget *parent):
 
     ui->angle->setValidator(int_validator);
     ui->radius->setValidator(double_validator);
+
+    ui->line_len->setValidator(double_validator);
 }
 
 void MainWindow::set_preview_widget_color(QWidget *widget, QColor color)
@@ -293,6 +309,154 @@ void MainWindow::scene_clicked()
     this->scale_center = scene->get_mouse_pos();
 
     set_scale_center_text();
+}
+
+void MainWindow::go_to_main_page()
+{
+    ui->pages->setCurrentIndex(0);
+}
+
+QChartView *create_graphic(QString title)
+{
+    auto series = new QLineSeries;
+
+    double min_x = 0, max_x = 15;
+    double min_y = 0, max_y = 15;
+
+    series->append(0, 6);
+    series->append(2, 4);
+    series->append(3, 8);
+    series->append(7, 4);
+    series->append(10, 5);
+
+    auto chart = new QChart;
+    chart->legend()->hide();
+    chart->addSeries(series);
+    // chart->createDefaultAxes();
+    chart->setTitle(title);
+
+
+    auto axisX = new QValueAxis;
+    axisX->setRange(min_x, max_x);
+    chart->addAxis(axisX, Qt::AlignBottom);
+    series->attachAxis(axisX);
+
+    auto axisY = new QValueAxis;
+    axisY->setRange(min_y, max_y);
+    chart->addAxis(axisY, Qt::AlignLeft);
+    series->attachAxis(axisY);
+
+    QChartView *chartView = new QChartView(chart);
+    chartView->setRenderHint(QPainter::Antialiasing);
+
+    return chartView;
+}
+
+void MainWindow::btn_steps_cmp_clicked()
+{
+    bool len_ok;
+
+    double line_len = ui->line_len->text().toDouble(&len_ok);
+
+    if (!len_ok)
+    {
+        show_err_msg("Не коректное значение длины");
+        return;
+    }
+
+
+    ui->pages->setCurrentIndex(1);
+
+    QLayoutItem *item;
+    while ((item = ui->grapchics_layout->takeAt(0)))
+        delete item;
+
+    // ui->main_page->addWidget(chartView);
+
+    ui->grapchics_layout->addWidget(create_graphic("Сравнение ступеньчатости | Длна отрезка = "
+                                                   + QString::number(line_len)), 0, 0);
+    ui->grapchics_layout->addWidget(create_graphic("ЦДА"), 0, 1);
+    ui->grapchics_layout->addWidget(create_graphic("Ву"), 0, 2);
+
+    ui->grapchics_layout->addWidget(create_graphic("Брезенхем"), 1, 0);
+    ui->grapchics_layout->addWidget(create_graphic("Брезенхем целочисленный"), 1, 1);
+    ui->grapchics_layout->addWidget(create_graphic("Брезенхем со сглаживанием"), 1, 2);
+
+    for(int c=0; c < ui->grapchics_layout->columnCount(); c++) ui->grapchics_layout->setColumnStretch(c,1);
+    for(int r=0; r < ui->grapchics_layout->rowCount(); r++)  ui->grapchics_layout->setRowStretch(r,1);
+
+}
+
+void MainWindow::btn_time_cmp_clicked()
+{
+    bool len_ok;
+
+    double line_len = ui->line_len->text().toDouble(&len_ok);
+
+    if (!len_ok)
+    {
+        show_err_msg("Не коректное значение длины");
+        return;
+    }
+
+
+    point_t start{0, 0};
+    point_t end{line_len, line_len};
+
+    std::vector<long> times;
+    times.push_back(time_measurement(start, end, dda));
+    times.push_back(time_measurement(start, end, bresenham_double));
+    times.push_back(time_measurement(start, end, bresenham_integer));
+    times.push_back(time_measurement(start, end, bresenham_smooth));
+    times.push_back(time_measurement(start, end, wu));
+
+
+    ui->pages->setCurrentIndex(2);
+
+    QLayoutItem *item;
+    while ((item = ui->time_layout->takeAt(0)))
+        delete item;
+
+
+    auto set0 = new QBarSet("ЦДА");
+    auto set1 = new QBarSet("Брезенхем");
+    auto set2 = new QBarSet("Брезенхем целочисленный");
+    auto set3 = new QBarSet("Брезенхем со сглаживанием");
+    auto set4 = new QBarSet("Ву");
+
+
+    double min_y = 0, max_y = (double) *max_element(times.begin(), times.end());
+
+    *set0 << times[0];
+    *set1 << times[1];
+    *set2 << times[2];
+    *set3 << times[3];
+    *set4 << times[4];
+
+    QBarSeries *series = new QBarSeries;
+    series->append(set0);
+    series->append(set1);
+    series->append(set2);
+    series->append(set3);
+    series->append(set4);
+
+    auto chart = new QChart;
+    chart->addSeries(series);
+    chart->setTitle("Сравнение времени работы алгоритмов");
+    chart->setAnimationOptions(QChart::SeriesAnimations);
+
+    auto axisY = new QValueAxis;
+    axisY->setRange(min_y, max_y);
+    chart->addAxis(axisY, Qt::AlignLeft);
+    series->attachAxis(axisY);
+
+    chart->legend()->setVisible(true);
+    chart->legend()->setAlignment(Qt::AlignBottom);
+
+    QChartView *chartView = new QChartView(chart);
+    chartView->setRenderHint(QPainter::Antialiasing);
+
+    ui->time_layout->addWidget(chartView);
 }
 
 MainWindow::~MainWindow()

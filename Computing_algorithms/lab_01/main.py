@@ -1,8 +1,6 @@
 import IO as io
 from Algorithms import *
 
-# TODO: Make Ermite method
-
 
 # points = io.read_table_from_file("./data/data_2.txt")
 points = io.read_table_from_file("./data/data_1.txt")
