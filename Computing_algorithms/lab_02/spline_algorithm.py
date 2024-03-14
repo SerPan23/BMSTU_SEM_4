@@ -50,15 +50,8 @@ def teta(fi, teta_i, ksi_i, h1, h2):
 def get_run_through_coeff(x_values, y_values, start, end):
     x_size = len(x_values)
 
-    if start == 0 and end == 0:
-        ksi_values = [0, 0]
-        teta_values = [0, 0]
-    elif start == 0:
-        ksi_values = [0, end / 2]
-        teta_values = [0, end / 2]
-    else:
-        ksi_values = [start / 2, end / 2]
-        teta_values = [start / 2, end / 2]
+    ksi_values = [start / 2, end / 2]
+    teta_values = [start / 2, end / 2]
 
     for i in range(2, x_size):
         h2 = x_values[i] - x_values[i - 1]       # hi
@@ -90,12 +83,13 @@ def get_c_values(x_values, y_values, start, end):
 
 
 def get_b_values(x_values, y_values, c_values):
-    b_values = list()
+    b_values = []
     for i in range(1, len(x_values) - 1):
         hi = x_values[i] - x_values[i - 1]
         b_values.append(B(y_values[i - 1], y_values[i],
                        c_values[i - 1], c_values[i], hi))
 
+    # вычисление bn
     hi = x_values[-1] - x_values[-2]
     b_values.append(B(y_values[-2], y_values[-1], 0, c_values[-1], hi))
 
@@ -111,6 +105,7 @@ def get_d_values(x_values, c_values):
         hi = x_values[i] - x_values[i - 1]
         d_values.append(D(c_values[i], c_values[i - 1], hi))
 
+    # вычисление dn
     hi = x_values[-1] - x_values[-2]
     d_values.append(D(0, c_values[-1], hi))
 
@@ -127,7 +122,7 @@ def get_coefs(x_values, y_values, start, end):
 
 
 def find_left_sector_index(x_values, x):
-    size = len(x_values)
+    size = len(x_values) - 1
     index = 1
 
     while index < size and x_values[index] < x:

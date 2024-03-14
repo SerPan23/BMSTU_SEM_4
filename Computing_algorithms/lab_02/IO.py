@@ -10,6 +10,13 @@ def read_table_from_file(path):
     return table
 
 
+def write_data_to_file(data, path):
+    with open(path, "w") as file:
+        for line in data:
+            row = str(line.x) + ' ' + str(line.y)
+            file.write(row + '\n')
+
+
 def print_table(pointTable):
     # COL_COUNT = 4
     COL_COUNT = 2

@@ -32,7 +32,7 @@ def get_work_points(data, index, n):
                 right += 1
     return data[left:right + 1]
 
-# расчет полином Ньютона м результаты в виде таблицы всех данных f(xi .... xn)
+
 def get_newton_table(data):
     data_cols_count = 2
     table_subs = []
@@ -77,7 +77,7 @@ def find_derivative_newton_polynom(data, n, x):
     y_derivative_n_2 = derivative(aprox_func, x, n=2, dx=1e-6)
     return y_derivative_n_2
 
-# расчет конечного результат по польном Ньютону
+
 def calc_approximate_value(subs_table, n, x):
     args_count = 2
 
