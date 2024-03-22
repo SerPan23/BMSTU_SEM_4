@@ -29,7 +29,7 @@ def teta_next(f_i, h, h_prev, teta, ksi):
     return (f_i - h_prev * teta) / (2 * (h + h_prev) + h_prev * ksi)
 
 
-def get_run_through_coeff(h_values, y_values, start):
+def get_run_through_coeff(h_values, y_values, start, end):
     ksi_start = 0
     teta_start = start
 
@@ -69,7 +69,7 @@ def C(ksi, c, teta):
 def get_c_values(h_values, y_values, start, end):
     c_values = [end]  # cN + 1
 
-    ksi_values, teta_values = get_run_through_coeff(h_values, y_values, start)
+    ksi_values, teta_values = get_run_through_coeff(h_values, y_values, start, end)
 
     for i in range(len(ksi_values) - 2, 1, -1):
         c_values.insert(0,
@@ -159,7 +159,7 @@ def debug_spline(data, x, x0_deriv, xn_deriv):
     a, h, b, c, d = get_coefs(x_values, y_values, x0_deriv, xn_deriv)
 
     ksi_values, teta_values = get_run_through_coeff(
-        h, y_values, x0_deriv / 2)
+        h, y_values, x0_deriv / 2, xn_deriv / 2)
 
     print("ksi: ", ksi_values)
     print("teta: ", teta_values)

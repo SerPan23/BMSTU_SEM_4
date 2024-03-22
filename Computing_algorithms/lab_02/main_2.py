@@ -1,6 +1,8 @@
 from newton_polynom import *
-from spline_algorithm_new import *
 import IO as io
+
+from spline_algorithm import *
+# from spline_algorithm_new import *
 
 
 data = io.read_table_from_file("./data/data_2.txt")
@@ -18,5 +20,5 @@ end1 = 12
 
 print("x ", x)
 
-print("Cплайн 0 и 0:             ", spline(data, x, start1, end1))
+print("Cплайн 0 и 0:             ", debug_spline(data, x, start1, end1))
 print("Func", func(x))

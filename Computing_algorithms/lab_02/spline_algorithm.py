@@ -4,8 +4,8 @@ def C(c_i, ksi_i, teta_i):
 # y1 = y_i-1
 # y2 = y_i
 # hi
-# c1 = c_i+1
-# c2 = c_i
+# c1 = c_i
+# c2 = c_i + 1
 def B(y1, y2, c1, c2, hi):
     return (y2 - y1) / hi - (hi * (c2 + 2 * c1) / 3)
 
@@ -15,7 +15,7 @@ def D(c1, c2, hi):
 
 
 def get_a_values(y_values):
-    a_values = [y_values[i] for i in range(len(y_values) - 1)]
+    a_values = y_values[:-1]
     return a_values
 
 
@@ -35,7 +35,8 @@ def fi(y1, y2, y3, h1, h2):
 # h1 = h_i-1
 # h2 = h_i
 def ksi(ksi1, h1, h2):
-    return - h1 / (h2 * ksi1 + 2 * (h2 + h1))
+    # return - h1 / (h2 * ksi1 + 2 * (h2 + h1))
+    return -(h2 / (h1 * ksi1 + 2 * (h1 + h2)))
 
 
 # fi - значение функции fi()
@@ -50,8 +51,8 @@ def teta(fi, teta_i, ksi_i, h1, h2):
 def get_run_through_coeff(x_values, y_values, start, end):
     x_size = len(x_values)
 
-    ksi_values = [start / 2, end / 2]
-    teta_values = [start / 2, end / 2]
+    ksi_values = [start, end]
+    teta_values = [start, end]
 
     for i in range(2, x_size):
         h2 = x_values[i] - x_values[i - 1]       # hi
@@ -69,8 +70,8 @@ def get_c_values(x_values, y_values, start, end):
     x_size = len(x_values)
 
     c_values = [0] * (x_size - 1)
-    c_values[0] = start
-    c_values[1] = end
+    c_values[0] = start / 2
+    c_values[1] = end / 2
     
     ksi_values, teta_values = get_run_through_coeff(x_values, y_values, start, end)
 
@@ -78,7 +79,8 @@ def get_c_values(x_values, y_values, start, end):
 
     for i in range(x_size - 2, 0, -1):
         c_values[i - 1] = C(c_values[i], ksi_values[i], teta_values[i])
-
+    
+    
     return c_values
 
 
@@ -138,6 +140,7 @@ def spline_polynom_calc(x, x_values, left_index, coefs):
     for i in range(4):
         y += coefs[i][left_index] * (h ** i)
 
+
     return y
 
 
@@ -150,5 +153,32 @@ def spline(data, x, start, end):
     left_index = find_left_sector_index(x_values, x)
 
     y = spline_polynom_calc(x, x_values, left_index, coeffs)
+
+    return y
+
+
+def debug_spline(data, x, start, end):
+
+    x_values = [i.x for i in data]
+    y_values = [i.y for i in data]
+
+    coeffs = get_coefs(x_values, y_values, start, end)
+
+    left_index = find_left_sector_index(x_values, x)
+
+    y = spline_polynom_calc(x, x_values, left_index, coeffs)
+
+    #debug
+
+    ksi_values, teta_values = get_run_through_coeff(
+        x_values, y_values, start, end)
+
+    print("ksi", ksi_values)
+    print("teta", teta_values)
+
+    print("a: ", coeffs[0])
+    print("b: ", coeffs[1])
+    print("c: ", coeffs[2])
+    print("d: ", coeffs[3])
 
     return y
