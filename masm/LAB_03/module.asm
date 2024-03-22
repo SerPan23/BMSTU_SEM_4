@@ -7,7 +7,9 @@ scan:
     mov ah, 08h
 	int 21h	
 
-    mov LETTER, al
+    mov bx, seg LETTER
+	mov es, bx
+    mov es:LETTER, al
 
 	retf
 SC2 ENDS
