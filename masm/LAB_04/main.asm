@@ -310,32 +310,12 @@ main:
     call char_to_num
     mov M_WIDTH, al
 
-
-    ; For test
     call go_to_new_str
     call input_matrix
 
     call modify_matrix
 
     call print_matrix
-
-    ; mov ROW_IND, 1
-    ; mov COL_IND, 2
-    ; mov dx, 4 + 30
-    ; mov NEW_EL, 4 + 30
-    ; call set_matrix_el
-
-
-    ; mov dx, 0
-    ; call get_matrix_el
-
-    ; call go_to_new_str
-    ; mov dl, M_HEIGHT
-    ; call print_char
-
-    ; call go_to_new_str
-    ; mov dl, M_WIDTH
-    ; call print_char
 
     mov ax, 4c00h
 	int 21h
