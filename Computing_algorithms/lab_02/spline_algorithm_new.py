@@ -150,7 +150,6 @@ def spline(data, x, x0_deriv, xn_deriv):
 
     return y
 
-
 def debug_spline(data, x, x0_deriv, xn_deriv):
 
     x_values = [i.x for i in data]

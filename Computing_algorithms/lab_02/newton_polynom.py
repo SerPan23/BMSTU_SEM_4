@@ -62,7 +62,7 @@ def newton_polynom(data, n, x):
     return calc_approximate_value(subs, n, x)
 
 
-def find_derivative_newton_polynom(data, n, x):
+def find_derivative_newton_polynom(data, n, x, der_n=2):
     working_table = get_work_points(data, get_index(data, x), n)
     subs = get_newton_table(working_table)
 
@@ -74,8 +74,8 @@ def find_derivative_newton_polynom(data, n, x):
             tmp *= x
         return res
 
-    y_derivative_n_2 = derivative(aprox_func, x, n=2, dx=1e-6)
-    return y_derivative_n_2
+    y_derivative_n = derivative(aprox_func, x, n=der_n, dx=1e-6)
+    return y_derivative_n
 
 
 def calc_approximate_value(subs_table, n, x):

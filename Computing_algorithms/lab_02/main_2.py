@@ -1,8 +1,8 @@
 from newton_polynom import *
 import IO as io
 
-from spline_algorithm import *
-# from spline_algorithm_new import *
+# from spline_algorithm import *
+from spline_algorithm_new import *
 
 
 data = io.read_table_from_file("./data/data_2.txt")

@@ -3,7 +3,8 @@ from Algorithms import *
 
 
 # points = io.read_table_from_file("./data/data_2.txt")
-points = io.read_table_from_file("./data/data_1.txt")
+# points = io.read_table_from_file("./data/data_1.txt")
+points = io.read_table_from_file("./data/data_3.txt")
 points.sort(key=lambda point: point.x)
 
 io.print_table(points)
