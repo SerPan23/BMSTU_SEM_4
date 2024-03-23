@@ -279,7 +279,7 @@ modify_matrix:
     mov al, M_HEIGHT
     mov dx, 2h
     div dl
-    add al, ah
+    add al, ah ; round
     mov cl, al
 
     mov ROW_IND, 0
