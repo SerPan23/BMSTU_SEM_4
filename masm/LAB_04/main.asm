@@ -75,7 +75,8 @@ get_matrix_el:
     mov ax, 0
     mov al, ROW_IND
     mov bx, 0
-    mov bl, M_WIDTH
+    ; mov bl, M_WIDTH
+    mov bl, 9
     mul bx ; result in ax
     ADD al, COL_IND
 
@@ -94,7 +95,8 @@ set_matrix_el:
     mov ax, 0
     mov al, ROW_IND
     mov bx, 0
-    mov bl, M_WIDTH
+    ; mov bl, M_WIDTH
+    mov bl, 9
     mul bx ; result in ax
     ADD al, COL_IND
 
