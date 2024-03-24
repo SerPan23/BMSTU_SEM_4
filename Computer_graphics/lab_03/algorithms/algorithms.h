@@ -6,6 +6,7 @@
 #include <iostream>
 
 #define sign(x)  (signbit(x) ?  -1 : 1)
+#define EPS 1e-8
 
 struct point
 {

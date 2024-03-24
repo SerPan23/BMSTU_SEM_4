@@ -218,7 +218,7 @@ void MainWindow::btn_draw_line_spectrum_clicked()
         return;
     }
 
-    clear_screen();
+    // clear_screen();
 
     QString algorithm = ui->algorithm_selection->currentText();
     line_t line;
@@ -237,6 +237,8 @@ void MainWindow::btn_draw_line_spectrum_clicked()
         point_t end{
             start.x + radius * cos((M_PI / 180) * i),
             start.y + radius * sin((M_PI / 180) * i * -1)};
+
+        std::cout << i << " " << end.x << " " << end.y << std::endl;
 
         if (algorithm == "Библиотечный")
         {
