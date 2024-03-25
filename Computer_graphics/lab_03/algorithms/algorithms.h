@@ -35,14 +35,21 @@ pixel_t pixel_create(int x, int y);
 pixel_t pixel_create(int x, int y, double intensity);
 
 line_t dda(point_t start, point_t end);
+int dda_step_count(point_t start, point_t end);
 
 line_t bresenham_double(point_t start, point_t end);
+int bresenham_double_step_count(point_t start, point_t end);
+
 line_t bresenham_integer(point_t start, point_t end);
+int bresenham_integer_step_count(point_t start, point_t end);
+
 line_t bresenham_smooth(point_t start, point_t end);
 line_t bresenham_smooth(point_t start, point_t end, double max_intensity);
+int bresenham_smooth_step_count(point_t start, point_t end);
 
 line_t wu(point_t start, point_t end);
 line_t wu(point_t start, point_t end, double max_intensity);
+int wu_step_count(point_t start, point_t end);
 
 int count_steps(line_t line);
 

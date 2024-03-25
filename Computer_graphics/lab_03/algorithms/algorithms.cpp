@@ -10,25 +10,6 @@ pixel_t pixel_create(int x, int y, double intensity)
     return pixel_t{x, y, intensity};
 }
 
-int count_steps(line_t line)
-{
-    int count = 0;
-
-    int x = line.pixels[0].x;
-    int y = line.pixels[0].y;
-
-    for (int i = 0; i < line.pixels.size(); i++)
-    {
-        if (x != line.pixels[i].x and y != line.pixels[i].y)
-            count += 1;
-        x = line.pixels[i].x;
-        y = line.pixels[i].y;
-    }
-
-    return count;
-}
-
-
 static long delta_time(struct timespec mt1, struct timespec mt2)
 {
     return 1000000000 * (mt2.tv_sec - mt1.tv_sec) + (mt2.tv_nsec - mt1.tv_nsec);

@@ -171,6 +171,7 @@ void MainWindow::btn_draw_line_clicked()
     line_t line;
 
     draw_view_t view = {
+        .view = ui->graphicsView,
         .scene = &this->pxp,
         .width = ui->graphicsView->scene()->width(),
         .height = ui->graphicsView->scene()->height(),
@@ -224,6 +225,7 @@ void MainWindow::btn_draw_line_spectrum_clicked()
     line_t line;
 
     draw_view_t view = {
+        .view = ui->graphicsView,
         .scene = &this->pxp,
         .width = ui->graphicsView->scene()->width(),
         .height = ui->graphicsView->scene()->height(),
@@ -232,13 +234,13 @@ void MainWindow::btn_draw_line_spectrum_clicked()
     point_t start{round(view.width / 2), round(view.height / 2)};
 
 
-    for (int i = 0; i <= 360; i += angle)
+    for (int i = 0; i < 360; i += angle)
     {
         point_t end{
             start.x + radius * cos((M_PI / 180) * i),
             start.y + radius * sin((M_PI / 180) * i * -1)};
 
-        std::cout << i << " " << end.x << " " << end.y << std::endl;
+        // std::cout << i << " " << end.x << " " << end.y << std::endl;
 
         if (algorithm == "Библиотечный")
         {
@@ -266,9 +268,6 @@ void MainWindow::btn_draw_line_spectrum_clicked()
 
 void  MainWindow::clear_screen()
 {
-    // this->pxp.fill();
-    // ui->graphicsView->scene()->addPixmap(this->pxp);
-
     this->pxp = QPixmap(ui->graphicsView->scene()->width(), ui->graphicsView->scene()->height());
     this->pxp.fill(Qt::transparent);
 
@@ -318,40 +317,62 @@ void MainWindow::go_to_main_page()
     ui->pages->setCurrentIndex(0);
 }
 
-QChartView *create_graphic(QString title)
+QLineSeries *create_line_series(QString name, std::vector<int> &steps_count, QColor color, int max_ang, int step_ang)
 {
     auto series = new QLineSeries;
 
-    double min_x = 0, max_x = 15;
-    double min_y = 0, max_y = 15;
+    // double min_x = 0, max_x = max_ang;
+    // double min_y = 0, max_y = (int) *max_element(steps_count.begin(), steps_count.end());
 
-    series->append(0, 6);
-    series->append(2, 4);
-    series->append(3, 8);
-    series->append(7, 4);
-    series->append(10, 5);
+    int ang = 0;
 
+    for (int i = 0; i < steps_count.size(); i++, ang += step_ang)
+        series->append(ang, steps_count[i]);
+
+    series->setColor(color);
+    series->setName(name);
+
+    return series;
+}
+
+QChartView *create_graphic(QString title, std::vector<QLineSeries *> &series_vec, point_t min, point_t max)
+{
     auto chart = new QChart;
-    chart->legend()->hide();
-    chart->addSeries(series);
+    // chart->legend()->hide();
+
+    auto axisX = new QValueAxis;
+    axisX->setRange(min.x, max.x);
+    chart->addAxis(axisX, Qt::AlignBottom);
+    // // series->attachAxis(axisX);
+
+    auto axisY = new QValueAxis;
+    axisY->setRange(min.y, max.y);
+    chart->addAxis(axisY, Qt::AlignLeft);
+    // series->attachAxis(axisY);
+
+    for (int i = 0; i < series_vec.size(); i++)
+    {
+        chart->addSeries(series_vec[i]);
+        series_vec[i]->attachAxis(axisX);
+        series_vec[i]->attachAxis(axisY);
+    }
+
+    // chart->addSeries(series);
     // chart->createDefaultAxes();
     chart->setTitle(title);
 
-
-    auto axisX = new QValueAxis;
-    axisX->setRange(min_x, max_x);
-    chart->addAxis(axisX, Qt::AlignBottom);
-    series->attachAxis(axisX);
-
-    auto axisY = new QValueAxis;
-    axisY->setRange(min_y, max_y);
-    chart->addAxis(axisY, Qt::AlignLeft);
-    series->attachAxis(axisY);
 
     QChartView *chartView = new QChartView(chart);
     chartView->setRenderHint(QPainter::Antialiasing);
 
     return chartView;
+}
+
+QChartView *create_graphic(QString title, QLineSeries *series, point_t min, point_t max)
+{
+    std::vector<QLineSeries *> series_vec;
+    series_vec.push_back(series);
+    return create_graphic(title, series_vec, min, max);
 }
 
 void MainWindow::btn_steps_cmp_clicked()
@@ -367,7 +388,85 @@ void MainWindow::btn_steps_cmp_clicked()
     }
 
 
-    ui->pages->setCurrentIndex(1);
+    point_t start{0, 0};
+
+    int max_ang = 90;
+    int step_ang = 5;
+
+    std::vector<int> dda_steps_counts;
+    std::vector<int> bresenham_double_steps_counts;
+    std::vector<int> bresenham_integer_steps_counts;
+    std::vector<int> bresenham_smooth_steps_counts;
+    std::vector<int> wu_steps_counts;
+
+    for (int i = 0; i <= max_ang; i += step_ang)
+    {
+        point_t end{
+                    start.x + line_len * cos((M_PI / 180) * i),
+                    start.y + line_len * sin((M_PI / 180) * i * -1)};
+
+        dda_steps_counts.push_back(dda_step_count(start, end));
+        bresenham_double_steps_counts.push_back(bresenham_double_step_count(start, end));
+        bresenham_integer_steps_counts.push_back(bresenham_integer_step_count(start, end));
+        bresenham_smooth_steps_counts.push_back(bresenham_smooth_step_count(start, end));
+        wu_steps_counts.push_back(wu_step_count(start, end));
+    }
+
+    int max_el = (int) *max_element(dda_steps_counts.begin(), dda_steps_counts.end());
+    max_el = std::max(max_el, (int) *max_element(bresenham_double_steps_counts.begin(),
+                                                 bresenham_double_steps_counts.end()));
+    max_el = std::max(max_el, (int) *max_element(bresenham_integer_steps_counts.begin(),
+                                                 bresenham_integer_steps_counts.end()));
+    max_el = std::max(max_el, (int) *max_element(bresenham_smooth_steps_counts.begin(),
+                                                 bresenham_smooth_steps_counts.end()));
+    max_el = std::max(max_el, (int) *max_element(wu_steps_counts.begin(),
+                                                 wu_steps_counts.end()));
+
+
+    // for (int i = 0; i <= max_ang; i += step_ang)
+    //     std::cout << i << " ";
+    // std::cout << std::endl;
+
+    // for (int i = 0; i < dda_steps_counts.size(); i++)
+    // {
+    //     std::cout << dda_steps_counts[i] << " ";
+    // }
+    // std::cout << std::endl;
+
+    // for (int i = 0; i < bresenham_double_steps_counts.size(); i++)
+    // {
+    //     std::cout << bresenham_double_steps_counts[i] << " ";
+    // }
+    // std::cout << std::endl;
+
+    // for (int i = 0; i < bresenham_integer_steps_counts.size(); i++)
+    // {
+    //     std::cout << bresenham_integer_steps_counts[i] << " ";
+    // }
+    // std::cout << std::endl;
+
+    // for (int i = 0; i < bresenham_smooth_steps_counts.size(); i++)
+    // {
+    //     std::cout << bresenham_smooth_steps_counts[i] << " ";
+    // }
+    // std::cout << std::endl;
+
+    // for (int i = 0; i < wu_steps_counts.size(); i++)
+    // {
+    //     std::cout << wu_steps_counts[i] << " ";
+    // }
+    // std::cout << std::endl;
+
+    point_t min{0, 0};
+    point_t max{(double)max_ang, (double)max_el};
+
+
+    std::vector<QLineSeries *> series_vec;
+    series_vec.push_back(create_line_series("ЦДА", dda_steps_counts, Qt::blue, max_ang, step_ang));
+    series_vec.push_back(create_line_series("Брезенхем",bresenham_double_steps_counts, QColor::fromRgb(255, 190, 26), max_ang, step_ang));
+    series_vec.push_back(create_line_series("Брезенхем целочисленный", bresenham_integer_steps_counts, Qt::red, max_ang, step_ang));
+    series_vec.push_back(create_line_series("Брезенхем со сглаживанием", bresenham_smooth_steps_counts, Qt::green, max_ang, step_ang));
+    series_vec.push_back(create_line_series("Ву", wu_steps_counts, QColor::fromRgb(255, 26, 232), max_ang, step_ang));
 
     QLayoutItem *item;
     while ((item = ui->grapchics_layout->takeAt(0)))
@@ -375,18 +474,32 @@ void MainWindow::btn_steps_cmp_clicked()
 
     // ui->main_page->addWidget(chartView);
 
-    ui->grapchics_layout->addWidget(create_graphic("Сравнение ступеньчатости | Длна отрезка = "
-                                                   + QString::number(line_len)), 0, 0);
-    ui->grapchics_layout->addWidget(create_graphic("ЦДА"), 0, 1);
-    ui->grapchics_layout->addWidget(create_graphic("Ву"), 0, 2);
+    // ui->grapchics_layout->addWidget(create_graphic("Сравнение ступеньчатости | Длна отрезка = "
+    //                                                + QString::number(line_len), series_vec), 0, 0);
 
-    ui->grapchics_layout->addWidget(create_graphic("Брезенхем"), 1, 0);
-    ui->grapchics_layout->addWidget(create_graphic("Брезенхем целочисленный"), 1, 1);
-    ui->grapchics_layout->addWidget(create_graphic("Брезенхем со сглаживанием"), 1, 2);
+    ui->grapchics_layout->addWidget(create_graphic("Сравнение ступеньчатости", series_vec, min, max), 0, 0);
+
+    ui->grapchics_layout->addWidget(create_graphic("ЦДА", create_line_series("ЦДА", dda_steps_counts, Qt::blue,
+                                                                             max_ang, step_ang), min, max), 0, 1);
+    ui->grapchics_layout->addWidget(create_graphic("Ву", create_line_series("Ву", wu_steps_counts, QColor::fromRgb(255, 26, 232),
+                                                                            max_ang, step_ang), min, max), 0, 2);
+
+    ui->grapchics_layout->addWidget(create_graphic("Брезенхем",
+                                                   create_line_series("Брезенхем",bresenham_double_steps_counts,
+                                                                      QColor::fromRgb(255, 190, 26), max_ang, step_ang)
+                                                   , min, max), 1, 0);
+    ui->grapchics_layout->addWidget(create_graphic("Брезенхем целочисленный",
+                                                   create_line_series("Брезенхем целочисленный", bresenham_integer_steps_counts,
+                                                                      Qt::red, max_ang, step_ang), min, max), 1, 1);
+    ui->grapchics_layout->addWidget(create_graphic("Брезенхем со сглаживанием",
+                                                   create_line_series("Брезенхем со сглаживанием", bresenham_smooth_steps_counts,
+                                                                      Qt::green, max_ang, step_ang), min, max), 1, 2);
+
 
     for(int c=0; c < ui->grapchics_layout->columnCount(); c++) ui->grapchics_layout->setColumnStretch(c,1);
     for(int r=0; r < ui->grapchics_layout->rowCount(); r++)  ui->grapchics_layout->setRowStretch(r,1);
 
+    ui->pages->setCurrentIndex(1);
 }
 
 void MainWindow::btn_time_cmp_clicked()

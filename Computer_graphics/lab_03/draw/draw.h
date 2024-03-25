@@ -3,9 +3,11 @@
 
 #include <QPainter>
 #include "algorithms.h"
+#include <QGraphicsView>
 
 struct draw_view
 {
+    QGraphicsView view;
     QPixmap *scene;
     double width;
     double height;

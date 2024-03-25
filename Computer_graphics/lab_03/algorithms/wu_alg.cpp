@@ -116,3 +116,76 @@ line_t wu(point_t start, point_t end, double max_intensity)
 
     return line_t{pixels};
 }
+
+
+int wu_step_count(point_t start, point_t end)
+{
+    if (start.x == end.x && start.y == end.y)
+        return 0;
+
+    double max_intensity = 255;
+
+    bool steep = abs(end.y - start.y) > abs(end.x - start.x);
+
+    if (steep) {
+        double buf = start.x;
+        start.x = start.y;
+        start.y = buf;
+
+        buf = end.x;
+        end.x = end.y;
+        end.y = buf;
+    }
+
+    if (start.x > end.x) {
+        double buf = start.x;
+        start.x = end.x;
+        end.x = buf;
+
+        buf = end.y;
+        end.y = start.y;
+        start.y = buf;
+    }
+
+    double dx = end.x - start.x;
+    double dy = end.y - start.y;
+
+    double gradient;
+
+    if (abs(dx) < EPS)
+        gradient = 1.0;
+    else
+        gradient = dy / dx;
+
+
+    // handle first endpoint
+    double xend = round(start.x);
+    double yend = start.y + gradient * (xend - start.x);
+
+    double xpxl1 = xend; // this will be used in the main loop
+    double ypxl1 = floor(yend);
+
+    double intery = yend + gradient; // first y-intersection for the main loop
+
+    // handle second endpoint
+    xend = round(end.x);
+
+    double xpxl2 = xend; //this will be used in the main loop
+
+
+
+    bool is_prev = false;
+    int x_prev = steep ? ypxl1 : xpxl1;
+    int steps = 0;
+
+    for (int x = xpxl1; x <= xpxl2; x++)
+    {
+        if (x_prev != floor(intery))
+            steps++;
+
+        x_prev = floor(intery);
+        intery += gradient;
+    }
+
+    return steps;
+}

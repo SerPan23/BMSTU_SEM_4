@@ -242,3 +242,4 @@ CMakeLists.txt.user*
 *.dll
 *.exe
 
+*.err
