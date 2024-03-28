@@ -327,11 +327,13 @@ QChartView *create_graphic(QString title, std::vector<QLineSeries *> &series_vec
 
     auto axisX = new QValueAxis;
     axisX->setRange(min.x, max.x);
+    axisX->setTitleText("Угол наклона (градусы)");
     chart->addAxis(axisX, Qt::AlignBottom);
     // // series->attachAxis(axisX);
 
     auto axisY = new QValueAxis;
     axisY->setRange(min.y, max.y);
+    axisY->setTitleText("Кол-во ступенек");
     chart->addAxis(axisY, Qt::AlignLeft);
     // series->attachAxis(axisY);
 
@@ -546,6 +548,7 @@ void MainWindow::btn_time_cmp_clicked()
 
     auto axisY = new QValueAxis;
     axisY->setRange(min_y, max_y);
+    axisY->setTitleText("Время (нс)");
     chart->addAxis(axisY, Qt::AlignLeft);
     series->attachAxis(axisY);
 
