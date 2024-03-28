@@ -11,8 +11,8 @@ line_t bresenham_double(point_t start, point_t end)
         int x = start.x;
         int y = start.y;
 
-        double dx = (end.x - start.x);
-        double dy = (end.y - start.y);
+        int dx = (end.x - start.x);
+        int dy = (end.y - start.y);
 
         int sx = sign(dx);
         int sy = sign(dy);
@@ -31,11 +31,9 @@ line_t bresenham_double(point_t start, point_t end)
         double m = 1.0 * dy / dx;
         double error = m - 0.5;
 
-        int idx = (int)dx;
-        for (int i = 0; i < idx + 1; i++)
+        for (int i = 0; i < dx; i++)
         {
             pixels.push_back(pixel_create(x, y));
-            // pixels.push_back(pixel_create((int)round(x), (int)round(y)));
 
             if (error >= 0)
             {
@@ -162,7 +160,7 @@ line_t bresenham_integer(point_t start, point_t end)
             exchange = true;
         }
 
-        double error = 2 * dy - dx;
+        int error = 2 * dy - dx;
 
         for (int i = 0; i < dx; i++)
         {
@@ -221,7 +219,7 @@ int bresenham_integer_step_count(point_t start, point_t end)
         exchange = true;
     }
 
-    double error = 2 * dy - dx;
+    int error = 2 * dy - dx;
 
     bool is_prev = false;
     int x_prev = 0;
