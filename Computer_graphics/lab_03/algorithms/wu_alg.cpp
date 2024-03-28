@@ -176,7 +176,7 @@ int wu_step_count(point_t start, point_t end)
 
     bool is_prev = false;
     int x_prev = steep ? ypxl1 : xpxl1;
-    int steps = 0;
+    int steps = 1;
 
     for (int x = xpxl1; x <= xpxl2; x++)
     {

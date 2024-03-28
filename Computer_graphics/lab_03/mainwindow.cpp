@@ -127,6 +127,37 @@ void MainWindow::btn_line_color_change_clicked()
     set_preview_widget_color(ui->line_color_preview, this->line_color);
 }
 
+void MainWindow::draw_line_by_algo(QString algorithm, point_t &start, point_t &end)
+{
+    line_t line;
+
+    draw_view_t view = {
+        .scene = &this->pxp,
+        .width = ui->graphicsView->scene()->width(),
+        .height = ui->graphicsView->scene()->height(),
+    };
+
+    if (algorithm == "Библиотечный")
+    {
+        draw_line(&view, this->line_color, start, end);
+    }
+    else
+    {
+        if (algorithm == "ЦДА")
+            line = dda(start, end);
+        else if (algorithm == "Брезенхем")
+            line = bresenham_double(start, end);
+        else if (algorithm == "Брезенхем целочисленный")
+            line = bresenham_integer(start, end);
+        else if (algorithm == "Брезенхем со сглаживанием")
+            line = bresenham_smooth(start, end);
+        else if (algorithm == "Ву")
+            line = wu(start, end);
+
+        draw_line(&view, this->line_color, line);
+    }
+}
+
 void MainWindow::btn_draw_line_clicked()
 {
     bool start_x_ok, start_y_ok;
@@ -168,36 +199,10 @@ void MainWindow::btn_draw_line_clicked()
     point_t end{end_x, end_y};
 
     QString algorithm = ui->algorithm_selection->currentText();
-    line_t line;
 
-    draw_view_t view = {
-        .view = ui->graphicsView,
-        .scene = &this->pxp,
-        .width = ui->graphicsView->scene()->width(),
-        .height = ui->graphicsView->scene()->height(),
-    };
+    draw_line_by_algo(algorithm, start, end);
 
-    if (algorithm == "Библиотечный")
-    {
-        draw_line(&view, this->line_color, start, end);
-    }
-    else
-    {
-        if (algorithm == "ЦДА")
-            line = dda(start, end);
-        else if (algorithm == "Брезенхем")
-            line = bresenham_double(start, end);
-        else if (algorithm == "Брезенхем целочисленный")
-            line = bresenham_integer(start, end);
-        else if (algorithm == "Брезенхем со сглаживанием")
-            line = bresenham_smooth(start, end);
-        else if (algorithm == "Ву")
-            line = wu(start, end);
-
-        draw_line(&view, this->line_color, line);
-    }
-
-    ui->graphicsView->scene()->addPixmap(this->pxp);
+    draw();
 }
 
 void MainWindow::btn_draw_line_spectrum_clicked()
@@ -224,14 +229,8 @@ void MainWindow::btn_draw_line_spectrum_clicked()
     QString algorithm = ui->algorithm_selection->currentText();
     line_t line;
 
-    draw_view_t view = {
-        .view = ui->graphicsView,
-        .scene = &this->pxp,
-        .width = ui->graphicsView->scene()->width(),
-        .height = ui->graphicsView->scene()->height(),
-    };
-
-    point_t start{round(view.width / 2), round(view.height / 2)};
+    point_t start{round(ui->graphicsView->scene()->width() / 2),
+                  round(ui->graphicsView->scene()->height() / 2)};
 
 
     for (int i = 0; i < 360; i += angle)
@@ -242,28 +241,10 @@ void MainWindow::btn_draw_line_spectrum_clicked()
 
         // std::cout << i << " " << end.x << " " << end.y << std::endl;
 
-        if (algorithm == "Библиотечный")
-        {
-            draw_line(&view, this->line_color, start, end);
-        }
-        else
-        {
-            if (algorithm == "ЦДА")
-                line = dda(start, end);
-            else if (algorithm == "Брезенхем")
-                line = bresenham_double(start, end);
-            else if (algorithm == "Брезенхем целочисленный")
-                line = bresenham_integer(start, end);
-            else if (algorithm == "Брезенхем со сглаживанием")
-                line = bresenham_smooth(start, end);
-            else if (algorithm == "Ву")
-                line = wu(start, end);
-
-            draw_line(&view, this->line_color, line);
-        }
+        draw_line_by_algo(algorithm, start, end);
     }
 
-    ui->graphicsView->scene()->addPixmap(this->pxp);
+    draw();
 }
 
 void  MainWindow::clear_screen()
@@ -273,6 +254,11 @@ void  MainWindow::clear_screen()
 
 
     ui->graphicsView->scene()->clear();
+}
+
+void MainWindow::draw()
+{
+    ui->graphicsView->scene()->addPixmap(this->pxp);
 }
 
 void MainWindow::slider_scale_changed()

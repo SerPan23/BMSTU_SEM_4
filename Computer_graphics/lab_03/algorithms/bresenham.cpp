@@ -65,7 +65,7 @@ int bresenham_double_step_count(point_t start, point_t end)
     if (start.x == end.x && start.y == end.y)
         return 0;
 
-    int steps = 0;
+    int steps = 1;
 
     int x = start.x;
     int y = start.y;
@@ -197,7 +197,7 @@ int bresenham_integer_step_count(point_t start, point_t end)
     if (start.x == end.x && start.y == end.y)
         return 0;
 
-    int steps = 0;
+    int steps = 1;
 
     int x = start.x;
     int y = start.y;
@@ -330,7 +330,7 @@ int bresenham_smooth_step_count(point_t start, point_t end)
     if (start.x == end.x && start.y == end.y)
         return 0;
 
-    int steps = 0;
+    int steps = 1;
 
     double max_intensity = 255;
 

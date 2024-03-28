@@ -42,6 +42,8 @@ private:
     void btn_draw_line_spectrum_clicked();
 
     void clear_screen();
+    void draw_line_by_algo(QString algorithm, point_t &start, point_t &end);
+    void draw();
 
     void slider_scale_changed();
     void scene_clicked();
