@@ -1,38 +1,38 @@
 #include "algorithms.h"
 
-// line_t dda(point_t start, point_t end)
-// {
-//     std::vector <pixel_t> pixels;
+line_t dda(point_t start, point_t end)
+{
+    std::vector <pixel_t> pixels;
 
-//     if (start.x == end.x && start.y == end.y)
-//         pixels.push_back(pixel_create((int)round(start.x), (int)round(start.y)));
-//     else
-//     {
-//         double x = start.x;
-//         double y = start.y;
+    if (start.x == end.x && start.y == end.y)
+        pixels.push_back(pixel_create((int)round(start.x), (int)round(start.y)));
+    else
+    {
+        double x = start.x;
+        double y = start.y;
 
-//         int len;
-//         double dx = (end.x - start.x);
-//         double dy = (end.y - start.y);
+        double len;
+        double dx = (end.x - start.x);
+        double dy = (end.y - start.y);
 
-//         if (abs(dx) > abs(dy))
-//             len = abs(dx);
-//         else
-//             len = abs(dy);
+        if (abs(dx) > abs(dy))
+            len = abs(dx);
+        else
+            len = abs(dy);
 
-//         dx = dx / len;
-//         dy = dy / len;
+        dx = dx / len;
+        dy = dy / len;
 
-//         for (int i = 0; i < len + 1; i++)
-//         {
-//             pixels.push_back(pixel_create((int)round(x), (int)round(y)));
-//             x += dx;
-//             y += dy;
-//         }
-//     }
+        for (int i = 0; i <= len; i++)
+        {
+            pixels.push_back(pixel_create((int)round(x), (int)round(y)));
+            x += dx;
+            y += dy;
+        }
+    }
 
-//     return line_t{pixels};
-// }
+    return line_t{pixels};
+}
 
 // int dda_step_count(point_t start, point_t end)
 // {
@@ -82,39 +82,6 @@
 
 //     return steps;
 // }
-
-line_t dda(point_t start, point_t end)
-{
-    std::vector <pixel_t> pixels;
-
-    if (start.x == end.x && start.y == end.y)
-        pixels.push_back(pixel_create((int)round(start.x), (int)round(start.y)));
-    else
-    {
-        double x1 = start.x;
-        double y1 = start.y;
-
-        double x2 = end.x;
-        double y2 = end.y;
-
-
-        double l = std::max(abs(x2 - x1), abs(y2 - y1));
-
-        double dx = (x2 - x1) / l;
-        double dy = (y2 - y1) / l;
-
-        double x = x1;
-        double y = y1;
-
-        for (int i = 0; i <= l; i++) {
-            pixels.push_back(pixel_create((int)round(x), (int)round(y)));
-            x += dx;
-            y += dy;
-        }
-    }
-
-    return line_t{pixels};
-}
 
 int dda_step_count(point_t start, point_t end)
 {

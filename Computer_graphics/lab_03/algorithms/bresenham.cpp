@@ -5,14 +5,14 @@ line_t bresenham_double(point_t start, point_t end)
     std::vector<pixel_t> pixels;
 
     if (start.x == end.x && start.y == end.y)
-        pixels.push_back(pixel_create((int)(start.x), (int)(start.y)));
+        pixels.push_back(pixel_create((int)round(start.x), (int)round(start.y)));
     else
     {
         int x = start.x;
         int y = start.y;
 
-        int dx = (end.x - start.x);
-        int dy = (end.y - start.y);
+        double dx = (end.x - start.x);
+        double dy = (end.y - start.y);
 
         int sx = sign(dx);
         int sy = sign(dy);
@@ -31,9 +31,11 @@ line_t bresenham_double(point_t start, point_t end)
         double m = 1.0 * dy / dx;
         double error = m - 0.5;
 
-        for (int i = 0; i < dx; i++)
+        int idx = (int)dx;
+        for (int i = 0; i < idx + 1; i++)
         {
             pixels.push_back(pixel_create(x, y));
+            // pixels.push_back(pixel_create((int)round(x), (int)round(y)));
 
             if (error >= 0)
             {
