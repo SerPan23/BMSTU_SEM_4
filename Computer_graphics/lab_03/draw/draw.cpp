@@ -4,10 +4,14 @@
 void draw_line(draw_view_t *view, QColor color, point_t start, point_t end)
 {
     QPainter painter(view->scene);
+
+
     QPen pen(color);
     pen.setWidth(1);
     painter.setPen(pen);
-    painter.drawLine(start.x, start.y, end.x, end.y);
+    // painter.drawLine(start.x, start.y, end.x, end.y);
+    painter.drawLine((int)round(start.x), (int)round(start.y),
+                     (int)round(end.x), (int)round(end.y));
 
     // pen.setColor(Qt::red);
     // painter.setPen(pen);

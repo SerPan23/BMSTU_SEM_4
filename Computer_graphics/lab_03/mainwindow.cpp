@@ -235,9 +235,8 @@ void MainWindow::btn_draw_line_spectrum_clicked()
 
     for (int i = 0; i < 360; i += angle)
     {
-        point_t end{
-            start.x + radius * cos((M_PI / 180) * i),
-            start.y + radius * sin((M_PI / 180) * i * -1)};
+        point_t end{round(start.x + radius * cos((M_PI / 180) * i)),
+                    round(start.y + radius * sin((M_PI / 180) * i * -1))};
 
         // std::cout << i << " " << end.x << " " << end.y << std::endl;
 
@@ -346,7 +345,6 @@ QChartView *create_graphic(QString title, std::vector<QLineSeries *> &series_vec
     // chart->addSeries(series);
     // chart->createDefaultAxes();
     chart->setTitle(title);
-
 
     QChartView *chartView = new QChartView(chart);
     chartView->setRenderHint(QPainter::Antialiasing);
