@@ -31,7 +31,7 @@ line_t bresenham_double(point_t start, point_t end)
         double m = 1.0 * dy / dx;
         double error = m - 0.5;
 
-        for (int i = 0; i < dx; i++)
+        for (int i = 0; i < dx + 1; i++)
         {
             pixels.push_back(pixel_create(x, y));
 
@@ -94,7 +94,7 @@ int bresenham_double_step_count(point_t start, point_t end)
     int x_prev = 0;
     int y_prev = 0;
 
-    for (int i = 0; i < dx; i++)
+    for (int i = 0; i < dx + 1; i++)
     {
         if (is_prev)
         {
@@ -162,7 +162,7 @@ line_t bresenham_integer(point_t start, point_t end)
 
         int error = 2 * dy - dx;
 
-        for (int i = 0; i < dx; i++)
+        for (int i = 0; i < dx + 1; i++)
         {
             pixels.push_back(pixel_create(x, y));
 
@@ -225,7 +225,7 @@ int bresenham_integer_step_count(point_t start, point_t end)
     int x_prev = 0;
     int y_prev = 0;
 
-    for (int i = 0; i < dx; i++)
+    for (int i = 0; i < dx + 1; i++)
     {
         if (is_prev)
         {
@@ -296,11 +296,11 @@ line_t bresenham_smooth(point_t start, point_t end, double max_intensity)
             exchange = true;
         }
 
-        double m = max_intensity * dy / dx;
+        double m = max_intensity * 1.0 * dy / dx;
         double error = max_intensity / 2;
         double w = max_intensity - m;
 
-        for (int i = 0; i < dx; i++)
+        for (int i = 0; i < dx + 1; i++)
         {
             pixels.push_back(pixel_create(x, y, round(error)));
 
@@ -362,7 +362,7 @@ int bresenham_smooth_step_count(point_t start, point_t end)
     int x_prev = 0;
     int y_prev = 0;
 
-    for (int i = 0; i < dx; i++)
+    for (int i = 0; i < dx + 1; i++)
     {
         if (is_prev)
         {
