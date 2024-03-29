@@ -3,7 +3,7 @@
 .386
 EXTRN BIN_NUMBER: byte
 
-PUBLIC output_word_to_byte
+PUBLIC output_uint_to_char
 
 SSTK SEGMENT para STACK USE16 'STACK'
     DB 100 dup(0)
@@ -175,7 +175,7 @@ print_sign:
     ret
 
 
-output_word_to_byte:
+output_uint_to_char:
     PUSHA
 
     mov ax, SD_OUT2

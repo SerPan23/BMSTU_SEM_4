@@ -18,7 +18,7 @@
 
 EXTRN input_bin_number: near
 EXTRN output_unsigned_hex: near
-EXTRN output_word_to_byte: near
+EXTRN output_uint_to_char: near
 EXTRN output_highest_power_of_2: near
 
 EXTRN BIN_NUMBER:byte
@@ -29,9 +29,14 @@ SSTK SEGMENT para STACK USE16 'STACK'
 SSTK ENDS
 
 SD SEGMENT para USE16 'DATA'
-    MSG_INP_H  DB 13 
-        DB 'Input height: '
-        DB '$'
+    MENU_FUNCS DW 4 dup(?)
+    MSG_MENU  DB 0ah, 0dh,
+        '1) Input bin number', 0ah, 0dh,
+        '2) Output unsigned hex', 0ah, 0dh,
+        '3) Output uint to char', 0ah, 0dh,
+        '4) Output highest power of 2', 0ah, 0dh,
+        '0) EXIT', '$'
+    MSG_INPUT_ITEM DB 'Enter menu item (0-4): ', '$'
 SD ENDS
 
 
@@ -39,45 +44,126 @@ SC SEGMENT para public USE16 'CODE'
 	assume CS:SC, DS:SD
 
 print_char:
+    push ax
     mov ah, 02h
     int 21h
+    pop ax
     ret
 
 go_to_new_str:
+    push dx
     mov dl, 10
     call print_char
 
     mov dl, 13
     call print_char
+    pop dx
+    ret
 
+fill_array:
+    lea si, OFFSET MENU_FUNCS
+
+    mov WORD PTR [si], input_bin_number
+    add si, 2
+
+    mov WORD PTR [si], output_unsigned_hex
+    add si, 2
+
+    mov WORD PTR [si], output_uint_to_char
+    add si, 2
+
+    mov WORD PTR [si], output_highest_power_of_2
+    
+    ret
+
+; data in dx for examle: mov dx, OFFSET MSG where MSG in DATA
+print_str:
+    mov ah, 09h
+    int 21h
+    ret
+
+print_menu:
+    mov dx, OFFSET MSG_MENU
+
+    call print_str
+
+    call go_to_new_str
+
+    ret
+
+; data in al
+scan_char_with_echo:
+    mov ah, 01h
+	int 21h	
+	ret
+
+; in - al
+; out - al
+char_to_num:
+    SUB al, 30h
+    ret
+
+scan_menu_item:
+    mov ax, 0
+    mov dx, OFFSET MSG_INPUT_ITEM
+    call print_str
+
+    call scan_char_with_echo
+    call char_to_num
+
+    ret
+
+call_func:
+    push ax
+
+    dec al
+
+    mov bx, 2
+    mul bl
+
+    lea bx, MENU_FUNCS
+    add bx, ax
+
+    call WORD PTR [bx]
+
+    pop ax
     ret
 
 main:
     mov ax, SD
     mov ds, ax
 
-    call input_bin_number
+    call fill_array
 
-    call go_to_new_str
-    call output_unsigned_hex
+    menu_loop:
+        mov ax, SD
+        mov ds, ax
 
-    call go_to_new_str
-    call output_word_to_byte
+        call print_menu
+        call scan_menu_item
 
-    call go_to_new_str
-    call output_highest_power_of_2
+        cmp al, 0
+        je exit
 
-    ; mov bx, seg input_bin_number
-	; mov es, bx
+        call go_to_new_str
 
-    ; call es:input_bin_number
-
-    ; mov bx, seg output_unsigned_hex
-	; mov es, bx
-
-    ; call es:output_unsigned_hex
+        call call_func
+        jmp menu_loop
+    
 
 
+    ; call input_bin_number
+
+    ; call go_to_new_str
+    ; call output_unsigned_hex
+
+    ; call go_to_new_str
+    ; call output_word_to_byte
+
+    ; call go_to_new_str
+    ; call output_highest_power_of_2
+
+    exit:
     mov ax, 4c00h
 	int 21h
 
