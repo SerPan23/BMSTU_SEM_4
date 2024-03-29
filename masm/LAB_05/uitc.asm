@@ -12,6 +12,7 @@ SSTK ENDS
 SD_OUT2 SEGMENT para USE16 'DATA_OUT1'
     NUM_STR DB 3 dup('0')
     BIN_INDEX DB 15
+    MSG_OUT DB 'Num in 8bit signed decimal: ', '$'
 SD_OUT2 ENDS
 
 SC SEGMENT para public USE16 'CODE'
@@ -25,6 +26,14 @@ print_char:
     mov ah, 02h
     int 21h
     
+    pop ax
+    ret
+
+; data in dx for examle: mov dx, OFFSET MSG where MSG in DATA
+print_str:
+    push ax
+    mov ah, 09h
+    int 21h
     pop ax
     ret
 
@@ -189,8 +198,12 @@ output_uint_to_char:
 
     call num_to_str
 
-    call print_sign
+    push dx
+    mov dx, OFFSET MSG_OUT 
+    call print_str
+    pop dx
 
+    call print_sign
     call print_num_str
     
 

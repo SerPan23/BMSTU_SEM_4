@@ -78,8 +78,10 @@ fill_array:
 
 ; data in dx for examle: mov dx, OFFSET MSG where MSG in DATA
 print_str:
+    push ax
     mov ah, 09h
     int 21h
+    pop ax
     ret
 
 print_menu:
@@ -148,6 +150,8 @@ main:
         call go_to_new_str
 
         call call_func
+        
+        call go_to_new_str
         jmp menu_loop
     
 

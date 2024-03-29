@@ -11,6 +11,7 @@ SSTK ENDS
 
 SD_OUT3 SEGMENT para USE16 'DATA_OUT1'
     BIN_INDEX DB 15
+    MSG_OUT DB 'Highest power of 2 (and pow of power): ', '$'
 SD_OUT3 ENDS
 
 SC SEGMENT para public USE16 'CODE'
@@ -24,6 +25,14 @@ print_char:
     mov ah, 02h
     int 21h
     
+    pop ax
+    ret
+
+; data in dx for examle: mov dx, OFFSET MSG where MSG in DATA
+print_str:
+    push ax
+    mov ah, 09h
+    int 21h
     pop ax
     ret
 
@@ -127,6 +136,11 @@ output_highest_power_of_2:
     call bin_to_num ; out dx
     call find_power ; out ax
     call find_power_num ; out bx
+
+    push dx
+    mov dx, OFFSET MSG_OUT 
+    call print_str
+    pop dx
 
     mov dl, al
     call num_to_char

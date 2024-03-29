@@ -41,8 +41,10 @@ go_to_new_str:
 
 ; data in dx for examle: mov dx, OFFSET MSG where MSG in DATA
 print_str:
+    push ax
     mov ah, 09h
     int 21h
+    pop ax
     ret
 
 ; in - dl

@@ -21,6 +21,7 @@ SD_OUT1 SEGMENT para USE16 'DATA_OUT1'
 
     BIN_INDEX DB 15
 
+    MSG_OUT DB 'Num in unsigned hex: ', '$'
 SD_OUT1 ENDS
 
 SC SEGMENT para public USE16 'CODE'
@@ -34,6 +35,14 @@ print_char:
     mov ah, 02h
     int 21h
 
+    pop ax
+    ret
+
+; data in dx for examle: mov dx, OFFSET MSG where MSG in DATA
+print_str:
+    push ax
+    mov ah, 09h
+    int 21h
     pop ax
     ret
 
@@ -211,6 +220,11 @@ output_unsigned_hex:
 
     call clear_num
     call cast_num_to_unsigned_hex
+
+    push dx
+    mov dx, OFFSET MSG_OUT 
+    call print_str
+    pop dx
 
     call print_hex_str
 
