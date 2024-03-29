@@ -17,7 +17,8 @@
 .386
 
 EXTRN input_bin_number: near
-; EXTRN output_unsigned_hex: near
+EXTRN output_unsigned_hex: near
+EXTRN output_word_to_byte: near
 
 EXTRN BIN_NUMBER:byte
 
@@ -58,7 +59,11 @@ main:
 
     call go_to_new_str
 
-    ; call output_unsigned_hex
+    call output_unsigned_hex
+
+    call go_to_new_str
+
+    call output_word_to_byte
 
     ; mov bx, seg input_bin_number
 	; mov es, bx

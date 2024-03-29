@@ -5,11 +5,11 @@ EXTRN BIN_NUMBER: byte
 
 PUBLIC output_unsigned_hex
 
-SSTK SEGMENT USE16 para STACK 'STACK'
+SSTK SEGMENT para STACK USE16 'STACK'
     DB 100 dup(0)
 SSTK ENDS
 
-SD_OUT1 SEGMENT USE16 para 'DATA_OUT1'
+SD_OUT1 SEGMENT para USE16 'DATA_OUT1'
     ALPHABET DB 'A'
         DB 'B'
         DB 'C'
@@ -23,8 +23,19 @@ SD_OUT1 SEGMENT USE16 para 'DATA_OUT1'
 
 SD_OUT1 ENDS
 
-SC SEGMENT USE16 para public 'CODE'
+SC SEGMENT para public USE16 'CODE'
 	assume CS:SC, DS:SD_OUT1
+
+; data in dl
+print_char:
+    push ax
+
+    mov ax, 0
+    mov ah, 02h
+    int 21h
+
+    pop ax
+    ret
 
 clear_num:
     PUSHA
@@ -47,10 +58,7 @@ clear_num:
 ; in ax
 ; out ax
 transform_num_to_hex_digit:
-    PUSHA
-
-    mov ax, SD_OUT1
-    mov ds, ax
+    ; PUSHA
 
     cmp ax, 9
     jbe transform_num_to_char
@@ -69,7 +77,7 @@ transform_num_to_hex_digit:
         ADD ax, '0'
 
     end_tr:
-        POPA
+        ; POPA
     ret
 
 ; pow - ax
@@ -78,53 +86,53 @@ two_power:
     push cx
     push dx
     mov cx, ax
-    mov ax, 1
+    mov ax, 0
+    mov al, 1
     
     cmp cx, 0
     je end_power
 
-    mov dx, 2
+    mov dx, 0
+    mov dl, 2
     
     power_loop:
-        mul dx
+        mul dl
         loop power_loop
 
 
     end_power:
-    pop cx
     pop dx
+    pop cx
     ret
 
 ; in tetrad num - ax
 ; out - ax
 cast_one_digit:
     push cx
-    push ax
     push bx
+    push ax
 
-    mov ax, SD_OUT1
-    mov ds, ax
-
-    mov bx, seg BIN_NUMBER_DATA
+    mov bx, seg BIN_NUMBER
 	mov es, bx
     
     mov cx, 4
     mov dx, 0
     tet_loop:
+        push cx
         push dx
-        lea si, OFFSET es:BIN_NUMBER_DATA
+        lea si, OFFSET es:BIN_NUMBER
 
         mov bx, 0
         mov bl, BIN_INDEX
         ADD si, bx
 
         mov bx, 0
-        mov bl, BYTE PTR [si]
+        mov bl, es:[BYTE PTR [si]]
 
 
         mov ax, 4
         sub ax, cx ; two power
-
+ 
         call two_power
 
         mul bx
@@ -133,6 +141,7 @@ cast_one_digit:
         add dx, ax
         
         dec BIN_INDEX
+        pop cx
         loop tet_loop
 
 
@@ -147,8 +156,8 @@ cast_one_digit:
     add si, ax
     mov BYTE PTR [si], dl
 
-    pop cx
     pop bx
+    pop cx
     ret
 
 
@@ -157,11 +166,6 @@ cast_one_digit:
 ; = (0+0+0+1)(8+0+2+0) = (1)(10) = 1A in (16)
 
 cast_num_to_unsigned_hex:
-    PUSHA
-    mov ax, SD_OUT1
-    mov ds, ax
-
-
     mov cx, 4
     cast_loop:
         mov ax, cx
@@ -169,16 +173,34 @@ cast_num_to_unsigned_hex:
         call cast_one_digit
 
         loop cast_loop
-
-    
-
-    POPA
     ret
 
-; data in dl
-print_char:
-    mov ah, 02h
-    int 21h
+print_hex_str:
+    lea si, HEX_NUM_16
+
+    mov cx, 4
+    mov ax, 0 ; flag
+    print_loop:
+        push cx
+
+        cmp ax, 0
+        je check_p
+        jne print_p
+        
+        check_p:
+        cmp BYTE PTR [si], '0'
+        je loop_end
+        mov ax, 1
+
+        print_p:
+        mov dx, 0
+        mov dl, BYTE PTR [si]
+        call print_char
+
+        loop_end:
+        INC si
+        pop cx
+        loop print_loop
     ret
 
 output_unsigned_hex:
@@ -187,22 +209,10 @@ output_unsigned_hex:
     mov ax, SD_OUT1
     mov ds, ax
 
-    ; call clear_num
+    call clear_num
     call cast_num_to_unsigned_hex
 
-    mov cx, 4
-    mov ax, 0
-    print_loop:
-        push cx
-        lea si, HEX_NUM_16
-        add si, ax
-        mov dx, 0
-        mov dl, BYTE PTR [si]
-
-        call print_char
-
-        pop cx
-        loop print_loop
+    call print_hex_str
 
     POPA
     ret
