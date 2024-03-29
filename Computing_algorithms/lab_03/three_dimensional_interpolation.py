@@ -2,8 +2,8 @@ from Point import *
 
 from newton_polynom import newton_polynom
 
-from spline_algorithm import spline
-# from spline_algorithm_new import spline
+# from spline_algorithm import spline
+from spline_algorithm_new import spline
 
 def three_dimensional_interpolation(data, point, algo_list, newton_ns):
     start = 0
@@ -32,6 +32,10 @@ def three_dimensional_interpolation(data, point, algo_list, newton_ns):
             for j in range(len(x_arr)):
                 x_values.append(Point(x_arr[j], matrix[k][i][j]))
 
+            # print("Значение для нахождение nx: (x_values)")
+            # for el in x_values:
+            #     print(el.x, el.y)
+            # print("end\n")
             
             if algo_list[0] == "newton":
                 tmp = Point(y_arr[i], newton_polynom(
@@ -40,6 +44,11 @@ def three_dimensional_interpolation(data, point, algo_list, newton_ns):
                 tmp = Point(y_arr[i], spline(x_values, point[0], start, end))
                 
             y_values.append(tmp)
+            
+        # print("Значение для нахождение ny: (y_values)")
+            # for el in y_values:
+            #     print(el.x, el.y)
+            # print("end\n")
 
         if algo_list[0] == "newton":
             tmp = Point(z_arr[k], newton_polynom(
@@ -48,6 +57,11 @@ def three_dimensional_interpolation(data, point, algo_list, newton_ns):
             tmp = Point(z_arr[k], spline(y_values, point[1], start, end))
             
         z_values.append(tmp)
+    
+    # print("Значение для нахождение полином Ньютона nz: (z_values)")
+    # for el in z_values:
+    #     print(el.x, el.y)
+    # print("end\n")
         
     result = 0
     if algo_list[0] == "newton":

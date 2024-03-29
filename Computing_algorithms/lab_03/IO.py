@@ -1,4 +1,27 @@
 from Point import Point
+import numpy as np
+
+def generateData(f, x_s, x_e, x_c, y_s, y_e, y_c, z_s, z_e, z_c):
+    x_index = 0
+    y_index = 1
+    z_index = 2
+    matrix_index = 3
+    dataTable = [[], [], [], [[]]]
+
+    dataTable[x_index] = np.linspace(x_s, x_e, x_c)
+    dataTable[y_index] = np.linspace(y_s, y_e, y_c)
+    dataTable[z_index] = np.linspace(z_s, z_e, z_c)
+
+
+    for i in range(z_c):
+        dataTable[matrix_index].append([])
+        for j in range(y_c):
+            dataTable[matrix_index][i].append([])
+            for k in range(x_c):
+                dataTable[matrix_index][i][j].append(f(dataTable[x_index][k],
+                                                        dataTable[y_index][j],
+                                                        dataTable[z_index][i]))
+    return dataTable
 
 def read_data_from_file(path):
     matrix = [[]]

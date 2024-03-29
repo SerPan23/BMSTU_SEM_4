@@ -1,5 +1,6 @@
 import IO as io
 from three_dimensional_interpolation import three_dimensional_interpolation
+import numpy as np
 
 algorithms = ["newton", "spline"]
 
@@ -11,13 +12,27 @@ def choose_algorithm():
     return algorithms[c - 1]
 
 
+# data = io.read_data_from_file("./data/data_1.txt")
+x_start, x_end, x_counts = -5, 5, 20
+y_start, y_end, y_counts = -3, 4, 50
+z_start, z_end, z_counts = -1, 2, 30
 
-data = io.read_data_from_file("./data/data_1.txt")
 
-io.print_data(data)
+def f(x, y, z):
+    # return 1 / (x + y) - z
+    # return z * x * y
+    # return (x**2 + y**2) / z
+    return np.exp(2 * x - y) * z**2
 
-point = [1.5, 1.5, 1.5]
-newton_ns = [1, 1, 1]
+
+data = io.generateData(f, x_start, x_end, x_counts,
+                      y_start, y_end, y_counts,
+                      z_start, z_end, z_counts)
+
+# io.print_data(data)
+
+point = [-0.152, 1.141, 1.43]
+newton_ns = [3, 2, 5]
 
 
 # algo_list = ["newton", "newton", "newton"]
@@ -27,7 +42,7 @@ newton_ns = [1, 1, 1]
 
 
 
-point = [float(input(f"Enter {letters} coord: ")) for letters in ['x', 'y', 'z']]
+# point = [float(input(f"Enter {letters} coord: ")) for letters in ['x', 'y', 'z']]
 
 algo_list = ['', '', '']
 
@@ -37,14 +52,14 @@ c = int(input("Enter number of algorithm: "))
 if c == 1:
     for i in range(3):
         algo_list[i] = algorithms[0]
-        newton_ns[i] = int(input(f"Enter n_{i}: "))
+        # newton_ns[i] = int(input(f"Enter n_{i}: "))
 elif c == 2:
     algo_list = [algorithms[1] for _ in range(3)]
 else:
     for i in range(3):
         algo_list[i] = choose_algorithm()
-        if algo_list[i] == 'newton':
-            newton_ns[i] = int(input(f"Enter n_{i}: "))
+        # if algo_list[i] == 'newton':
+        #     newton_ns[i] = int(input(f"Enter n_{i}: "))
 
 
 print("u = f(x, y, z) = ", three_dimensional_interpolation(
