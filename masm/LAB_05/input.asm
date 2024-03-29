@@ -1,7 +1,7 @@
 ; ● ввод 16-разрядного числа беззнаковое в 2 с/с;
 .386
-PUBLIC input_str
-PUBLIC BIN_NUMBER_DATA
+PUBLIC input_bin_number
+PUBLIC BIN_NUMBER
 
 SSTK SEGMENT para STACK USE16 'STACK'
     DB 100 dup(0)
@@ -9,38 +9,68 @@ SSTK ENDS
 
 SD_INP SEGMENT para USE16 'DATA_INPUT'
     BIN_NUMBER_STR LABEL BYTE
-    BIN_NUMBER_SIZE DB 16
-    BIN_NUMBER_READED DB 0
-    BIN_NUMBER_DATA DB 16 dup('0')
+    BIN_STR_SIZE DB 17
+    BIN_STR_READED DB 0
+    BIN_STR_DATA DB 16 dup('0')
     BIN_END DB '$'
-    ; BIN_NUMBER_STR LABEL BYTE
-    ; BIN_NUMBER_SIZE DB 16
-    ; BIN_NUMBER_READED DB 16
-    ; BIN_NUMBER_DATA DB '0000000000011010'
-    ; BIN_END DB '$'
+
+    BIN_NUMBER DB 16 dup(0)
+    
 
     MSG_INP_BN  DB 13 
         DB 'Input bin number: '
         DB '$'
 SD_INP ENDS
 
-SCI SEGMENT para public USE16 'CODE'
-	assume CS:SCI, DS:SD_INP
+SC SEGMENT para public USE16 'CODE'
+	assume CS:SC, DS:SD_INP
+
+print_char:
+    mov ah, 02h
+    int 21h
+    ret
+
+go_to_new_str:
+    mov dl, 10
+    call print_char
+
+    mov dl, 13
+    call print_char
+
+    ret
+
+; data in dx for examle: mov dx, OFFSET MSG where MSG in DATA
+print_str:
+    mov ah, 09h
+    int 21h
+    ret
+
+; in - dl
+; out - dl
+num_to_char:
+    ADD dl, 30h
+    ret
+
+; in - al
+; out - al
+char_to_num:
+    SUB al, 30h
+    ret
 
 clear_data:
     ; PUSHA
 
-    mov ax, SD_INP
-    mov ds, ax
+    ; mov ax, SD_INP
+    ; mov ds, ax
 
     mov ax, 0
-    mov al, BIN_NUMBER_SIZE
+    mov al, BIN_STR_SIZE
     DEC ax
 
     mov cx, 0
-    mov cl, BIN_NUMBER_SIZE
+    mov cl, BIN_STR_SIZE
     clear_loop:
-        lea si, BIN_NUMBER_DATA
+        lea si, BIN_STR_DATA
         add si, ax
         mov BYTE PTR [si], 0
         DEC ax
@@ -49,27 +79,78 @@ clear_data:
     ; POPA
     ret
 
-input_str proc far
+input_str:
     ; PUSHA
-    mov ax, SD_INP
-    mov ds, ax
+    ; mov ax, SD_INP
+    ; mov ds, ax
 
-    ; call clear_data
+    call clear_data
 
     mov dx, offset BIN_NUMBER_STR
     mov ax, 0
     mov ah, 0ah
-    int 21h  
+    int 21h    
 
-    mov dx, offset BIN_NUMBER_STR
-    mov ax, 0
-    mov ah, 9
-    int 21h      
+    mov BIN_END, '$'
 
     ; POPA
-    retf
-input_str endp
+    ret
+
+; str: 1111 1010 0000 0000
+; read: 7
+; cx: read - 1
+; ind: start init read and dec in iter
+; str_ind: start_str + (read - ind) | 6   init start_str and inc in iter
+; num_ind: start_num + (16 - ind)   | 15  init start_num + (16 - ind) and inc in iter
+; num: 0000 0000 0111 1101
+
+bin_str_to_num:
+    cmp BIN_STR_READED, 0
+    je exit_convert
+    
+    ; init str_ind
+    lea si, BIN_STR_DATA
+
+    ; init start_num
+    mov bx, 0
+    lea bx, BIN_NUMBER
+    add bx, 16
+    sub bl, BIN_STR_READED
+
+    mov cx, 0
+    mov cl, BIN_STR_READED
+    ; DEC cx
+
+    convert_loop:
+        mov ax, 0
+        mov al, BYTE PTR [si]
+        call char_to_num
+        mov BYTE PTR [bx], al
+
+        inc si
+        inc bx
+        loop convert_loop
+
+    exit_convert:
+    ret
+
+input_bin_number:
+    PUSHA
+    mov ax, SD_INP
+    mov ds, ax
+
+    mov dx, OFFSET MSG_INP_BN
+    call print_str
+
+    call input_str
+    
+    call go_to_new_str
+
+    call bin_str_to_num
+
+    POPA
+    ret
 
 
-SCI ENDS
+SC ENDS
 END

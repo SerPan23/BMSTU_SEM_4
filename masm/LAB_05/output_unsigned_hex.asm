@@ -1,7 +1,7 @@
 ; ● вывод его в беззнаковое в 16 с/с
 .386
 
-EXTRN BIN_NUMBER_DATA: byte
+EXTRN BIN_NUMBER: byte
 
 PUBLIC output_unsigned_hex
 
@@ -23,8 +23,8 @@ SD_OUT1 SEGMENT USE16 para 'DATA_OUT1'
 
 SD_OUT1 ENDS
 
-SCO1 SEGMENT USE16 para public 'CODE'
-	assume CS:SCO1, DS:SD_OUT1
+SC SEGMENT USE16 para public 'CODE'
+	assume CS:SC, DS:SD_OUT1
 
 clear_num:
     PUSHA
@@ -111,6 +111,7 @@ cast_one_digit:
     mov cx, 4
     mov dx, 0
     tet_loop:
+        push dx
         lea si, OFFSET es:BIN_NUMBER_DATA
 
         mov bx, 0
@@ -128,6 +129,7 @@ cast_one_digit:
 
         mul bx
 
+        pop dx
         add dx, ax
         
         dec BIN_INDEX
@@ -185,22 +187,25 @@ output_unsigned_hex:
     mov ax, SD_OUT1
     mov ds, ax
 
-    call clear_num
+    ; call clear_num
     call cast_num_to_unsigned_hex
 
     mov cx, 4
     mov ax, 0
     print_loop:
+        push cx
         lea si, HEX_NUM_16
         add si, ax
         mov dx, 0
         mov dl, BYTE PTR [si]
 
         call print_char
+
+        pop cx
         loop print_loop
 
     POPA
-    retf
+    ret
 
-SCO1 ENDS
+SC ENDS
 END

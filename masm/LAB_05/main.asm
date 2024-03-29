@@ -16,10 +16,10 @@
 ; индексом выбранного пункта меню.
 .386
 
-EXTRN input_str: far
-; EXTRN output_unsigned_hex: far
+EXTRN input_bin_number: near
+; EXTRN output_unsigned_hex: near
 
-EXTRN BIN_NUMBER_DATA:byte
+EXTRN BIN_NUMBER:byte
 
 
 SSTK SEGMENT para STACK USE16 'STACK'
@@ -33,19 +33,37 @@ SD SEGMENT para USE16 'DATA'
 SD ENDS
 
 
-SC1 SEGMENT para public USE16 'CODE'
-	assume CS:SC1, DS:SD
+SC SEGMENT para public USE16 'CODE'
+	assume CS:SC, DS:SD
+
+print_char:
+    mov ah, 02h
+    int 21h
+    ret
+
+go_to_new_str:
+    mov dl, 10
+    call print_char
+
+    mov dl, 13
+    call print_char
+
+    ret
 
 main:
     mov ax, SD
     mov ds, ax
 
-    call input_str
+    call input_bin_number
 
-    ; mov bx, seg input_str
+    call go_to_new_str
+
+    ; call output_unsigned_hex
+
+    ; mov bx, seg input_bin_number
 	; mov es, bx
 
-    ; call es:input_str
+    ; call es:input_bin_number
 
     ; mov bx, seg output_unsigned_hex
 	; mov es, bx
@@ -56,5 +74,5 @@ main:
     mov ax, 4c00h
 	int 21h
 
-SC1 ENDS
+SC ENDS
 END main
