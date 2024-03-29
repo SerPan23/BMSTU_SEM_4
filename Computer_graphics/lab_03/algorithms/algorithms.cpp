@@ -17,7 +17,7 @@ static long delta_time(struct timespec mt1, struct timespec mt2)
 
 long time_measurement(point_t start, point_t end, line_t (*alg)(point_t start, point_t end))
 {
-    int ITER_COUNT_TIME = 100;
+    int ITER_COUNT_TIME = 150;
     long time1;
     long sum1 = 0;
     struct timespec tbegin, tend;
