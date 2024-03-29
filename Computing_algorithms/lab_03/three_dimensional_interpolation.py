@@ -1,7 +1,9 @@
 from Point import *
 
 from newton_polynom import newton_polynom
+
 from spline_algorithm import spline
+# from spline_algorithm_new import spline
 
 def three_dimensional_interpolation(data, point, algo_list, newton_ns):
     start = 0
