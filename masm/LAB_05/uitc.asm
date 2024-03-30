@@ -42,10 +42,10 @@ clear_num:
     mov ax, SD_OUT2
     mov ds, ax
 
-    mov ax, 0
+    lea si, NUM_STR
+
     mov cx, 3
-    clear_loop:
-        lea si, NUM_STR
+    clear_loop: 
         mov BYTE PTR [si], '0'
         inc si
         loop clear_loop

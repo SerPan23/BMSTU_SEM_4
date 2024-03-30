@@ -11,7 +11,8 @@ SSTK ENDS
 
 SD_OUT3 SEGMENT para USE16 'DATA_OUT1'
     BIN_INDEX DB 15
-    MSG_OUT DB 'Highest power of 2 (and pow of power): ', '$'
+    ; MSG_OUT DB 'Highest power of 2 (and pow of power): ', '$'
+    MSG_OUT DB 'Highest power of 2: ', '$'
 SD_OUT3 ENDS
 
 SC SEGMENT para public USE16 'CODE'
@@ -107,16 +108,30 @@ bin_to_num:
 ; in - dx
 ; out - ax
 ; n & (~(n - 1))
-find_power:
-    mov ax, dx
+; find_power:
+;     push cx
 
-    mov cx, ax
-    dec cx
-    not cx
+;     cmp dx, 0
+;     je zero_in
+;     jne normal
 
-    and ax, cx
+;     zero_in:
+;     mov ax, 1
+;     jmp exit
 
-    ret
+
+;     normal:
+;     mov ax, dx
+
+;     mov cx, ax
+;     dec cx
+;     not cx
+
+;     and ax, cx
+
+;     exit:
+;     pop cx
+;     ret
 
 ; in - ax
 ; out - bx
@@ -130,11 +145,14 @@ output_highest_power_of_2:
     mov ax, SD_OUT3
     mov ds, ax
 
+    mov BIN_INDEX, 15
+
     mov bx, seg BIN_NUMBER
 	mov es, bx
 
     call bin_to_num ; out dx
-    call find_power ; out ax
+    ; call find_power ; out ax
+    mov ax, dx
     call find_power_num ; out bx
 
     push dx
@@ -142,21 +160,25 @@ output_highest_power_of_2:
     call print_str
     pop dx
 
-    mov dl, al
-    call num_to_char
-    call print_char
-
-    mov dl, ' '
-    call print_char
-     mov dl, '('
-    call print_char
-
     mov dl, bl
     call num_to_char
     call print_char
 
-    mov dl, ')'
-    call print_char
+    ; mov dl, al
+    ; call num_to_char
+    ; call print_char
+
+    ; mov dl, ' '
+    ; call print_char
+    ;  mov dl, '('
+    ; call print_char
+
+    ; mov dl, bl
+    ; call num_to_char
+    ; call print_char
+
+    ; mov dl, ')'
+    ; call print_char
 
     POPA
     ret

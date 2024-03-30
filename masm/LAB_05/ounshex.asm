@@ -51,13 +51,12 @@ clear_num:
     mov ax, SD_OUT1
     mov ds, ax
 
-    mov ax, 3
+    lea si, HEX_NUM_16
+
     mov cx, 4
     clear_loop:
-        lea si, HEX_NUM_16
-        add si, ax
         mov BYTE PTR [si], '0'
-        DEC ax
+        inc si
         loop clear_loop
 
     mov BIN_INDEX, 15

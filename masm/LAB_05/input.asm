@@ -64,20 +64,29 @@ clear_data:
 
     ; mov ax, SD_INP
     ; mov ds, ax
+    push ax
+    push cx
 
-    mov ax, 0
-    mov al, BIN_STR_SIZE
-    DEC ax
+    ; mov ax, 0
+    ; mov al, BIN_STR_SIZE
+    ; DEC ax
+    lea si, BIN_STR_DATA
+    lea bx, BIN_NUMBER
 
     mov cx, 0
-    mov cl, BIN_STR_SIZE
+    mov cl, 16
     clear_loop:
-        lea si, BIN_STR_DATA
-        add si, ax
-        mov BYTE PTR [si], 0
-        DEC ax
+        mov BYTE PTR [si], '0'
+        mov BYTE PTR [bx], 0
+        inc si
+        inc bx
         loop clear_loop
 
+    mov BIN_STR_READED, 0
+    mov BIN_END, '$'
+
+    pop cx
+    pop ax
     ; POPA
     ret
 
@@ -140,6 +149,8 @@ input_bin_number:
     PUSHA
     mov ax, SD_INP
     mov ds, ax
+
+    call clear_data
 
     mov dx, OFFSET MSG_INP_BN
     call print_str
