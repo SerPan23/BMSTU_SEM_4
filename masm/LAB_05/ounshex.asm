@@ -209,6 +209,17 @@ print_hex_str:
         INC si
         pop cx
         loop print_loop
+
+    cmp ax, 0
+    je print_zero
+    jne exit
+
+    print_zero:
+    mov dx, 0
+    mov dl, '0'
+    call print_char
+    
+    exit:
     ret
 
 output_unsigned_hex:

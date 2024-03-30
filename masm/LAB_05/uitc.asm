@@ -85,7 +85,7 @@ cast_word_to_byte:
 	; mov es, bx
 
     mov dx, 0
-    mov cx, 8
+    mov cx, 7
     cast_loop:
         push cx
         push dx
@@ -100,7 +100,7 @@ cast_word_to_byte:
         mov bl, es:[BYTE PTR [si]]
 
 
-        mov ax, 8
+        mov ax, 7
         sub ax, cx ; two power
  
         call two_power
@@ -165,7 +165,16 @@ print_num_str:
         pop cx
         loop print_loop
 
+    cmp ax, 0
+    je print_zero
+    jne exit
 
+    print_zero:
+    mov dx, 0
+    mov dl, '0'
+    call print_char
+
+    exit:
     ret
 
 

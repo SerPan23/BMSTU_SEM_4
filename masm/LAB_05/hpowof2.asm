@@ -70,37 +70,65 @@ two_power:
     ret
 
 ; out in dx
+; bin_to_num:
+;     ; mov bx, seg BIN_NUMBER
+; 	; mov es, bx
+
+;     mov dx, 0
+;     mov cx, 16
+;     cast_loop:
+;         push cx
+;         push dx
+
+;         lea si, OFFSET es:BIN_NUMBER
+
+;         mov bx, 0
+;         mov bl, BIN_INDEX
+;         ADD si, bx
+
+;         mov bx, 0
+;         mov bl, es:[BYTE PTR [si]]
+
+
+;         mov ax, 16
+;         sub ax, cx ; two power
+ 
+;         call two_power
+
+;         mul bx
+
+;         pop dx
+;         add dx, ax
+        
+;         dec BIN_INDEX
+;         pop cx
+;         loop cast_loop
+;     ret
+
+; out in dx
 bin_to_num:
     ; mov bx, seg BIN_NUMBER
 	; mov es, bx
 
+    lea si, OFFSET es:BIN_NUMBER
+
     mov dx, 0
-    mov cx, 16
+    mov cx, 15
     cast_loop:
         push cx
-        push dx
+        ; push dx
 
-        lea si, OFFSET es:BIN_NUMBER
+        ; mov bx, 0
+        ; mov bl, es:[BYTE PTR [si]]
 
-        mov bx, 0
-        mov bl, BIN_INDEX
-        ADD si, bx
+        mov ax, 0
+        mov al, es:[BYTE PTR [si]]
 
-        mov bx, 0
-        mov bl, es:[BYTE PTR [si]]
-
-
-        mov ax, 16
-        sub ax, cx ; two power
- 
-        call two_power
-
-        mul bx
-
-        pop dx
-        add dx, ax
+        ; pop dx
+        or dx, ax
+        sal dx, 1
         
-        dec BIN_INDEX
+        inc si
         pop cx
         loop cast_loop
     ret
@@ -150,19 +178,44 @@ output_highest_power_of_2:
     mov bx, seg BIN_NUMBER
 	mov es, bx
 
-    call bin_to_num ; out dx
-    ; call find_power ; out ax
-    mov ax, dx
-    call find_power_num ; out bx
-
     push dx
     mov dx, OFFSET MSG_OUT 
     call print_str
     pop dx
 
+    call bin_to_num ; out dx
+    ; call find_power ; out ax
+    mov ax, dx
+    mov bx, 0
+    call find_power_num ; out bx
+
+    ; push dx
+    ; mov dx, OFFSET MSG_OUT 
+    ; call print_str
+    ; pop dx
+    mov ax, 0
+    mov dx, 0
+
+
     mov dl, bl
+
+    mov ax, 0
+    mov al, dl
+
+    mov bx, 0
+    mov bl, 10
+
+    div bl
+
+    mov dl, al
+    mov dh, ah
     call num_to_char
     call print_char
+
+    mov dl, dh
+    call num_to_char
+    call print_char
+
 
     ; mov dl, al
     ; call num_to_char
