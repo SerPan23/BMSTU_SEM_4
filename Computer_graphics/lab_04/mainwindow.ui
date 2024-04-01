@@ -220,10 +220,10 @@
                 </widget>
                </item>
                <item>
-                <widget class="QLineEdit" name="lineEdit"/>
+                <widget class="QLineEdit" name="center_x"/>
                </item>
                <item>
-                <widget class="QLineEdit" name="lineEdit_2"/>
+                <widget class="QLineEdit" name="center_y"/>
                </item>
               </layout>
              </item>
@@ -259,7 +259,7 @@
                     </widget>
                    </item>
                    <item>
-                    <widget class="QLineEdit" name="lineEdit_3"/>
+                    <widget class="QLineEdit" name="radius"/>
                    </item>
                   </layout>
                  </item>
@@ -277,7 +277,7 @@
                     </widget>
                    </item>
                    <item>
-                    <widget class="QLineEdit" name="lineEdit_5"/>
+                    <widget class="QLineEdit" name="radius_x"/>
                    </item>
                   </layout>
                  </item>
@@ -291,7 +291,7 @@
                     </widget>
                    </item>
                    <item>
-                    <widget class="QLineEdit" name="lineEdit_4"/>
+                    <widget class="QLineEdit" name="radius_y"/>
                    </item>
                   </layout>
                  </item>
@@ -302,14 +302,14 @@
              <item>
               <layout class="QHBoxLayout" name="horizontalLayout_3">
                <item>
-                <widget class="QPushButton" name="pushButton">
+                <widget class="QPushButton" name="btn_circle_draw">
                  <property name="text">
                   <string>Построить окружность</string>
                  </property>
                 </widget>
                </item>
                <item>
-                <widget class="QPushButton" name="pushButton_2">
+                <widget class="QPushButton" name="btn_ellipse_draw">
                  <property name="text">
                   <string>Построить эллипс</string>
                  </property>

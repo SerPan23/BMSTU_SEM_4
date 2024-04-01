@@ -6,6 +6,7 @@
 #include <QColorDialog>
 
 #include "point.h"
+#include "draw.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -41,7 +42,9 @@ private:
     void slider_scale_changed();
 
 
-    // void btn_draw_line_clicked();
+    void btn_circle_draw_clicked();
+    void btn_ellipse_draw_clicked();
+
     // void btn_draw_line_spectrum_clicked();
 
 
