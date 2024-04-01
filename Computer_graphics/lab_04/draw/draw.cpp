@@ -9,42 +9,48 @@ static void set_pixel(draw_view_t& view, QColor &color, pixel_t pixel)
     painter.drawLine(pixel.x, pixel.y, pixel.x, pixel.y);
 }
 
-static pixel_t pixel_y_mirror(pixel_t& pixel, int center)
+static void set_symmetric_pixels(draw_view_t& view, QColor &color, pixel_t& pixel, pixel_t center, bool is_circle)
 {
-    return pixel_t{
-        2 * center - pixel.x,
-        pixel.y,
-        pixel.intensity
-    };
-}
 
-static pixel_t pixel_x_mirror(pixel_t& pixel, int center)
-{
-    return pixel_t{
-        pixel.x,
-        2 * center - pixel.y,
-        pixel.intensity
-    };
-}
+    if (is_circle)
+    {
+        set_pixel(view, color,
+                  pixel_create(pixel.y - center.y + center.x,
+                               pixel.x - center.x + center.y
+                               ));
 
-static void set_symmetric_pixels(draw_view_t& view, QColor &color, pixel_t& pixel, pixel_t center) {
-    pixel_t x_mirr = pixel_x_mirror(pixel, center.y);
-    pixel_t y_mirr = pixel_y_mirror(pixel, center.x);
+        set_pixel(view, color,
+                  pixel_create(-pixel.y + center.y + center.x,
+                               pixel.x - center.x + center.y
+                               ));
+
+        set_pixel(view, color,
+                  pixel_create(pixel.y - center.y + center.x,
+                               -pixel.x + center.x + center.y
+                               ));
+
+        set_pixel(view, color,
+                  pixel_create(-pixel.y + center.y + center.x,
+                               -pixel.x + center.x + center.y
+                               ));
+    }
 
     set_pixel(view, color, pixel);
-    set_pixel(view, color, x_mirr);
-    set_pixel(view, color, y_mirr);
-    set_pixel(
-        view,
-        color,
-        pixel_x_mirror(y_mirr, center.y)
-    );
+
+    set_pixel(view, color,
+              pixel_create(-pixel.x + 2 * center.x, pixel.y));
+
+    set_pixel(view, color,
+              pixel_create(pixel.x, -pixel.y + 2 * center.y));
+
+    set_pixel(view, color,
+              pixel_create(-pixel.x + 2 * center.x, -pixel.y + 2 * center.y));
 }
 
-static void draw_figure(draw_view_t& view, QColor &color, figure_t &figure)
+static void draw_figure(draw_view_t& view, QColor &color, figure_t &figure, bool is_circle=false)
 {
     for (int i = 0; i < figure.data.size(); i++)
-        set_symmetric_pixels(view, color, figure.data[i], figure.center);
+        set_symmetric_pixels(view, color, figure.data[i], figure.center, is_circle);
 }
 
 void draw_circle(draw_view_t& view, algorithm_t &alg, QColor &color, point_t &center, double &radius)
@@ -73,7 +79,7 @@ void draw_circle(draw_view_t& view, algorithm_t &alg, QColor &color, point_t &ce
         case LIBRARY:
             break;
         }
-        draw_figure(view, color, figure);
+        draw_figure(view, color, figure, true);
     }
 }
 

@@ -36,7 +36,7 @@ figure_t canonical_ellipse(point_t center, point_t radius)
     }
 
     int yc = round(center.y);
-    for (int y = border_y; y < yc - 1; y--)
+    for (int y = border_y; y > yc - 1; y--)
     {
         int h = (y - center.y) * (y - center.y);
         int x = center.x + sqrt(radius_a_sqr * radius_b_sqr - h * radius_a_sqr) / radius.y;
