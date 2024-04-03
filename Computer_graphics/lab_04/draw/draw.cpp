@@ -34,7 +34,6 @@ static void set_symmetric_pixels(draw_view_t& view, QColor &color, pixel_t& pixe
                                -pixel.x + center.x + center.y
                                ));
     }
-
     set_pixel(view, color, pixel);
 
     set_pixel(view, color,
@@ -111,18 +110,4 @@ void draw_ellipse(draw_view_t& view, algorithm_t &alg, QColor &color, point_t &c
         }
         draw_figure(view, color, figure);
     }
-}
-
-void draw_circles_spectrum(draw_view_t& view, algorithm_t &alg, spectrum_data_t& spectrum_data)
-{
-    int radius = spectrum_data.start_radius.x;
-    for (int i = 0; i < spectrum_data.figures_count; i++, radius += spectrum_data.step)
-        draw_circle(view, alg, spectrum_data.color, spectrum_data.center, radius);
-}
-
-void draw_ellipses_spectrum(draw_view_t& view, algorithm_t &alg, spectrum_data_t& spectrum_data)
-{
-    point_t radius = spectrum_data.start_radius;
-    for (int i = 0; i < spectrum_data.figures_count; i++, radius.x += spectrum_data.step, radius.y += spectrum_data.step)
-        draw_ellipse(view, alg, spectrum_data.color, spectrum_data.center, radius);
 }

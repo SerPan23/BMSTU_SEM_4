@@ -4,7 +4,7 @@ figure_t parametric_circle(point_t center, double radius)
 {
     std::vector<pixel_t> pixels;
 
-    double step = 1 / radius;
+    double step = 1.0 / radius;
 
     double i = 0;
     while (i <= M_PI / 4 + step)
@@ -25,9 +25,9 @@ figure_t parametric_ellipse(point_t center, point_t radius)
 
     double step;
     if (radius.x > radius.y)
-        step = 1 / radius.x;
+        step = 1.0 / radius.x;
     else
-        step = 1 / radius.y;
+        step = 1.0 / radius.y;
 
     double i = 0;
     while (i <= M_PI / 2 + step)

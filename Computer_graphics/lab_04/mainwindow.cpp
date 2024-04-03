@@ -177,7 +177,6 @@ void MainWindow::btn_circle_draw_clicked()
     }
 
 
-
     point_t center{center_x, center_y};
 
     QString algorithm = ui->algorithm_selection->currentText();
@@ -188,8 +187,6 @@ void MainWindow::btn_circle_draw_clicked()
         .width = ui->graphicsView->scene()->width(),
         .height = ui->graphicsView->scene()->height(),
     };
-
-    // void draw_circle(draw_view_t *view, algorithm_t alg, QColor color, point_t center, double radius);
 
     algorithm_t alg = get_algorithm(algorithm);
     draw_circle(view, alg, this->line_color, center, radius);
@@ -246,17 +243,14 @@ void MainWindow::btn_ellipse_draw_clicked()
         .height = ui->graphicsView->scene()->height(),
     };
 
-    // void draw_ellipse(draw_view_t *view, algorithm_t alg, QColor color, point_t center, point_t radius);
-
     algorithm_t alg = get_algorithm(algorithm);
     draw_ellipse(view, alg, this->line_color, center, radius);
 
     draw();
 }
 
-int MainWindow::read_spectrum_data_circle(spectrum_data_t& data)
+void MainWindow::btn_circles_draw_spectrum_clicked()
 {
-
     bool start_radius_ok, step_ok, figures_count_ok;
 
     double start_radius = ui->start_radius->text().toInt(&start_radius_ok);
@@ -266,36 +260,45 @@ int MainWindow::read_spectrum_data_circle(spectrum_data_t& data)
     if (!start_radius_ok)
     {
         show_err_msg("Не коректное начальное значение радиуса окружности спектра");
-        return 1;
+        return;
     }
 
     if (!step_ok)
     {
         show_err_msg("Не коректное значение шага изменения спектра");
-        return 1;
+        return;
     }
 
     if (!figures_count_ok)
     {
         show_err_msg("Не коректное значение количества фигур в спектре");
-        return 1;
+        return;
     }
 
-    data.start_radius = point_t{start_radius, start_radius};
-    data.step = step;
-    data.figures_count = figures_count;
+    point_t center{round(ui->graphicsView->scene()->width() / 2),
+                          round(ui->graphicsView->scene()->height() / 2)};
 
-    data.center = point_t{round(ui->graphicsView->scene()->width() / 2),
-                   round(ui->graphicsView->scene()->height() / 2)};
 
-    data.color = this->line_color;
+    QString algorithm = ui->algorithm_selection->currentText();
 
-    return 0;
+
+    draw_view_t view = {
+        .scene = &this->pxp,
+        .width = ui->graphicsView->scene()->width(),
+        .height = ui->graphicsView->scene()->height(),
+    };
+
+    algorithm_t alg = get_algorithm(algorithm);
+
+    int radius = start_radius;
+    for (int i = 0; i < figures_count; i++, radius += step)
+        draw_circle(view, alg, this->line_color, center, radius);
+
+    draw();
 }
 
-int MainWindow::read_spectrum_data_ellipse(spectrum_data_t& data)
+void MainWindow::btn_ellipses_draw_spectrum_clicked()
 {
-
     bool start_radius_x_ok, start_radius_y_ok, step_ok, figures_count_ok;
 
     double start_radius_x = ui->start_radius_x->text().toInt(&start_radius_x_ok);
@@ -307,45 +310,31 @@ int MainWindow::read_spectrum_data_ellipse(spectrum_data_t& data)
     if (!start_radius_x_ok)
     {
         show_err_msg("Не коректное начальное значение радиуса x эллипса спектра");
-        return 1;
+        return;
     }
     if (!start_radius_y_ok)
     {
         show_err_msg("Не коректное начальное значение радиуса y эллипса спектра");
-        return 1;
+        return;
     }
 
     if (!step_ok)
     {
         show_err_msg("Не коректное значение шага изменения спектра");
-        return 1;
+        return;
     }
 
     if (!figures_count_ok)
     {
         show_err_msg("Не коректное значение количества фигур в спектре");
-        return 1;
+        return;
     }
 
-    data.start_radius = point_t{start_radius_x, start_radius_y};
-    data.step = step;
-    data.figures_count = figures_count;
+    point_t start_radius{start_radius_x, start_radius_y};
 
-    data.center = point_t{round(ui->graphicsView->scene()->width() / 2),
+    point_t center{round(ui->graphicsView->scene()->width() / 2),
                           round(ui->graphicsView->scene()->height() / 2)};
 
-    data.color = this->line_color;
-
-    return 0;
-}
-
-void MainWindow::btn_circles_draw_spectrum_clicked()
-{
-    spectrum_data_t spectrum_data;
-    int rc = read_spectrum_data_circle(spectrum_data);
-    if (rc)
-        return;
-
 
     QString algorithm = ui->algorithm_selection->currentText();
 
@@ -358,159 +347,29 @@ void MainWindow::btn_circles_draw_spectrum_clicked()
 
     algorithm_t alg = get_algorithm(algorithm);
 
-    draw_circles_spectrum(view, alg, spectrum_data);
-
-    draw();
-}
-
-void MainWindow::btn_ellipses_draw_spectrum_clicked()
-{
-    spectrum_data_t spectrum_data;
-    int rc = read_spectrum_data_ellipse(spectrum_data);
-    if (rc)
-        return;
-
-
-    QString algorithm = ui->algorithm_selection->currentText();
-
-
-    draw_view_t view = {
-        .scene = &this->pxp,
-        .width = ui->graphicsView->scene()->width(),
-        .height = ui->graphicsView->scene()->height(),
-    };
-
-    algorithm_t alg = get_algorithm(algorithm);
-
-    draw_ellipses_spectrum(view, alg, spectrum_data);
+    point_t radius = start_radius;
+    for (int i = 0; i < figures_count; i++, radius.x += step, radius.y += step)
+        draw_ellipse(view, alg, this->line_color, center, radius);
 
     draw();
 }
 
 void MainWindow::btn_time_cmp_circles_clicked()
 {
-    spectrum_data_t spectrum_data;
-    int rc = read_spectrum_data_circle(spectrum_data);
-    if (rc)
-        return;
-
-
-    std::vector<long> times;
-    times.push_back(time_measurement_circle(spectrum_data, canonical_circle));
-    times.push_back(time_measurement_circle(spectrum_data, parametric_circle));
-    times.push_back(time_measurement_circle(spectrum_data, bresenham_circle));
-    times.push_back(time_measurement_circle(spectrum_data, middle_point_circle));
-
-
     ui->pages->setCurrentIndex(1);
 
     QLayoutItem *item;
     while ((item = ui->time_layout->takeAt(0)))
         delete item;
-
-
-    auto set0 = new QBarSet("Каноническое уравнение");
-    auto set1 = new QBarSet("Параметрическое уравнение");
-    auto set2 = new QBarSet("Алгоритм Брезенхема");
-    auto set3 = new QBarSet("Алгоритм средней точки");
-
-
-    double min_y = 0, max_y = (double) *max_element(times.begin(), times.end());
-
-    *set0 << times[0];
-    *set1 << times[1];
-    *set2 << times[2];
-    *set3 << times[3];
-
-    QBarSeries *series = new QBarSeries;
-    series->append(set0);
-    series->append(set1);
-    series->append(set2);
-    series->append(set3);
-
-    auto chart = new QChart;
-    chart->addSeries(series);
-    chart->setTitle("Сравнение времени работы алгоритмов для окружностей");
-    chart->setAnimationOptions(QChart::SeriesAnimations);
-
-    auto axisY = new QValueAxis;
-    axisY->setRange(min_y, max_y);
-    axisY->setTitleText("Время (нс)");
-    chart->addAxis(axisY, Qt::AlignLeft);
-    series->attachAxis(axisY);
-
-    chart->legend()->setVisible(true);
-    chart->legend()->setAlignment(Qt::AlignBottom);
-
-    QChartView *chartView = new QChartView(chart);
-    chartView->setRenderHint(QPainter::Antialiasing);
-
-    ui->time_layout->addWidget(chartView);
 }
 
 void MainWindow::btn_time_cmp_ellipses_clicked()
 {
-    spectrum_data_t spectrum_data;
-    int rc = read_spectrum_data_ellipse(spectrum_data);
-    if (rc)
-        return;
-
-
-    std::vector<long> times;
-    times.push_back(time_measurement_ellipse(spectrum_data, canonical_ellipse));
-    times.push_back(time_measurement_ellipse(spectrum_data, parametric_ellipse));
-    times.push_back(time_measurement_ellipse(spectrum_data, bresenham_ellipse));
-    times.push_back(time_measurement_ellipse(spectrum_data, middle_point_ellipse));
-
-    for (int i = 0; i < times.size(); i++)
-        std::cout << times[i] << " ";
-    std::cout << std::endl;
-
-
     ui->pages->setCurrentIndex(1);
 
     QLayoutItem *item;
     while ((item = ui->time_layout->takeAt(0)))
         delete item;
-
-
-    auto set0 = new QBarSet("Каноническое уравнение");
-    auto set1 = new QBarSet("Параметрическое уравнение");
-    auto set2 = new QBarSet("Алгоритм Брезенхема");
-    auto set3 = new QBarSet("Алгоритм средней точки");
-
-
-    double min_y = 0, max_y = (double) *max_element(times.begin(), times.end());
-
-    *set0 << times[0];
-    *set1 << times[1];
-    *set2 << times[2];
-    *set3 << times[3];
-
-    QBarSeries *series = new QBarSeries;
-    series->append(set0);
-    series->append(set1);
-    series->append(set2);
-    series->append(set3);
-
-    auto chart = new QChart;
-    chart->addSeries(series);
-    chart->setTitle("Сравнение времени работы алгоритмов для эллипсов");
-    chart->setAnimationOptions(QChart::SeriesAnimations);
-
-    auto axisY = new QValueAxis;
-    axisY->setRange(min_y, max_y);
-    axisY->setTitleText("Время (нс)");
-    chart->addAxis(axisY, Qt::AlignLeft);
-    series->attachAxis(axisY);
-
-    chart->legend()->setVisible(true);
-    chart->legend()->setAlignment(Qt::AlignBottom);
-
-    QChartView *chartView = new QChartView(chart);
-    chartView->setRenderHint(QPainter::Antialiasing);
-
-    ui->time_layout->addWidget(chartView);
 }
 
 void MainWindow::go_to_main_page()

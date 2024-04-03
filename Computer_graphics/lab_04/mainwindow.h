@@ -46,9 +46,6 @@ private:
     void btn_ellipse_draw_clicked();
 
 
-    int read_spectrum_data_circle(spectrum_data_t& data);
-    int read_spectrum_data_ellipse(spectrum_data_t& data);
-
     void btn_circles_draw_spectrum_clicked();
     void btn_ellipses_draw_spectrum_clicked();
 
