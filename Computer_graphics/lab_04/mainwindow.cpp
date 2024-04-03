@@ -346,7 +346,8 @@ void MainWindow::btn_ellipses_draw_spectrum_clicked()
     algorithm_t alg = get_algorithm(algorithm);
 
     point_t radius = start_radius;
-    for (int i = 0; i < figures_count; i++, radius.x += step, radius.y += step)
+    int step_b = round(step * 1.0 * radius.y / radius.x);
+    for (int i = 0; i < figures_count; i++, radius.x += step, radius.y += step_b)
         draw_ellipse(view, alg, this->line_color, center, radius);
 
     draw();

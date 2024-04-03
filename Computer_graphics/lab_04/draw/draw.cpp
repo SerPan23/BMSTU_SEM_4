@@ -52,12 +52,21 @@ static void draw_figure(draw_view_t& view, QColor &color, figure_t &figure, bool
         set_symmetric_pixels(view, color, figure.data[i], figure.center, is_circle);
 }
 
+static void draw_lib_ellipse(draw_view_t& view, QColor &color, point_t center, point_t radius)
+{
+    QPainter painter(view.scene);
+    QPen pen(color);
+    painter.setPen(pen);
+
+    painter.drawEllipse(center.x - radius.x, center.y - radius.y, radius.x * 2, radius.y * 2);
+}
+
 void draw_circle(draw_view_t& view, algorithm_t &alg, QColor &color, point_t &center, int &radius)
 {
     figure_t figure;
     if (alg == LIBRARY)
     {
-
+        draw_lib_ellipse(view, color, center, point_t{radius, radius});
     }
     else
     {
@@ -87,7 +96,7 @@ void draw_ellipse(draw_view_t& view, algorithm_t &alg, QColor &color, point_t &c
     figure_t figure;
     if (alg == LIBRARY)
     {
-
+        draw_lib_ellipse(view, color, center, radius);
     }
     else
     {
