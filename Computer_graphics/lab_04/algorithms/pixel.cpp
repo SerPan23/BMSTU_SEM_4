@@ -5,6 +5,11 @@ pixel_t pixel_create(int x, int y)
     return pixel_t{x, y, 255};
 }
 
+pixel_t pixel_create(double x, double y)
+{
+    return pixel_t{(int)round(x), (int)round(y), 255};
+}
+
 pixel_t pixel_create(int x, int y, double intensity)
 {
     return pixel_t{x, y, intensity};

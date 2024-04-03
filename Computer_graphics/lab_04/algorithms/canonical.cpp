@@ -14,7 +14,7 @@ figure_t canonical_circle(point_t center, double radius)
         pixels.push_back(pixel_create(x, y));
     }
 
-    return figure_t{pixels, pixel_create(center.x, (int)center.y)};
+    return figure_t{pixels, pixel_create(center.x, center.y)};
 }
 
 figure_t canonical_ellipse(point_t center, point_t radius)
@@ -44,5 +44,5 @@ figure_t canonical_ellipse(point_t center, point_t radius)
         pixels.push_back(pixel_create(x, y));
     }
 
-    return figure_t{pixels, pixel_create(center.x, (int)center.y)};
+    return figure_t{pixels, pixel_create(center.x, center.y)};
 }

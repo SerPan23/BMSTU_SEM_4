@@ -375,7 +375,7 @@
                   </widget>
                  </item>
                  <item>
-                  <widget class="QLineEdit" name="lineEdit_8"/>
+                  <widget class="QLineEdit" name="start_radius"/>
                  </item>
                 </layout>
                </item>
@@ -394,7 +394,7 @@
                     </widget>
                    </item>
                    <item>
-                    <widget class="QLineEdit" name="lineEdit_9"/>
+                    <widget class="QLineEdit" name="start_radius_x"/>
                    </item>
                   </layout>
                  </item>
@@ -408,7 +408,7 @@
                     </widget>
                    </item>
                    <item>
-                    <widget class="QLineEdit" name="lineEdit_10"/>
+                    <widget class="QLineEdit" name="start_radius_y"/>
                    </item>
                   </layout>
                  </item>
@@ -432,7 +432,7 @@
                 </widget>
                </item>
                <item>
-                <widget class="QLineEdit" name="lineEdit_6"/>
+                <widget class="QLineEdit" name="step"/>
                </item>
               </layout>
              </item>
@@ -452,21 +452,21 @@
                 </widget>
                </item>
                <item>
-                <widget class="QLineEdit" name="lineEdit_7"/>
+                <widget class="QLineEdit" name="figures_count"/>
                </item>
               </layout>
              </item>
              <item>
               <layout class="QHBoxLayout" name="horizontalLayout_19">
                <item>
-                <widget class="QPushButton" name="pushButton_6">
+                <widget class="QPushButton" name="btn_draw_circles_spectrum">
                  <property name="text">
                   <string>Постр спектр окр-ей</string>
                  </property>
                 </widget>
                </item>
                <item>
-                <widget class="QPushButton" name="pushButton_5">
+                <widget class="QPushButton" name="btn_draw_ellipses_spectrum">
                  <property name="text">
                   <string>Постр спектр элл-ов</string>
                  </property>

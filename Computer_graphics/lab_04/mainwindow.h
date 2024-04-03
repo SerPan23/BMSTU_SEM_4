@@ -45,10 +45,17 @@ private:
     void btn_circle_draw_clicked();
     void btn_ellipse_draw_clicked();
 
-    // void btn_draw_line_spectrum_clicked();
+
+    int read_spectrum_data_circle(spectrum_data_t& data);
+    int read_spectrum_data_ellipse(spectrum_data_t& data);
+
+    void btn_circles_draw_spectrum_clicked();
+    void btn_ellipses_draw_spectrum_clicked();
+
+    void btn_time_cmp_circles_clicked();
+    void btn_time_cmp_ellipses_clicked();
 
 
     void go_to_main_page();
-    void btn_time_cmp_clicked();
 };
 #endif // MAINWINDOW_H
