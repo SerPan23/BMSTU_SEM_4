@@ -14,7 +14,7 @@
 #define sign(x)  (signbit(x) ?  -1 : 1)
 #define EPS 1e-8
 
-#define ITER_COUNT_TIME 100
+#define ITER_COUNT_TIME 1000
 
 enum algorithms
 {
@@ -41,7 +41,7 @@ figure_t parametric_circle(point_t center, double radius);
 figure_t bresenham_circle(point_t center, double radius);
 figure_t middle_point_circle(point_t center, double radius);
 
-long time_measurement_circle(point_t center, double radius, figure_t (*alg)(point_t center, double radius));
+long time_measurement_circle(point_t center, int radius, figure_t (*alg)(point_t center, double radius));
 
 // ellipse
 figure_t canonical_ellipse(point_t center, point_t radius);

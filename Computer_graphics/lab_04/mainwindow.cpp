@@ -1,8 +1,6 @@
 #include "mainwindow.h"
 #include "./ui_mainwindow.h"
 
-#include <QtCharts>
-
 MainWindow::MainWindow(QWidget *parent):
     QMainWindow(parent),
     ui(new Ui::MainWindow)
@@ -354,22 +352,181 @@ void MainWindow::btn_ellipses_draw_spectrum_clicked()
     draw();
 }
 
+void MainWindow::create_series_circle(QLineSeries *series, long &max_el, QColor color, QString name, figure_t (*alg)(point_t center, double radius))
+{
+    point_t center{round(ui->graphicsView->scene()->width() / 2),
+                   round(ui->graphicsView->scene()->height() / 2)};
+
+    int end_radius = 1000;
+    int step = 100;
+
+    // auto series = new QLineSeries;
+
+    for (int radius = 0; radius <= end_radius; radius += step)
+    {
+        long time = time_measurement_circle(center, radius, alg);
+        max_el = std::max(max_el, time);
+        series->append(radius, time);
+    }
+
+    series->setColor(color);
+    series->setName(name);
+
+    // return series;
+}
+
 void MainWindow::btn_time_cmp_circles_clicked()
 {
+    long max_el = -1;
+
+    // QLineSeries *canonical_s = create_series_circle(max_el, Qt::red, "Каноническое уравнение", canonical_circle);
+    // QLineSeries *parametric_s = create_series_circle(max_el, Qt::blue, "Параметрическое уравнение", canonical_circle);
+    // QLineSeries *bresenham_s = create_series_circle(max_el, Qt::green, "Алгоритм Брезенхема", bresenham_circle);
+    // QLineSeries *middle_point_s = create_series_circle(max_el, QColor::fromRgb(255, 190, 26), "Алгоритм средней точки", middle_point_circle);
+
+
+    QLineSeries *canonical_s = new QLineSeries;
+    QLineSeries *parametric_s = new QLineSeries;
+    QLineSeries *bresenham_s = new QLineSeries;
+    QLineSeries *middle_point_s = new QLineSeries;
+
+
+    create_series_circle(canonical_s, max_el, Qt::red, "Каноническое уравнение", canonical_circle);
+    create_series_circle(parametric_s, max_el, Qt::blue, "Параметрическое уравнение", canonical_circle);
+    create_series_circle(bresenham_s, max_el, Qt::green, "Алгоритм Брезенхема", bresenham_circle);
+    create_series_circle(middle_point_s, max_el, QColor::fromRgb(255, 190, 26), "Алгоритм средней точки", middle_point_circle);
+
+
+    //
+    point_t min{0, 0};
+    point_t max{1000, (double)max_el};
+
+    auto chart = new QChart;
+    // chart->legend()->hide();
+
+    auto axisX = new QValueAxis;
+    axisX->setRange(min.x, max.x);
+    axisX->setTitleText("Длина радиуса");
+    chart->addAxis(axisX, Qt::AlignBottom);
+    // // series->attachAxis(axisX);
+
+    auto axisY = new QValueAxis;
+    axisY->setRange(min.y, max.y);
+    axisY->setTitleText("Время (нс)");
+    chart->addAxis(axisY, Qt::AlignLeft);
+    // series->attachAxis(axisY);
+
+
+    chart->addSeries(canonical_s);
+    chart->addSeries(parametric_s);
+    chart->addSeries(bresenham_s);
+    chart->addSeries(middle_point_s);
+
+    // chart->addSeries(series);
+    // chart->createDefaultAxes();
+    chart->setTitle("Замеры для окружности");
+
+    QChartView *chartView = new QChartView(chart);
+    chartView->setRenderHint(QPainter::Antialiasing);
+
+
+    //
     ui->pages->setCurrentIndex(1);
 
     QLayoutItem *item;
     while ((item = ui->time_layout->takeAt(0)))
         delete item;
+
+    ui->time_layout->addWidget(chartView);
+}
+
+void MainWindow::create_series_ellipse(QLineSeries *series, long &max_el, QColor color, QString name, figure_t (*alg)(point_t center, point_t radius))
+{
+    point_t center{round(ui->graphicsView->scene()->width() / 2),
+                   round(ui->graphicsView->scene()->height() / 2)};
+
+    int end_radius = 1000;
+    int step = 100;
+
+
+    // auto series = new QLineSeries;
+
+    for (point_t radius{0, 100}; radius.x <= end_radius; radius.x += step, radius.y += step)
+    {
+        long time = time_measurement_ellipse(center, radius, alg);
+        max_el = std::max(max_el, time);
+        series->append(radius.x, time);
+    }
+
+    series->setColor(color);
+    series->setName(name);
+
+    // return series;
 }
 
 void MainWindow::btn_time_cmp_ellipses_clicked()
 {
+    long max_el = -1;
+
+    // QLineSeries *canonical_s = create_series_ellipse(max_el, Qt::red, "Каноническое уравнение", canonical_ellipse);
+    // QLineSeries *parametric_s = create_series_ellipse(max_el, Qt::blue, "Параметрическое уравнение", parametric_ellipse);
+    // QLineSeries *bresenham_s = create_series_ellipse(max_el, Qt::green, "Алгоритм Брезенхема", bresenham_ellipse);
+    // QLineSeries *middle_point_s = create_series_ellipse(max_el, QColor::fromRgb(255, 190, 26), "Алгоритм средней точки", middle_point_ellipse);
+
+
+    QLineSeries *canonical_s = new QLineSeries;
+    QLineSeries *parametric_s = new QLineSeries;
+    QLineSeries *bresenham_s = new QLineSeries;
+    QLineSeries *middle_point_s = new QLineSeries;
+
+
+    create_series_ellipse(canonical_s, max_el, Qt::red, "Каноническое уравнение", canonical_ellipse);
+    create_series_ellipse(parametric_s, max_el, Qt::blue, "Параметрическое уравнение", parametric_ellipse);
+    create_series_ellipse(bresenham_s, max_el, Qt::green, "Алгоритм Брезенхема", bresenham_ellipse);
+    create_series_ellipse(middle_point_s, max_el, QColor::fromRgb(255, 190, 26), "Алгоритм средней точки", middle_point_ellipse);
+
+
+    //
+    point_t min{0, 0};
+    point_t max{1000, (double)max_el};
+
+    auto chart = new QChart;
+    // chart->legend()->hide();
+
+    auto axisX = new QValueAxis;
+    axisX->setRange(min.x, max.x);
+    axisX->setTitleText("Длина радиуса");
+    chart->addAxis(axisX, Qt::AlignBottom);
+    // // series->attachAxis(axisX);
+
+    auto axisY = new QValueAxis;
+    axisY->setRange(min.y, max.y);
+    axisY->setTitleText("Время (нс)");
+    chart->addAxis(axisY, Qt::AlignLeft);
+    // series->attachAxis(axisY);
+
+
+    chart->addSeries(canonical_s);
+    chart->addSeries(parametric_s);
+    chart->addSeries(bresenham_s);
+    chart->addSeries(middle_point_s);
+
+    // chart->addSeries(series);
+    // chart->createDefaultAxes();
+    chart->setTitle("Замеры для эллипса");
+
+    QChartView *chartView = new QChartView(chart);
+    chartView->setRenderHint(QPainter::Antialiasing);
+
+
+    //
     ui->pages->setCurrentIndex(1);
 
     QLayoutItem *item;
     while ((item = ui->time_layout->takeAt(0)))
         delete item;
+
+    ui->time_layout->addWidget(chartView);
 }
 
 void MainWindow::go_to_main_page()
