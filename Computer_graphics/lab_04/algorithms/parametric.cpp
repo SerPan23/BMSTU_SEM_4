@@ -11,7 +11,7 @@ figure_t parametric_circle(point_t center, int radius)
     {
         double x = center.x + radius * cos(i);
         double y = center.y + radius * sin(i);
-        pixels.push_back(pixel_create(x, y));
+        pixels.push_back(pixel_create((int)round(x), (int)round(y)));
 
         i += step;
     }
