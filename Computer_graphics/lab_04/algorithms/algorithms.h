@@ -36,12 +36,12 @@ struct figure
 using figure_t = struct figure;
 
 // circle
-figure_t canonical_circle(point_t center, double radius);
-figure_t parametric_circle(point_t center, double radius);
-figure_t bresenham_circle(point_t center, double radius);
-figure_t middle_point_circle(point_t center, double radius);
+figure_t canonical_circle(point_t center, int radius);
+figure_t parametric_circle(point_t center, int radius);
+figure_t bresenham_circle(point_t center, int radius);
+figure_t middle_point_circle(point_t center, int radius);
 
-long time_measurement_circle(point_t center, int radius, figure_t (*alg)(point_t center, double radius));
+long time_measurement_circle(point_t center, int radius, figure_t (*alg)(point_t center, int radius));
 
 // ellipse
 figure_t canonical_ellipse(point_t center, point_t radius);

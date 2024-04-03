@@ -150,8 +150,8 @@ void MainWindow::btn_circle_draw_clicked()
 {
     bool center_x_ok, center_y_ok, radius_ok;
 
-    double center_x = ui->center_x->text().toDouble(&center_x_ok);
-    double center_y = ui->center_y->text().toDouble(&center_y_ok);
+    int center_x = ui->center_x->text().toInt(&center_x_ok);
+    int center_y = ui->center_y->text().toInt(&center_y_ok);
 
     int radius = ui->radius->text().toInt(&radius_ok);
 
@@ -197,11 +197,11 @@ void MainWindow::btn_ellipse_draw_clicked()
 
     bool center_x_ok, center_y_ok, radius_x_ok, radius_y_ok;
 
-    double center_x = ui->center_x->text().toDouble(&center_x_ok);
-    double center_y = ui->center_y->text().toDouble(&center_y_ok);
+    int center_x = ui->center_x->text().toInt(&center_x_ok);
+    int center_y = ui->center_y->text().toInt(&center_y_ok);
 
-    double radius_x = ui->radius_x->text().toDouble(&radius_x_ok);
-    double radius_y = ui->radius_y->text().toDouble(&radius_y_ok);
+    int radius_x = ui->radius_x->text().toInt(&radius_x_ok);
+    int radius_y = ui->radius_y->text().toInt(&radius_y_ok);
 
 
     if (!center_x_ok)
@@ -251,9 +251,9 @@ void MainWindow::btn_circles_draw_spectrum_clicked()
 {
     bool start_radius_ok, step_ok, figures_count_ok;
 
-    double start_radius = ui->start_radius->text().toInt(&start_radius_ok);
-    double step = ui->step->text().toInt(&step_ok);
-    double figures_count = ui->figures_count->text().toInt(&figures_count_ok);
+    int start_radius = ui->start_radius->text().toInt(&start_radius_ok);
+    int step = ui->step->text().toInt(&step_ok);
+    int figures_count = ui->figures_count->text().toInt(&figures_count_ok);
 
     if (!start_radius_ok)
     {
@@ -273,8 +273,8 @@ void MainWindow::btn_circles_draw_spectrum_clicked()
         return;
     }
 
-    point_t center{round(ui->graphicsView->scene()->width() / 2),
-                          round(ui->graphicsView->scene()->height() / 2)};
+    point_t center{(int)round(ui->graphicsView->scene()->width() / 2),
+                   (int)round(ui->graphicsView->scene()->height() / 2)};
 
 
     QString algorithm = ui->algorithm_selection->currentText();
@@ -299,11 +299,11 @@ void MainWindow::btn_ellipses_draw_spectrum_clicked()
 {
     bool start_radius_x_ok, start_radius_y_ok, step_ok, figures_count_ok;
 
-    double start_radius_x = ui->start_radius_x->text().toInt(&start_radius_x_ok);
-    double start_radius_y = ui->start_radius_y->text().toInt(&start_radius_y_ok);
+    int start_radius_x = ui->start_radius_x->text().toInt(&start_radius_x_ok);
+    int start_radius_y = ui->start_radius_y->text().toInt(&start_radius_y_ok);
 
-    double step = ui->step->text().toInt(&step_ok);
-    double figures_count = ui->figures_count->text().toInt(&figures_count_ok);
+    int step = ui->step->text().toInt(&step_ok);
+    int figures_count = ui->figures_count->text().toInt(&figures_count_ok);
 
     if (!start_radius_x_ok)
     {
@@ -330,8 +330,8 @@ void MainWindow::btn_ellipses_draw_spectrum_clicked()
 
     point_t start_radius{start_radius_x, start_radius_y};
 
-    point_t center{round(ui->graphicsView->scene()->width() / 2),
-                          round(ui->graphicsView->scene()->height() / 2)};
+    point_t center{(int)round(ui->graphicsView->scene()->width() / 2),
+                   (int)round(ui->graphicsView->scene()->height() / 2)};
 
 
     QString algorithm = ui->algorithm_selection->currentText();
@@ -352,10 +352,10 @@ void MainWindow::btn_ellipses_draw_spectrum_clicked()
     draw();
 }
 
-void MainWindow::create_series_circle(QLineSeries *series, long &max_el, QColor color, QString name, figure_t (*alg)(point_t center, double radius))
+void MainWindow::create_series_circle(QLineSeries *series, long &max_el, QColor color, QString name, figure_t (*alg)(point_t center, int radius))
 {
-    point_t center{round(ui->graphicsView->scene()->width() / 2),
-                   round(ui->graphicsView->scene()->height() / 2)};
+    point_t center{(int)round(ui->graphicsView->scene()->width() / 2),
+                   (int)round(ui->graphicsView->scene()->height() / 2)};
 
     int end_radius = 1000;
     int step = 100;
@@ -399,7 +399,7 @@ void MainWindow::btn_time_cmp_circles_clicked()
 
     //
     point_t min{0, 0};
-    point_t max{1000, (double)max_el};
+    point_t max{1000, 0};
 
     auto chart = new QChart;
     // chart->legend()->hide();
@@ -411,7 +411,7 @@ void MainWindow::btn_time_cmp_circles_clicked()
     // // series->attachAxis(axisX);
 
     auto axisY = new QValueAxis;
-    axisY->setRange(min.y, max.y);
+    axisY->setRange(min.y, max_el);
     axisY->setTitleText("Время (нс)");
     chart->addAxis(axisY, Qt::AlignLeft);
     // series->attachAxis(axisY);
@@ -442,8 +442,8 @@ void MainWindow::btn_time_cmp_circles_clicked()
 
 void MainWindow::create_series_ellipse(QLineSeries *series, long &max_el, QColor color, QString name, figure_t (*alg)(point_t center, point_t radius))
 {
-    point_t center{round(ui->graphicsView->scene()->width() / 2),
-                   round(ui->graphicsView->scene()->height() / 2)};
+    point_t center{(int)round(ui->graphicsView->scene()->width() / 2),
+                   (int)round(ui->graphicsView->scene()->height() / 2)};
 
     int end_radius = 1000;
     int step = 100;
@@ -488,7 +488,7 @@ void MainWindow::btn_time_cmp_ellipses_clicked()
 
     //
     point_t min{0, 0};
-    point_t max{1000, (double)max_el};
+    point_t max{1000, 0};
 
     auto chart = new QChart;
     // chart->legend()->hide();
@@ -500,7 +500,7 @@ void MainWindow::btn_time_cmp_ellipses_clicked()
     // // series->attachAxis(axisX);
 
     auto axisY = new QValueAxis;
-    axisY->setRange(min.y, max.y);
+    axisY->setRange(min.y, max_el);
     axisY->setTitleText("Время (нс)");
     chart->addAxis(axisY, Qt::AlignLeft);
     // series->attachAxis(axisY);

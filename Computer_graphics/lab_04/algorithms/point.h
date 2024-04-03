@@ -3,8 +3,8 @@
 
 struct point
 {
-    double x;
-    double y;
+    int x;
+    int y;
 };
 
 using point_t = struct point;

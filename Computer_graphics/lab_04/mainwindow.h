@@ -52,7 +52,7 @@ private:
     void btn_circles_draw_spectrum_clicked();
     void btn_ellipses_draw_spectrum_clicked();
 
-    void create_series_circle(QLineSeries *series, long &max_el, QColor color, QString name, figure_t (*alg)(point_t center, double radius));
+    void create_series_circle(QLineSeries *series, long &max_el, QColor color, QString name, figure_t (*alg)(point_t center, int radius));
     void create_series_ellipse(QLineSeries *series, long &max_el, QColor color, QString name, figure_t (*alg)(point_t center, point_t radius));
 
 

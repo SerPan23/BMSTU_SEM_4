@@ -1,5 +1,5 @@
 #include "algorithms.h"
-figure_t middle_point_circle(point_t center, double radius)
+figure_t middle_point_circle(point_t center, int radius)
 {
     std::vector<pixel_t> pixels;
 
@@ -8,7 +8,7 @@ figure_t middle_point_circle(point_t center, double radius)
 
     pixels.push_back(pixel_create(x + center.x, y + center.y));
 
-    int delta = 1 - radius;  // 5/4 - r
+    int delta = 1 - radius;
 
     while (x >= y)
     {
@@ -43,7 +43,7 @@ figure_t middle_point_ellipse(point_t center, point_t radius)
     pixels.push_back(pixel_create(x + center.x, y + center.y));
 
     int border = round(radius.x / sqrt(1 + sqr_rb * 1.0 / sqr_ra));
-    int delta = sqr_rb - round(sqr_ra * (radius.y * 1.0 - 1 / 4));
+    int delta = sqr_rb - (int)round(sqr_ra * (radius.y - 1.0 / 4));
 
     while (x <= border)
     {
@@ -68,7 +68,7 @@ figure_t middle_point_ellipse(point_t center, point_t radius)
     pixels.push_back(pixel_create(x + center.x, y + center.y));
 
     border = round(radius.y / sqrt(1 + sqr_ra * 1.0 / sqr_rb));
-    delta = sqr_ra - round(sqr_rb * (radius.x * 1.0 - 1 / 4));
+    delta = sqr_ra - (int)round(sqr_rb * (radius.x - 1.0 / 4));
 
     while (y <= border)
     {

@@ -22,7 +22,7 @@ static long delta_time(struct timespec mt1, struct timespec mt2)
     return 1000000000 * (mt2.tv_sec - mt1.tv_sec) + (mt2.tv_nsec - mt1.tv_nsec);
 }
 
-long time_measurement_circle(point_t center, int radius, figure_t (*alg)(point_t center, double radius))
+long time_measurement_circle(point_t center, int radius, figure_t (*alg)(point_t center, int radius))
 {
     long time1;
     long sum1 = 0;
