@@ -44,6 +44,7 @@ figure_t bresenham_ellipse(point_t center, point_t radius)
 
     while (y >= 0)
     {
+        pixels.push_back(pixel_create(x + center.x, y + center.y));
         if (delta < 0)
         {
             int d1 = 2 * delta + sqr_ra * (2 * y + 2);
@@ -78,7 +79,7 @@ figure_t bresenham_ellipse(point_t center, point_t radius)
             delta += sqr_rb * (2 * x + 1) + sqr_ra * (1 - 2 * y);
         }
 
-        pixels.push_back(pixel_create(x + center.x, y + center.y));
+        // pixels.push_back(pixel_create(x + center.x, y + center.y));
     }
 
     return figure_t{pixels, pixel_create(center.x, center.y)};

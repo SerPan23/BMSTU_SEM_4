@@ -42,7 +42,7 @@ figure_t middle_point_ellipse(point_t center, point_t radius)
 
     pixels.push_back(pixel_create(x + center.x, y + center.y));
 
-    int border = round(radius.x / sqrt(1 + sqr_rb * 1.0 / sqr_ra));
+    int border = round(radius.x / sqrt(1.0 + sqr_rb * 1.0 / sqr_ra));
     int delta = sqr_rb - (int)round(sqr_ra * (radius.y - 1.0 / 4));
 
     while (x <= border)

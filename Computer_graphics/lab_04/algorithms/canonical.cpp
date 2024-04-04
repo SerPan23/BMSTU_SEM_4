@@ -42,5 +42,26 @@ figure_t canonical_ellipse(point_t center, point_t radius)
         pixels.push_back(pixel_create((int)round(x), y));
     }
 
+    // int rx_sqr = radius.x * radius.x;
+    // int ry_sqr = radius.y * radius.y;
+    // double sqrt_coeff = radius.y * 1.0 / radius.x;
+    // double hyp = sqrt(rx_sqr + ry_sqr);
+
+    // int x_range = (int)round(rx_sqr * 1.0 / hyp) + 1;
+
+    // for (int xoff = 0; xoff <= x_range; ++xoff) {
+    //     int yoff = round(sqrt_coeff * sqrt(rx_sqr - xoff * xoff));
+    //     pixels.push_back(pixel_create(xoff + center.x, yoff + center.y));
+    // }
+
+    // sqrt_coeff = 1.0 / sqrt_coeff;
+    // int y_range = (int)round(ry_sqr * 1.0 / hyp) + 1;
+
+    // for (int yoff = 0; yoff <= y_range; ++yoff) {
+    //     int xoff = round(sqrt_coeff * sqrt(ry_sqr - yoff * yoff));
+    //     pixels.push_back(pixel_create(xoff + center.x, yoff + center.y));
+    // }
+
+
     return figure_t{pixels, pixel_create(center.x, center.y)};
 }
