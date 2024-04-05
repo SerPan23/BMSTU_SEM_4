@@ -70,13 +70,23 @@ MainWindow::MainWindow(QWidget *parent):
     // ui->end_x->setValidator(double_validator);
     // ui->end_y->setValidator(double_validator);
 
-    // auto int_validator = new QIntValidator;
-    // int_validator->setLocale(locale);
+    auto int_validator = new QIntValidator;
+    int_validator->setLocale(locale);
 
-    // ui->angle->setValidator(int_validator);
-    // ui->radius->setValidator(double_validator);
+    ui->center_x->setValidator(int_validator);
+    ui->center_y->setValidator(int_validator);
 
-    // ui->line_len->setValidator(double_validator);
+    ui->radius->setValidator(int_validator);
+    ui->radius_x->setValidator(int_validator);
+    ui->radius_y->setValidator(int_validator);
+
+    ui->start_radius->setValidator(int_validator);
+    ui->start_radius_x->setValidator(int_validator);
+    ui->start_radius_y->setValidator(int_validator);
+
+    ui->step->setValidator(int_validator);
+
+    ui->figures_count->setValidator(int_validator);
 }
 
 MainWindow::~MainWindow()

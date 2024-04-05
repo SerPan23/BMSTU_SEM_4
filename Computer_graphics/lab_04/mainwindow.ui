@@ -220,10 +220,18 @@
                 </widget>
                </item>
                <item>
-                <widget class="QLineEdit" name="center_x"/>
+                <widget class="QLineEdit" name="center_x">
+                 <property name="text">
+                  <string>399</string>
+                 </property>
+                </widget>
                </item>
                <item>
-                <widget class="QLineEdit" name="center_y"/>
+                <widget class="QLineEdit" name="center_y">
+                 <property name="text">
+                  <string>349</string>
+                 </property>
+                </widget>
                </item>
               </layout>
              </item>
