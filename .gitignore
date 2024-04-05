@@ -245,3 +245,4 @@ CMakeLists.txt.user*
 *.err
 *.rar
 /masm/24-03-2024-Microsoft_CodeView.ver.4.01.English
+*.COM
