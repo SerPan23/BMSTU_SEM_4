@@ -26,8 +26,11 @@ MainWindow::MainWindow(QWidget *parent):
     connect(ui->btn_fill_color_change, &QPushButton::clicked, this,
             &MainWindow::btn_fill_color_change_clicked);
 
-    connect(ui->btn_clear_screen, &QPushButton::clicked, this,
-            &MainWindow::clear_screen);
+    connect(ui->btn_remove_fill, &QPushButton::clicked, this,
+            &MainWindow::remove_fiil);
+
+    connect(ui->btn_clear, &QPushButton::clicked, this,
+            &MainWindow::clear_all);
 
 
     connect(scene, &MyGraphicsScene::mouseLeftBtnClicked, this,
@@ -39,6 +42,10 @@ MainWindow::MainWindow(QWidget *parent):
 
     connect(ui->btn_close_figure, &QPushButton::clicked, this,
             &MainWindow::btn_close_figure_clicked);
+
+
+    connect(ui->btn_fill, &QPushButton::clicked, this,
+            &MainWindow::btn_fill_clicked);
 
 
     QLocale locale(QLocale::C);
@@ -75,6 +82,21 @@ void MainWindow::btn_fill_color_change_clicked()
     set_preview_widget_color(ui->fill_color_preview, this->fill_color);
 }
 
+void MainWindow::remove_fiil()
+{
+    clear_screen();
+    draw_carcas();
+    draw();
+}
+
+void MainWindow::clear_all()
+{
+    ui->figures_list->clear();
+    clear_screen();
+    current_figure.clear();
+    closed_figures.clear();
+}
+
 void MainWindow::clear_screen()
 {
     this->pxp = QPixmap(ui->graphicsView->scene()->width(), ui->graphicsView->scene()->height());
@@ -84,17 +106,47 @@ void MainWindow::clear_screen()
     ui->graphicsView->scene()->clear();
 }
 
+void MainWindow::draw()
+{
+    ui->graphicsView->scene()->addPixmap(this->pxp);
+}
+
+void MainWindow::draw_carcas()
+{
+    // clear_screen();
+
+    draw_view_t view = {
+        .scene = &this->pxp,
+        .width = ui->graphicsView->scene()->width(),
+        .height = ui->graphicsView->scene()->height(),
+    };
+
+    QColor color = Qt::black;
+
+    for (int i = 0; i < closed_figures.size(); i++)
+        draw_figure(view, color, closed_figures[i]);
+
+    draw_figure(view, color, current_figure);
+}
+
+void MainWindow::update_view()
+{
+    write_figures_list();
+    draw_carcas();
+    draw();
+}
+
 void MainWindow::add_dot(int x, int y)
 {
     current_figure.add_point(Point(x, y));
 
-    write_figures_list();
+    update_view();
 }
 void MainWindow::mouse_add_dot()
 {
     MyGraphicsScene *scene = (MyGraphicsScene *)ui->graphicsView->scene();
     QPointF point = scene->get_mouse_pos();
-    add_dot(round(point.x()), round(point.x()));
+    add_dot(round(point.x()), round(point.y()));
 }
 void MainWindow::form_add_dot()
 {
@@ -105,11 +157,12 @@ void MainWindow::close_figure()
 {
     //TODO: add checks
 
-    current_figure.closed();
+    current_figure.close();
     this->closed_figures.push_back(current_figure);
+
     current_figure.clear();
 
-    write_figures_list();
+    update_view();
 }
 void MainWindow::mouse_close_figure()
 {
@@ -149,4 +202,21 @@ void MainWindow::write_figures_list()
     }
 
     write_figure(current_figure);
+}
+
+void MainWindow::btn_fill_clicked()
+{
+    clear_screen();
+
+    draw_view_t view = {
+        .scene = &this->pxp,
+        .width = ui->graphicsView->scene()->width(),
+        .height = ui->graphicsView->scene()->height(),
+    };
+
+    fill_with_cap(view, this->fill_color, this->closed_figures);
+
+    draw_carcas();
+
+    draw();
 }

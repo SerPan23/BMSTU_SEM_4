@@ -11,15 +11,19 @@ public:
     Figure(Figure const &figure);
 
     void add_point(const Point& point);
-    void closed();
+    void close();
     void clear();
+    bool is_closed();
+
 
     Point& get_point(int n);
     int size();
 
 private:
     std::vector<Point> data;
-    bool is_closed;
+    bool closed;
 };
+
+using figures_t = std::vector<Figure>;
 
 #endif // FIGURE_H

@@ -2,12 +2,12 @@
 
 Figure::Figure()
 {
-    this->is_closed = false;
+    this->closed = false;
 }
 
 Figure::Figure(Figure const &figure)
 {
-    this->is_closed = figure.is_closed;
+    this->closed = figure.closed;
 
     this->data = figure.data;
 }
@@ -17,14 +17,14 @@ void Figure::add_point(const Point& point)
     this->data.push_back(point);
 }
 
-void Figure::closed()
+void Figure::close()
 {
-    this->is_closed = true;
+    this->closed = true;
 }
 
 void Figure::clear()
 {
-    this->is_closed = false;
+    this->closed = false;
     this->data.clear();
 }
 
@@ -36,4 +36,9 @@ Point& Figure::get_point(int n)
 int Figure::size()
 {
     return this->data.size();
+}
+
+bool Figure::is_closed()
+{
+    return this->closed;
 }

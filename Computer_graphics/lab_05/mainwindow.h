@@ -12,6 +12,9 @@
 #include <vector>
 
 #include "figure.h"
+#include "draw.h"
+
+#include "fill_figure.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -34,14 +37,21 @@ private:
     QColor fill_color = Qt::black;
 
     Figure current_figure;
-    std::vector<Figure> closed_figures;
+    figures_t closed_figures;
 
     void show_err_msg(QString);
     void set_preview_widget_color(QWidget *widget, QColor color);
 
     void btn_fill_color_change_clicked();
 
+    void remove_fiil();
+    void clear_all();
+
     void clear_screen();
+    void draw();
+
+    void draw_carcas();
+    void update_view();
 
     void add_dot(int x, int y);
     void mouse_add_dot();
@@ -54,6 +64,8 @@ private:
     void write_figures_list();
     void add_text_line(QString str);
     void write_figure(Figure& figure);
+
+    void btn_fill_clicked();
 
 };
 #endif // MAINWINDOW_H
