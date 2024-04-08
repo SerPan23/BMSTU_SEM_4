@@ -9,8 +9,8 @@
 .model tiny
 
 .data 
-    INSTALL_MSG db "INSTALL INTERRUPT$"
-    UNINSTALL_MSG db "UNINSTALL INTERRUPT$"
+    INSTALL_MSG db "INSTALL INTERRUPT", 0ah, 0dh, '$'
+    UNINSTALL_MSG db "UNINSTALL INTERRUPT", 0ah, 0dh, '$'
 
     CUR_TIME db 0
     SPEED db 01fh
@@ -89,6 +89,11 @@ install:
     int 27h
 
 uninstall:
+    mov dx, offset UNINSTALL_MSG
+    mov ax, 0             
+    mov ah, 09h
+    int 21h
+
     ; возвращаем значения к дефолту
     mov al, 0F3h    
 
@@ -102,11 +107,6 @@ uninstall:
     mov ds, word ptr es:OLD_ADDR + 2
     mov ax, 2508h
     int 21h                  
-
-    mov dx, offset UNINSTALL_MSG
-    mov ax, 0             
-    mov ah, 09h
-    int 21h
 
     ; чистим память (которую можно выделять 48h)
     mov ah, 49h                         
