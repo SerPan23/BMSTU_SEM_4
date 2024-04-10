@@ -16,10 +16,11 @@ edges_t make_edges(figures_t& figures)
     for (int j = 0; j < figures.size(); j++)
     {
         Figure& figure = figures[j];
-        for (int i = 0; i < figure.size(); i++)
+        int points_count = figure.size();
+        for (int i = 0; i < points_count; i++)
         {
-            if (i + 1 > figure.size() - 1)
-                edges.push_back(create_edge(figure.get_point(figure.size() - 1), figure.get_point(0)));
+            if (i + 1 > points_count - 1)
+                edges.push_back(create_edge(figure.get_point(points_count - 1), figure.get_point(0)));
             else
                 edges.push_back(create_edge(figure.get_point(i), figure.get_point(i + 1)));
         }
@@ -70,13 +71,15 @@ void update_y_group(link_list_t& y_groups, int x_start, int y_start, int x_end, 
     if (y_proj != 0)
     {
         double x_step = -(x_end - x_start) * 1.0 / y_proj;
+        if (y_groups.count(y_end) == 0)
+            y_groups[y_end] = nodes_t();
         y_groups[y_end].push_back(create_node(x_end, x_step, y_proj));
     }
 }
 
 void active_edges_iterator(nodes_t& active_edges)
 {
-    for (int i = 0; i < active_edges.size(); i++)
+    for (int i = 0; i < active_edges.size(); /*i++*/)
     {
         active_edges[i].x += active_edges[i].dx;
         active_edges[i].dy -= 1;
@@ -84,6 +87,8 @@ void active_edges_iterator(nodes_t& active_edges)
             //удаляем как в стеке LIFO - размерность списка n x 4,
             //бывают случаи когда нечетное в этом случае не учитвается
             active_edges.erase(active_edges.begin() + i);
+        else
+            ++i;
     }
 }
 
@@ -110,14 +115,14 @@ void draw_act(draw_view_t& view, QColor& color, nodes_t& active_edges, int y)
     {
         try
         {
-            Point tmp1 = Point(active_edges[i].x, y);
-            Point tmp2 = Point(active_edges[i + 1].x, y);
+            Point tmp1(round(active_edges[i].x), y);
+            Point tmp2(active_edges[i + 1].x, y);
             draw_line(view, color, tmp1, tmp2);
         }
         catch (...)
         {
-            Point tmp1 = Point(active_edges[i].x, y);
-            Point tmp2 = Point(active_edges[i - 1].x, y);
+            Point tmp1(round(active_edges[i].x), y);
+            Point tmp2(active_edges[i - 1].x, y);
             draw_line(view, color, tmp1, tmp2);
         }
     }
@@ -128,10 +133,10 @@ void fill_with_cap(draw_view_t& view, QColor& color, figures_t& figures, bool de
     edges_t edges = make_edges(figures);
 
     Point tmp = fing_extrimum_y_figures(figures);
-    int ymin = tmp.getX();
-    int ymax = tmp.getY();
+    int y_min = tmp.getX();
+    int y_max = tmp.getY();
 
-    link_list_t y_groups = make_link_list(ymin, ymax);
+    link_list_t y_groups = make_link_list(y_min, y_max);
 
     for (int i = 0; i < edges.size(); i++)
     {
@@ -141,8 +146,8 @@ void fill_with_cap(draw_view_t& view, QColor& color, figures_t& figures, bool de
     }
 
 
-    int y_end = ymax;
-    int y_start = ymin;
+    int y_start = y_min;
+    int y_end = y_max;
 
     nodes_t active_edges;
     while (y_end > y_start)

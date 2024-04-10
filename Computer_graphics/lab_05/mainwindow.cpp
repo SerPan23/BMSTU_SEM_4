@@ -43,10 +43,12 @@ MainWindow::MainWindow(QWidget *parent):
     connect(ui->btn_close_figure, &QPushButton::clicked, this,
             &MainWindow::btn_close_figure_clicked);
 
+    connect(ui->btn_add_dot, &QPushButton::clicked, this,
+            &MainWindow::form_add_dot);
+
 
     connect(ui->btn_fill, &QPushButton::clicked, this,
             &MainWindow::btn_fill_clicked);
-
 
     QLocale locale(QLocale::C);
     locale.setNumberOptions(QLocale::RejectGroupSeparator);
@@ -150,12 +152,38 @@ void MainWindow::mouse_add_dot()
 }
 void MainWindow::form_add_dot()
 {
+    bool x_ok, y_ok;
 
+    int x = ui->input_x->text().toInt(&x_ok);
+    int y = ui->input_y->text().toInt(&y_ok);
+
+    if (!x_ok)
+    {
+        show_err_msg("Не введена координата x точки");
+        return;
+    }
+    if (!y_ok)
+    {
+        show_err_msg("Не введена координата y точки");
+        return;
+    }
+
+    add_dot(x, y);
 }
 
 void MainWindow::close_figure()
 {
-    //TODO: add checks
+    if (current_figure.size() == 0)
+    {
+        show_err_msg("Фигуры не существует, ниодной точки не введено");
+        return;
+    }
+
+    if (current_figure.size() < 3)
+    {
+        show_err_msg("Фигура не может быть замкнута, введенно менее 3-х образующих точек");
+        return;
+    }
 
     current_figure.close();
     this->closed_figures.push_back(current_figure);
