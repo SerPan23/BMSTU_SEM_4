@@ -6,11 +6,12 @@ class BaseContainer
 public:
     virtual ~BaseContainer() = default;
 
-    virtual bool empty() const = 0;
-    virtual int size() const = 0;
+    virtual bool empty() const noexcept = 0;
+    virtual int size() const noexcept = 0;
+    virtual void clear() = 0;
 
 protected:
-    int size = 0;
+    int container_size = 0;
 };
 
 #endif

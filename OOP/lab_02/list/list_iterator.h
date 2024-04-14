@@ -8,13 +8,44 @@
 #include "base_iterator.h"
 #include "errors.h"
 
+#include "list_node.h"
+
 template <typename T>
 class List;
 
 template <typename T>
-class ListIterator : BaseIterator
+class ListIterator : public BaseIterator
 {
+public:
+    ListIterator();
+    ListIterator(const std::shared_ptr<ListNode<T>> &node);
+    ListIterator(const ListIterator<T> &iterator);
+    ListIterator(List<T> &list);
 
+    ~ListIterator() = default;
+
+    void next() override;
+    bool is_invalid() const override;
+
+    T *operator->();
+    const T *operator->() const;
+
+    T &operator*();
+    const T &operator*() const;
+
+    operator bool() const;
+
+    ListIterator<T> &operator+=(const int &size);
+    ListIterator<T> operator+(const int &size) const;
+    ListIterator<T> operator=(const ListIterator<T> &iterator);
+    ListIterator<T> &operator++();   // префиксный
+    ListIterator<T> operator++(int); // постфиксный
+
+    bool operator!=(const ListIterator<T> &iterator) const;
+    bool operator==(const ListIterator<T> &iterator) const;
+
+private:
+    std::weak_ptr<ListNode<T>> ptr;
 };
 
 #include "list_iterator.hpp"

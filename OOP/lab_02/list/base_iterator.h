@@ -4,9 +4,10 @@
 class BaseIterator
 {
 public:
-    virtual ~BaseIterator() = 0;
-};
+    virtual ~BaseIterator() = default;
 
-BaseIterator::~BaseIterator() {}
+    virtual void next() = 0;
+    virtual bool is_invalid() const = 0;
+};
 
 #endif
