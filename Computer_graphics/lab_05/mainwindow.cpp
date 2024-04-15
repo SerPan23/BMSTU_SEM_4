@@ -279,7 +279,10 @@ void MainWindow::btn_fill_clicked()
         .height = ui->graphicsView->scene()->height(),
     };
 
-    fill_with_cap(view, this->fill_color, this->closed_figures, delay, delay_time);
+    double time = fill_with_cap(view, this->fill_color, this->closed_figures, delay, delay_time);
+
+    if (!delay)
+        QMessageBox::information(NULL, "Время закрашивания", QString::number(time) + " мс");
 
     // draw_carcas();
 

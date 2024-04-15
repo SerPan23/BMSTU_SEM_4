@@ -148,8 +148,16 @@ static void draw_edges(draw_view_t& view, edges_t &edges)
         draw_line(view, line_color, edges[i].start, edges[i].end);
 }
 
-void fill_with_cap(draw_view_t& view, QColor& color, figures_t& figures, bool delay, int delay_time)
+static long delta_time(struct timespec mt1, struct timespec mt2)
 {
+    return 1000000000 * (mt2.tv_sec - mt1.tv_sec) + (mt2.tv_nsec - mt1.tv_nsec);
+}
+
+double fill_with_cap(draw_view_t& view, QColor& color, figures_t& figures, bool delay, int delay_time)
+{
+    struct timespec tbegin, tend;
+    clock_gettime(CLOCK_REALTIME, &tbegin);
+
     edges_t edges = make_edges(figures);
 
     Point tmp = fing_extrimum_y_figures(figures);
@@ -180,11 +188,17 @@ void fill_with_cap(draw_view_t& view, QColor& color, figures_t& figures, bool de
         draw_act(view, color, active_edges, y_end);
         y_end -= 1;
         if (delay)
+        {
             wait(delay_time);
-
-        draw(view);
+            draw(view);
+        }
     }
+
+    clock_gettime(CLOCK_REALTIME, &tend);
+    double time = delta_time(tbegin, tend) / 1000000.0;
 
     draw_edges(view, edges);
     draw(view);
+
+    return time;
 }
