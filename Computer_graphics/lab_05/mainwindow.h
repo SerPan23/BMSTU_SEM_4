@@ -6,6 +6,7 @@
 #include <QMessageBox>
 #include <QColorDialog>
 #include <QValidator>
+#include <QColor>
 
 #include "mygraphicsscene.h"
 
@@ -34,7 +35,7 @@ private:
     Ui::MainWindow *ui;
     QPixmap pxp;
 
-    QColor fill_color = Qt::black;
+    QColor fill_color = QColor(35, 196, 100);
 
     Figure current_figure;
     figures_t closed_figures;

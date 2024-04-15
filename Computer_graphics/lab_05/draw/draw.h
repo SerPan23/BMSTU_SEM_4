@@ -2,11 +2,13 @@
 #define DRAW_H
 
 #include <QPainter>
+#include <QGraphicsView>
 
 #include "figure.h"
 
 struct draw_view
 {
+    QGraphicsView *view;
     QPixmap *scene;
     double width;
     double height;

@@ -58,6 +58,7 @@ MainWindow::MainWindow(QWidget *parent):
 
     ui->input_x->setValidator(int_validator);
     ui->input_y->setValidator(int_validator);
+    ui->delay_time->setValidator(int_validator);
 }
 
 MainWindow::~MainWindow()
@@ -118,6 +119,7 @@ void MainWindow::draw_carcas()
     // clear_screen();
 
     draw_view_t view = {
+        .view = ui->graphicsView,
         .scene = &this->pxp,
         .width = ui->graphicsView->scene()->width(),
         .height = ui->graphicsView->scene()->height(),
@@ -234,17 +236,52 @@ void MainWindow::write_figures_list()
 
 void MainWindow::btn_fill_clicked()
 {
+    if (current_figure.size() > 0 && !current_figure.is_closed())
+    {
+        show_err_msg("Замкните все фигуры");
+        return;
+    }
+
+    if (closed_figures.empty())
+    {
+        show_err_msg("Не введено ниодной фигуры");
+        return;
+    }
+
+    bool delay = ui->is_delay->isChecked();
+
+    bool delay_time_ok;
+
+    int delay_time = ui->delay_time->text().toInt(&delay_time_ok);
+
+    if (delay)
+    {
+        if (!delay_time_ok)
+        {
+            show_err_msg("Не введено время задержки");
+            return;
+        }
+
+        if (delay_time_ok && delay_time < 0)
+        {
+            show_err_msg("Время задержки не может быть отрицательным числом");
+            return;
+        }
+    }
+
+
     clear_screen();
 
     draw_view_t view = {
+        .view = ui->graphicsView,
         .scene = &this->pxp,
         .width = ui->graphicsView->scene()->width(),
         .height = ui->graphicsView->scene()->height(),
     };
 
-    fill_with_cap(view, this->fill_color, this->closed_figures);
+    fill_with_cap(view, this->fill_color, this->closed_figures, delay, delay_time);
 
-    draw_carcas();
+    // draw_carcas();
 
-    draw();
+    // draw();
 }

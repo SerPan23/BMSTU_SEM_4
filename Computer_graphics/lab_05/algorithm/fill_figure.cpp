@@ -128,7 +128,27 @@ void draw_act(draw_view_t& view, QColor& color, nodes_t& active_edges, int y)
     }
 }
 
-void fill_with_cap(draw_view_t& view, QColor& color, figures_t& figures, bool delay)
+static void draw(draw_view_t& view)
+{
+    view.view->scene()->clear();
+    view.view->scene()->addPixmap(*view.scene);
+}
+
+static void wait(int millisecondsToWait)
+{
+    QTime dieTime = QTime::currentTime().addMSecs(millisecondsToWait);
+    while(QTime::currentTime() < dieTime)
+        QCoreApplication::processEvents(QEventLoop::AllEvents, 100);
+}
+
+static void draw_edges(draw_view_t& view, edges_t &edges)
+{
+    QColor line_color = Qt::black;
+    for (int i = 0; i < edges.size(); i++)
+        draw_line(view, line_color, edges[i].start, edges[i].end);
+}
+
+void fill_with_cap(draw_view_t& view, QColor& color, figures_t& figures, bool delay, int delay_time)
 {
     edges_t edges = make_edges(figures);
 
@@ -149,6 +169,8 @@ void fill_with_cap(draw_view_t& view, QColor& color, figures_t& figures, bool de
     int y_start = y_min;
     int y_end = y_max;
 
+    // draw_edges(view, edges);
+
     nodes_t active_edges;
     while (y_end > y_start)
     {
@@ -157,10 +179,12 @@ void fill_with_cap(draw_view_t& view, QColor& color, figures_t& figures, bool de
 
         draw_act(view, color, active_edges, y_end);
         y_end -= 1;
-        // if (delay)
-        //     time.sleep(0.00001);
-        // canvas.update();
+        if (delay)
+            wait(delay_time);
+
+        draw(view);
     }
 
-    // draw_edges(view, edges);
+    draw_edges(view, edges);
+    draw(view);
 }

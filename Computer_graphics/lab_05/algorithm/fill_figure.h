@@ -5,6 +5,8 @@
 #include "draw.h"
 
 #include <map>
+#include <QTime>
+#include <QCoreApplication>
 
 struct node
 {
@@ -33,6 +35,6 @@ using edges_t = std::vector<edge_t>;
 using link_list_t = std::map<int, nodes_t>;
 
 
-void fill_with_cap(draw_view_t& view, QColor& color, figures_t& closed_figures, bool delay=false);
+void fill_with_cap(draw_view_t& view, QColor& color, figures_t& closed_figures, bool delay=false, int delay_time=10);
 
 #endif // FILL_FIGURE_H
