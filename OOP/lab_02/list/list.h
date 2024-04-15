@@ -37,12 +37,14 @@ public:
     ListIterator<T> push_back(const T &data);
     ListIterator<T> push_back(const List<T> &list);
 
+    ListIterator<T> insert(const ListIterator<T> &iterator, const T &data);
+    ListIterator<T> insert(const ListIterator<T> &iterator, const List<T> &list);
     ListIterator<T> insert(const ListConstIterator<T> &iterator, const T &data);
     ListIterator<T> insert(const ListConstIterator<T> &iterator, const List<T> &list);
 
     T pop_front();
     T pop_back();
-    T erase(const ListConstIterator<T> &iterator);
+    T erase(const ListIterator<T> &iterator);
 
     void reverse() noexcept;
 
@@ -88,7 +90,7 @@ std::ostream &operator<<(std::ostream &os, List<T> &list)
         if (iter + 1)
             os << *iter << ", ";
         else
-            os << *iter << std::endl;
+            os << *iter;
 
     return os;
 }
@@ -101,7 +103,7 @@ std::ostream &operator<<(std::ostream &os, const List<T> &list)
         if (iter + 1)
             os << *iter << ", ";
         else
-            os << *iter << std::endl;
+            os << *iter;
 
     return os;
 }

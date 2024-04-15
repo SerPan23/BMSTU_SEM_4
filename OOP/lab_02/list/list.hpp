@@ -159,9 +159,7 @@ ListIterator<T> List<T>::push_front(const List<T> &list)
 {
     ListIterator<T> iter;
 
-    for (int i = 0; i < list.container_size; i++)
-        iter = this->insert(this->begin() + i, (*(list.begin() + i)).get());
-
+    iter = this->insert(this->begin(), list);
     return iter;
 }
 
@@ -213,12 +211,66 @@ template <typename T>
 ListIterator<T> List<T>::push_back(const List<T> &list)
 {
     ListConstIterator<T> tmp_iterator = list.cbegin();
-    for (; tmp_iterator + 1 != list.cend(); tmp_iterator++)
+    for (; tmp_iterator != list.cend(); tmp_iterator++)
         this->push_back(*tmp_iterator);
 
     return ListIterator<T>(this->tail);
 }
 
+template <typename T>
+ListIterator<T> List<T>::insert(const ListIterator<T> &iterator, const T &data)
+{
+    if (iterator.is_invalid())
+    {
+        time_t cur_time = time(NULL);
+        throw InvalidIterator(ctime(&cur_time), __FILE__, typeid(*this).name(), __LINE__);
+    }
+
+    std::shared_ptr<ListNode<T>> tmp = nullptr;
+
+    try
+    {
+        tmp = std::shared_ptr<ListNode<T>>(new ListNode<T>);
+    }
+    catch (std::bad_alloc &error)
+    {
+        time_t cur_time = time(NULL);
+        throw MemoryError(ctime(&cur_time), __FILE__, typeid(*this).name(), __LINE__);
+    }
+
+    tmp->set(data);
+
+    if (iterator == this->begin())
+        return push_front(tmp);
+    else if (iterator == this->end())
+        return this->push_back(tmp);
+
+    ListIterator<T> prev_iterator = this->begin();
+    for (; prev_iterator + 1 != iterator; prev_iterator++)
+        ;
+
+    tmp->set_next(prev_iterator->get_next());
+    prev_iterator->set_next(tmp);
+    this->container_size++;
+
+    return ListIterator<T>(tmp);
+}
+template <typename T>
+ListIterator<T> List<T>::insert(const ListIterator<T> &iterator, const List<T> &list)
+{
+    if (iterator.is_invalid())
+    {
+        time_t cur_time = time(NULL);
+        throw InvalidIterator(ctime(&cur_time), __FILE__, typeid(*this).name(), __LINE__);
+    }
+
+    ListIterator<T> insert_iter;
+
+    for (int i = 0; i < list.container_size; i++)
+        insert_iter = insert(iterator, *(list.cbegin() + i));
+
+    return insert_iter;
+}
 template <typename T>
 ListIterator<T> List<T>::insert(const ListConstIterator<T> &iterator, const T &data)
 {
@@ -247,11 +299,12 @@ ListIterator<T> List<T>::insert(const ListConstIterator<T> &iterator, const T &d
     else if (iterator == this->cend())
         return this->push_back(tmp);
 
-    ListIterator<T> tmp_iterator = this->begin();
-    for (; tmp_iterator + 1 != iterator; tmp_iterator++);
+    ListIterator<T> prev_iterator = this->begin();
+    ListIterator<T> no_const_iter(iterator.get_ptr());
+    for (; (prev_iterator + 1) != no_const_iter; prev_iterator++);
 
-    tmp->set_next(tmp_iterator->get_next());
-    tmp_iterator->set_next(tmp);
+    tmp->set_next(prev_iterator->get_next());
+    prev_iterator->set_next(tmp);
     this->container_size++;
 
     return ListIterator<T>(tmp);
@@ -268,7 +321,7 @@ ListIterator<T> List<T>::insert(const ListConstIterator<T> &iterator, const List
     ListIterator<T> insert_iter;
 
     for (int i = 0; i < list.container_size; i++)
-        insert_iter = insert(iterator, (*(list.begin() + i)).get());
+        insert_iter = insert(iterator, *(list.cbegin() + i));
 
     return insert_iter;
 }
@@ -326,7 +379,7 @@ T List<T>::pop_back(void)
     return data;
 }
 template <typename T>
-T List<T>::erase(const ListConstIterator<T> &iterator)
+T List<T>::erase(const ListIterator<T> &iterator)
 {
     if (iterator.is_invalid())
     {
@@ -342,7 +395,7 @@ T List<T>::erase(const ListConstIterator<T> &iterator)
 
     if (iterator == this->begin())
         return pop_front();
-
+    
     ListIterator<T> tmp_prev = this->begin();
     for (; tmp_prev + 1 != iterator; tmp_prev++);
 
@@ -402,6 +455,8 @@ List<T> &List<T>::operator=(const List<T> &list)
 template <typename T>
 List<T> &List<T>::operator=(const List<T> &&list)
 {
+    this->clear();
+
     this->container_size = list.container_size;
     this->head = list.head;
     this->tail = list.tail;
@@ -449,7 +504,7 @@ bool List<T>::operator==(const List<T> &list) const
 template <typename T>
 bool List<T>::operator!=(const List<T> &list) const
 {
-    return !(this == list);
+    return !(*this == list);
 }
 
 template <typename T>

@@ -34,14 +34,14 @@ bool ListIterator<T>::is_invalid() const
 }
 
 template <typename T>
-T *ListIterator<T>::operator->()
+ListNode<T> *ListIterator<T>::operator->()
 {
-    return &(this->ptr.lock()->get());
+    return this->ptr.lock().get();
 }
 template <typename T>
-const T *ListIterator<T>::operator->() const
+const ListNode<T> *ListIterator<T>::operator->() const
 {
-    return &(this->ptr.lock()->get());
+    return this->ptr.lock().get();
 }
 
 template <typename T>
@@ -105,6 +105,12 @@ template <typename T>
 bool ListIterator<T>::operator==(const ListIterator<T> &iterator) const
 {
     return this->ptr.lock() == iterator.ptr.lock();
+}
+
+template <typename T>
+std::shared_ptr<ListNode<T>> ListIterator<T>::get_ptr()
+{
+    return this->ptr.lock();
 }
 
 #endif

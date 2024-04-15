@@ -34,9 +34,9 @@ bool ListConstIterator<T>::is_invalid() const
 }
 
 template <typename T>
-const T *ListConstIterator<T>::operator->() const
+const ListNode<T> *ListConstIterator<T>::operator->() const
 {
-    return &(this->ptr.lock()->get());
+    return this->ptr.lock().get();
 }
 
 template <typename T>
@@ -95,6 +95,12 @@ template <typename T>
 bool ListConstIterator<T>::operator==(const ListConstIterator<T> &iterator) const
 {
     return this->ptr.lock() == iterator.ptr.lock();
+}
+
+template <typename T>
+std::shared_ptr<ListNode<T>> ListConstIterator<T>::get_ptr() const
+{
+    return this->ptr.lock();
 }
 
 #endif

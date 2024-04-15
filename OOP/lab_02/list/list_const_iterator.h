@@ -27,7 +27,7 @@ public:
     void next() override;
     bool is_invalid() const override;
 
-    const T *operator->() const;
+    const ListNode<T> *operator->() const;
     const T &operator*() const;
 
     operator bool() const;
@@ -40,6 +40,8 @@ public:
 
     bool operator!=(const ListConstIterator<T> &iterator) const;
     bool operator==(const ListConstIterator<T> &iterator) const;
+
+    std::shared_ptr<ListNode<T>> get_ptr() const;
 
 private:
     std::weak_ptr<ListNode<T>> ptr;

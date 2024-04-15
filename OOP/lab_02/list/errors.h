@@ -14,7 +14,7 @@ public:
               const std::string &info)
     {
         error_msg = "\nTime: " + time +
-                    "\nFile: " + filename +
+                    "File: " + filename +
                     "\nClass: " + classname +
                     "\nLine: " + std::to_string(line) +
                     "\nInfo: " + info;
