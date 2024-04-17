@@ -184,10 +184,12 @@ double fill_with_cap(draw_view_t& view, QColor& color, figures_t& figures, bool 
     nodes_t active_edges;
     while (y_end > y_start)
     {
-        active_edges_iterator(active_edges);
         add_active_edges(y_groups, active_edges, y_end);
 
         draw_act(view, color, active_edges, y_end);
+
+
+        active_edges_iterator(active_edges);
         y_end -= 1;
         if (delay)
         {
