@@ -177,6 +177,34 @@ int main()
     else
         std::cout << "Equal\n";
 
+    list_cmp_1.push_back(5);
+    std::cout << "\nlist_cmp_1: " << list_cmp_1 << std::endl;
+    std::cout << "list_cmp_2: " << list_cmp_2 << std::endl;
+
+    std::cout << "\noperator < (list_cmp_1 < list_cmp_2): ";
+    if (list_cmp_1 < list_cmp_2)
+        std::cout << "True\n";
+    else
+        std::cout << "False\n";
+
+    std::cout << "\noperator <= (list_cmp_1 <= list_cmp_2): ";
+    if (list_cmp_1 <= list_cmp_2)
+        std::cout << "True\n";
+    else
+        std::cout << "False\n";
+
+    std::cout << "\noperator > (list_cmp_1 > list_cmp_2): ";
+    if (list_cmp_1 > list_cmp_2)
+        std::cout << "True\n";
+    else
+        std::cout << "False\n";
+
+    std::cout << "\noperator >= (list_cmp_1 >= list_cmp_2): ";
+    if (list_cmp_1 >= list_cmp_2)
+        std::cout << "True\n";
+    else
+        std::cout << "False\n";
+
     std::cout << "\nTest iterators:\n";
     List<int> test_list = {1, 2, 3};
 

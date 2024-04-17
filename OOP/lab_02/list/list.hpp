@@ -508,6 +508,76 @@ bool List<T>::operator!=(const List<T> &list) const
 }
 
 template <typename T>
+bool List<T>::operator<(const List<T> &list) const
+{
+    if (this->container_size < list.container_size)
+        return true;
+
+    auto tmp_this = this->cbegin();
+    auto tmp_list = list.cbegin();
+
+    bool strictly_less = false;
+
+    for (; !strictly_less && tmp_this != this->cend() && tmp_list != list.cend(); tmp_this++, tmp_list++)
+    {
+        if (tmp_this->get() > tmp_list->get())
+            return false;
+
+        if (tmp_this->get() < tmp_list->get())
+            strictly_less = true;
+    }
+
+    return strictly_less && this->container_size == list.container_size;
+}
+template <typename T>
+bool List<T>::operator<=(const List<T> &list) const
+{
+    auto tmp_this = this->cbegin();
+    auto tmp_list = list.cbegin();
+
+    for (; tmp_this != this->cend() && tmp_list != list.cend(); tmp_this++, tmp_list++)
+        if (tmp_this->get() > tmp_list->get())
+            return false;
+
+    return this->container_size <= list.container_size;
+}
+
+template <typename T>
+bool List<T>::operator>(const List<T> &list) const
+{
+    if (this->container_size > list.container_size)
+        return true;
+
+    auto tmp_this = this->cbegin();
+    auto tmp_list = list.cbegin();
+
+    bool strictly_more = false;
+
+    for (; !strictly_more && tmp_this != this->cend() && tmp_list != list.cend(); tmp_this++, tmp_list++)
+    {
+        if (tmp_this->get() < tmp_list->get())
+            return false;
+
+        if (tmp_this->get() > tmp_list->get())
+            strictly_more = true;
+    }
+
+    return strictly_more && this->container_size == list.container_size;
+}
+template <typename T>
+bool List<T>::operator>=(const List<T> &list) const
+{
+    auto tmp_this = this->cbegin();
+    auto tmp_list = list.cbegin();
+
+    for (; tmp_this != this->cend() && tmp_list != list.cend(); tmp_this++, tmp_list++)
+        if (tmp_this->get() < tmp_list->get())
+            return false;
+
+    return this->container_size >= list.container_size;
+}
+
+template <typename T>
 ListIterator<T> List<T>::begin() noexcept
 {
     return ListIterator<T>(this->head);
