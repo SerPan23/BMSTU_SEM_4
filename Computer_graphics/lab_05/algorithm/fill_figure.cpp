@@ -10,6 +10,52 @@ edge_t create_edge(Point start, Point end)
     return edge_t{start, end};
 }
 
+void draw_act(draw_view_t& view, QColor& color, nodes_t& active_edges, int y)
+{
+    for (int i = 0; i < active_edges.size(); i += 2)
+    {
+        try
+        {
+            Point tmp1(round(active_edges[i].x), y);
+            Point tmp2(active_edges[i + 1].x, y);
+            draw_line(view, color, tmp1, tmp2);
+        }
+        catch (...)
+        {
+            Point tmp1(round(active_edges[i].x), y);
+            Point tmp2(active_edges[i - 1].x, y);
+            draw_line(view, color, tmp1, tmp2);
+        }
+    }
+}
+
+static void draw(draw_view_t& view)
+{
+    view.view->scene()->clear();
+    view.view->scene()->addPixmap(*view.scene);
+}
+
+static void wait(int millisecondsToWait)
+{
+    QTime dieTime = QTime::currentTime().addMSecs(millisecondsToWait);
+    while(QTime::currentTime() < dieTime)
+        QCoreApplication::processEvents(QEventLoop::AllEvents, 100);
+}
+
+static void draw_edges(draw_view_t& view, edges_t &edges)
+{
+    QColor line_color = Qt::black;
+    for (int i = 0; i < edges.size(); i++)
+        draw_line(view, line_color, edges[i].start, edges[i].end);
+}
+
+static long delta_time(struct timespec mt1, struct timespec mt2)
+{
+    return 1000000000 * (mt2.tv_sec - mt1.tv_sec) + (mt2.tv_nsec - mt1.tv_nsec);
+}
+
+// start algo
+
 edges_t make_edges(figures_t& figures)
 {
     edges_t edges;
@@ -79,7 +125,7 @@ void update_y_group(link_list_t& y_groups, int x_start, int y_start, int x_end, 
 
 void active_edges_iterator(nodes_t& active_edges)
 {
-    for (int i = 0; i < active_edges.size(); /*i++*/)
+    for (int i = 0; i < active_edges.size();)
     {
         active_edges[i].x += active_edges[i].dx;
         active_edges[i].dy -= 1;
@@ -107,50 +153,6 @@ void add_active_edges(link_list_t& y_groups, nodes_t& active_edges, int y)
     }
 
     sort(active_edges.begin(), active_edges.end(), compare_nodes_x);
-}
-
-void draw_act(draw_view_t& view, QColor& color, nodes_t& active_edges, int y)
-{
-    for (int i = 0; i < active_edges.size(); i += 2)
-    {
-        try
-        {
-            Point tmp1(round(active_edges[i].x), y);
-            Point tmp2(active_edges[i + 1].x, y);
-            draw_line(view, color, tmp1, tmp2);
-        }
-        catch (...)
-        {
-            Point tmp1(round(active_edges[i].x), y);
-            Point tmp2(active_edges[i - 1].x, y);
-            draw_line(view, color, tmp1, tmp2);
-        }
-    }
-}
-
-static void draw(draw_view_t& view)
-{
-    view.view->scene()->clear();
-    view.view->scene()->addPixmap(*view.scene);
-}
-
-static void wait(int millisecondsToWait)
-{
-    QTime dieTime = QTime::currentTime().addMSecs(millisecondsToWait);
-    while(QTime::currentTime() < dieTime)
-        QCoreApplication::processEvents(QEventLoop::AllEvents, 100);
-}
-
-static void draw_edges(draw_view_t& view, edges_t &edges)
-{
-    QColor line_color = Qt::black;
-    for (int i = 0; i < edges.size(); i++)
-        draw_line(view, line_color, edges[i].start, edges[i].end);
-}
-
-static long delta_time(struct timespec mt1, struct timespec mt2)
-{
-    return 1000000000 * (mt2.tv_sec - mt1.tv_sec) + (mt2.tv_nsec - mt1.tv_nsec);
 }
 
 double fill_with_cap(draw_view_t& view, QColor& color, figures_t& figures, bool delay, int delay_time)
