@@ -1,15 +1,15 @@
 #ifndef LIST_HPP
 #define LIST_HPP
 
-template <typename T>
+template <Comparable T>
 List<T>::List()
 {
     this->container_size = 0;
     this->head = nullptr;
     this->tail = nullptr;
 }
-template <typename T>
-List<T>::List(List<T> &list)
+template <Comparable T>
+List<T>::List(const List<T> &list)
 {
     this->container_size = 0;
     this->head = nullptr;
@@ -18,14 +18,14 @@ List<T>::List(List<T> &list)
     for (auto node : list)
         this->push_back(node);
 }
-template <typename T>
+template <Comparable T>
 List<T>::List(List<T> &&list)
 {
     this->container_size = list.container_size;
     this->head = list.head;
     this->tail = list.tail;
 }
-template <typename T>
+template <Comparable T>
 List<T>::List(T *const arr, const int &size)
 {
     if (!arr)
@@ -47,7 +47,7 @@ List<T>::List(T *const arr, const int &size)
     for (int i = 0; i < size; i++)
         this->push_back(arr[i]);
 }
-template <typename T>
+template <Comparable T>
 List<T>::List(const std::initializer_list<T> &nodes)
 {
     this->container_size = 0;
@@ -57,7 +57,7 @@ List<T>::List(const std::initializer_list<T> &nodes)
     for (auto node : nodes)
         this->push_back(node);
 }
-template <typename T>
+template <Comparable T>
 List<T>::List(const ListIterator<T> &begin, const ListIterator<T> &end)
 {
     if (begin.is_invalid() || end.is_invalid())
@@ -73,7 +73,7 @@ List<T>::List(const ListIterator<T> &begin, const ListIterator<T> &end)
     for (auto current = begin; current != end + 1; current++)
         this->push_back(*current);
 }
-template <typename T>
+template <Comparable T>
 List<T>::List(const ListConstIterator<T> &begin, const ListConstIterator<T> &end)
 {
     if (begin.is_invalid() || end.is_invalid())
@@ -90,24 +90,24 @@ List<T>::List(const ListConstIterator<T> &begin, const ListConstIterator<T> &end
         this->push_back(*current);
 }
 
-template <typename T>
+template <Comparable T>
 bool List<T>::empty(void) const noexcept
 {
     return this->container_size == 0;
 }
-template <typename T>
+template <Comparable T>
 int List<T>::size(void) const noexcept
 {
     return this->container_size;
 }
-template <typename T>
+template <Comparable T>
 void List<T>::clear()
 {
     while (this->container_size)
         this->pop_front();
 }
 
-template <typename T>
+template <Comparable T>
 ListIterator<T> List<T>::push_front(const std::shared_ptr<ListNode<T>> &node)
 {
     if (!node)
@@ -126,7 +126,7 @@ ListIterator<T> List<T>::push_front(const std::shared_ptr<ListNode<T>> &node)
 
     return ListIterator<T>(node);
 }
-template <typename T>
+template <Comparable T>
 ListIterator<T> List<T>::push_front(const T &data)
 {
     std::shared_ptr<ListNode<T>> tmp = nullptr;
@@ -144,7 +144,7 @@ ListIterator<T> List<T>::push_front(const T &data)
     tmp->set(data);
     return this->push_front(tmp);
 }
-template <typename T>
+template <Comparable T>
 ListIterator<T> List<T>::push_front(const List<T> &list)
 {
     ListIterator<T> iter;
@@ -153,7 +153,7 @@ ListIterator<T> List<T>::push_front(const List<T> &list)
     return iter;
 }
 
-template <typename T>
+template <Comparable T>
 ListIterator<T> List<T>::push_back(const std::shared_ptr<ListNode<T>> &node)
 {
     if (!node)
@@ -179,7 +179,7 @@ ListIterator<T> List<T>::push_back(const std::shared_ptr<ListNode<T>> &node)
 
     return ListIterator<T>(node);
 }
-template <typename T>
+template <Comparable T>
 ListIterator<T> List<T>::push_back(const T &data)
 {
     std::shared_ptr<ListNode<T>> tmp = nullptr;
@@ -197,7 +197,7 @@ ListIterator<T> List<T>::push_back(const T &data)
     tmp->set(data);
     return this->push_back(tmp);
 }
-template <typename T>
+template <Comparable T>
 ListIterator<T> List<T>::push_back(const List<T> &list)
 {
     ListConstIterator<T> tmp_iterator = list.cbegin();
@@ -207,7 +207,7 @@ ListIterator<T> List<T>::push_back(const List<T> &list)
     return ListIterator<T>(this->tail);
 }
 
-template <typename T>
+template <Comparable T>
 ListIterator<T> List<T>::insert(const ListIterator<T> &iterator, const T &data)
 {
     if (iterator.is_invalid())
@@ -245,7 +245,7 @@ ListIterator<T> List<T>::insert(const ListIterator<T> &iterator, const T &data)
 
     return ListIterator<T>(tmp);
 }
-template <typename T>
+template <Comparable T>
 ListIterator<T> List<T>::insert(const ListIterator<T> &iterator, const List<T> &list)
 {
     if (iterator.is_invalid())
@@ -261,7 +261,7 @@ ListIterator<T> List<T>::insert(const ListIterator<T> &iterator, const List<T> &
 
     return insert_iter;
 }
-template <typename T>
+template <Comparable T>
 ListIterator<T> List<T>::insert(const ListConstIterator<T> &iterator, const T &data)
 {
     if (iterator.is_invalid())
@@ -299,7 +299,7 @@ ListIterator<T> List<T>::insert(const ListConstIterator<T> &iterator, const T &d
 
     return ListIterator<T>(tmp);
 }
-template <typename T>
+template <Comparable T>
 ListIterator<T> List<T>::insert(const ListConstIterator<T> &iterator, const List<T> &list)
 {
     if (iterator.is_invalid())
@@ -316,7 +316,7 @@ ListIterator<T> List<T>::insert(const ListConstIterator<T> &iterator, const List
     return insert_iter;
 }
 
-template <typename T>
+template <Comparable T>
 T List<T>::pop_front(void)
 {
     if (!this->container_size)
@@ -339,7 +339,7 @@ T List<T>::pop_front(void)
 
     return data;
 }
-template <typename T>
+template <Comparable T>
 T List<T>::pop_back(void)
 {
     if (!this->container_size)
@@ -368,7 +368,7 @@ T List<T>::pop_back(void)
 
     return data;
 }
-template <typename T>
+template <Comparable T>
 T List<T>::erase(const ListIterator<T> &iterator)
 {
     if (iterator.is_invalid())
@@ -396,7 +396,7 @@ T List<T>::erase(const ListIterator<T> &iterator)
     return data;
 }
 
-template <typename T>
+template <Comparable T>
 void List<T>::reverse(void) noexcept
 {
     std::shared_ptr<ListNode<T>> current(this->head);
@@ -417,20 +417,20 @@ void List<T>::reverse(void) noexcept
     this->tail->set_null();
 }
 
-template <typename T>
+template <Comparable T>
 List<T> &List<T>::merge(const List<T> &list)
 {
     this->push_back(list);
     return *this;
 }
-template <typename T>
+template <Comparable T>
 List<T> &List<T>::merge(const T &data)
 {
     this->push_back(data);
     return *this;
 }
 
-template <typename T>
+template <Comparable T>
 List<T> &List<T>::operator=(const List<T> &list)
 {
     this->clear();
@@ -442,7 +442,7 @@ List<T> &List<T>::operator=(const List<T> &list)
     this->push_back(list);
     return *this;
 }
-template <typename T>
+template <Comparable T>
 List<T> &List<T>::operator=(const List<T> &&list)
 {
     this->clear();
@@ -453,33 +453,33 @@ List<T> &List<T>::operator=(const List<T> &&list)
     return *this;
 }
 
-template <typename T>
+template <Comparable T>
 List<T> &List<T>::operator+=(const List<T> &list)
 {
     this->push_back(list);
     return *this;
 }
-template <typename T>
+template <Comparable T>
 List<T> &List<T>::operator+=(const T &data)
 {
     this->push_back(data);
     return *this;
 }
 
-template <typename T>
+template <Comparable T>
 List<T> &List<T>::operator+(const List<T> &list)
 {
     this->push_back(list);
     return *this;
 }
-template <typename T>
+template <Comparable T>
 List<T> &List<T>::operator+(const T &data)
 {
     this->push_back(data);
     return *this;
 }
 
-template <typename T>
+template <Comparable T>
 bool List<T>::operator==(const List<T> &list) const
 {
     auto tmp_this = this->cbegin();
@@ -491,13 +491,13 @@ bool List<T>::operator==(const List<T> &list) const
 
     return this->container_size == list.container_size;
 }
-template <typename T>
+template <Comparable T>
 bool List<T>::operator!=(const List<T> &list) const
 {
     return !(*this == list);
 }
 
-template <typename T>
+template <Comparable T>
 bool List<T>::operator<(const List<T> &list) const
 {
     if (this->container_size < list.container_size)
@@ -519,7 +519,7 @@ bool List<T>::operator<(const List<T> &list) const
 
     return strictly_less && this->container_size == list.container_size;
 }
-template <typename T>
+template <Comparable T>
 bool List<T>::operator<=(const List<T> &list) const
 {
     auto tmp_this = this->cbegin();
@@ -532,7 +532,7 @@ bool List<T>::operator<=(const List<T> &list) const
     return this->container_size <= list.container_size;
 }
 
-template <typename T>
+template <Comparable T>
 bool List<T>::operator>(const List<T> &list) const
 {
     if (this->container_size > list.container_size)
@@ -554,7 +554,7 @@ bool List<T>::operator>(const List<T> &list) const
 
     return strictly_more && this->container_size == list.container_size;
 }
-template <typename T>
+template <Comparable T>
 bool List<T>::operator>=(const List<T> &list) const
 {
     auto tmp_this = this->cbegin();
@@ -567,34 +567,34 @@ bool List<T>::operator>=(const List<T> &list) const
     return this->container_size >= list.container_size;
 }
 
-template <typename T>
+template <Comparable T>
 ListIterator<T> List<T>::begin() noexcept
 {
     return ListIterator<T>(this->head);
 }
-template <typename T>
+template <Comparable T>
 ListIterator<T> List<T>::end() noexcept
 {
     return ++ListIterator<T>(this->tail);
 }
 
-template <typename T>
+template <Comparable T>
 ListConstIterator<T> List<T>::cbegin() const noexcept
 {
     return ListConstIterator<T>(this->head);
 }
-template <typename T>
+template <Comparable T>
 ListConstIterator<T> List<T>::cend() const noexcept
 {
     return ++ListConstIterator<T>(this->tail);
 }
 
-template <typename T>
+template <Comparable T>
 std::shared_ptr<ListNode<T>> List<T>::get_head()
 {
     return this->head;
 }
-template <typename T>
+template <Comparable T>
 std::shared_ptr<ListNode<T>> List<T>::get_tail()
 {
     return this->tail;
