@@ -9,7 +9,7 @@ class ListNode
 public:
     ListNode();
     ListNode(const T &data);
-    ListNode(std::shared_ptr<ListNode<T>> &node);
+    ListNode(const std::shared_ptr<ListNode<T>> &node);
 
     ~ListNode() = default;
 

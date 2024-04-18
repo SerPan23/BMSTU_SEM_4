@@ -13,12 +13,19 @@
 
 #include "list_node.h"
 
+#include <concepts>
+
 template <typename T>
+concept Comparable = requires(T a, T b) {
+    a == b
+}
+
+template <Comparable T>
 class List : public BaseContainer
 {
 public:
     List();
-    explicit List(List<T> &list);
+    explicit List(const List<T> &list);
     List(List<T> &&list);
     List(T *const arr, const int &size);
     List(const std::initializer_list<T> &nodes);
@@ -27,9 +34,9 @@ public:
 
     ~List() = default;
 
-    bool empty() const noexcept override;
-    int size() const noexcept override;
-    void clear() override;
+    virtual bool empty() const noexcept override;
+    virtual int size() const noexcept override;
+    virtual void clear() override;
 
     ListIterator<T> push_front(const T& data);
     ListIterator<T> push_front(const List<T> &list);
