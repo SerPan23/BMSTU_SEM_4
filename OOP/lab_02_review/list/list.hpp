@@ -70,7 +70,7 @@ List<T>::List(const ListIterator<T> &begin, const ListIterator<T> &end)
     this->head = nullptr;
     this->tail = nullptr;
 
-    for (auto current = begin; current != end + 1; current++)
+    for (auto &current = begin; current != end + 1; current++)
         this->push_back(*current);
 }
 template <Comparable T>
@@ -133,7 +133,7 @@ ListIterator<T> List<T>::push_front(const T &data)
 
     try
     {
-        tmp = std::make_shared<ListNode<T>>();
+        tmp = std::make_shared<ListNode<T>>(data);
     }
     catch (std::bad_alloc &error)
     {
@@ -141,7 +141,6 @@ ListIterator<T> List<T>::push_front(const T &data)
         throw MemoryError(ctime(&cur_time), __FILE__, typeid(*this).name(), __LINE__);
     }
 
-    tmp->set(data);
     return this->push_front(tmp);
 }
 template <Comparable T>
@@ -186,7 +185,7 @@ ListIterator<T> List<T>::push_back(const T &data)
 
     try
     {
-        tmp = std::make_shared<ListNode<T>>();
+        tmp = std::make_shared<ListNode<T>>(data);
     }
     catch (std::bad_alloc &error)
     {
@@ -194,15 +193,13 @@ ListIterator<T> List<T>::push_back(const T &data)
         throw MemoryError(ctime(&cur_time), __FILE__, typeid(*this).name(), __LINE__);
     }
 
-    tmp->set(data);
     return this->push_back(tmp);
 }
 template <Comparable T>
 ListIterator<T> List<T>::push_back(const List<T> &list)
 {
-    ListConstIterator<T> tmp_iterator = list.cbegin();
-    for (; tmp_iterator != list.cend(); tmp_iterator++)
-        this->push_back(*tmp_iterator);
+    for(const auto &data: list)
+        this->push_back(data);
 
     return ListIterator<T>(this->tail);
 }
@@ -220,15 +217,13 @@ ListIterator<T> List<T>::insert(const ListIterator<T> &iterator, const T &data)
 
     try
     {
-        tmp = std::make_shared<ListNode<T>>();
+        tmp = std::make_shared<ListNode<T>>(data);
     }
     catch (std::bad_alloc &error)
     {
         time_t cur_time = time(NULL);
         throw MemoryError(ctime(&cur_time), __FILE__, typeid(*this).name(), __LINE__);
     }
-
-    tmp->set(data);
 
     if (iterator == this->begin())
         return push_front(tmp);
@@ -274,15 +269,13 @@ ListIterator<T> List<T>::insert(const ListConstIterator<T> &iterator, const T &d
 
     try
     {
-        tmp = std::make_shared<ListNode<T>>();
+        tmp = std::make_shared<ListNode<T>>(data);
     }
     catch (std::bad_alloc &error)
     {
         time_t cur_time = time(NULL);
         throw MemoryError(ctime(&cur_time), __FILE__, typeid(*this).name(), __LINE__);
     }
-
-    tmp->set(data);
 
     if (iterator == this->cbegin())
         return push_front(tmp);
