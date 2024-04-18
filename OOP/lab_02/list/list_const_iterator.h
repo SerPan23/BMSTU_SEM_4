@@ -10,7 +10,9 @@
 
 #include "list_node.h"
 
-template <typename T>
+#include "concepts.h"
+
+template <Comparable T>
 class List;
 
 template <typename T>
@@ -27,7 +29,7 @@ public:
     void next() override;
     bool is_invalid() const override;
 
-    const ListNode<T> *operator->() const;
+    const std::shared_ptr<ListNode<T>> operator->() const;
     const T &operator*() const;
 
     operator bool() const;
