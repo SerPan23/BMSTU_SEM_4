@@ -18,10 +18,10 @@ class List : public BaseContainer
 {
 public:
     List();
-    List(List<T> &list);
+    explicit List(List<T> &list);
     List(List<T> &&list);
     List(T *const arr, const int &size);
-    List(std::initializer_list<T> nodes);
+    List(const std::initializer_list<T> &nodes);
     List(const ListIterator<T> &begin, const ListIterator<T> &end);
     List(const ListConstIterator<T> &begin, const ListConstIterator<T> &end);
 

@@ -48,7 +48,7 @@ List<T>::List(T *const arr, const int &size)
         this->push_back(arr[i]);
 }
 template <typename T>
-List<T>::List(std::initializer_list<T> nodes)
+List<T>::List(const std::initializer_list<T> &nodes)
 {
     this->container_size = 0;
     this->head = nullptr;
