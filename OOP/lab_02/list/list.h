@@ -25,7 +25,7 @@ public:
     List(const ListIterator<T> &begin, const ListIterator<T> &end);
     List(const ListConstIterator<T> &begin, const ListConstIterator<T> &end);
 
-    ~List() override;
+    ~List() = default;
 
     bool empty() const noexcept override;
     int size() const noexcept override;

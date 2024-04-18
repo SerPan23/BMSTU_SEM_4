@@ -91,16 +91,6 @@ List<T>::List(const ListConstIterator<T> &begin, const ListConstIterator<T> &end
 }
 
 template <typename T>
-List<T>::~List()
-{
-    if (this->head)
-        head.reset();
-
-    if (this->tail)
-        tail.reset();
-}
-
-template <typename T>
 bool List<T>::empty(void) const noexcept
 {
     return this->container_size == 0;
@@ -143,7 +133,7 @@ ListIterator<T> List<T>::push_front(const T &data)
 
     try
     {
-        tmp = std::shared_ptr<ListNode<T>>(new ListNode<T>);
+        tmp = std::make_shared<ListNode<T>>();
     }
     catch (std::bad_alloc &error)
     {
@@ -196,7 +186,7 @@ ListIterator<T> List<T>::push_back(const T &data)
 
     try
     {
-        tmp = std::shared_ptr<ListNode<T>>(new ListNode<T>);
+        tmp = std::make_shared<ListNode<T>>();
     }
     catch (std::bad_alloc &error)
     {
@@ -230,7 +220,7 @@ ListIterator<T> List<T>::insert(const ListIterator<T> &iterator, const T &data)
 
     try
     {
-        tmp = std::shared_ptr<ListNode<T>>(new ListNode<T>);
+        tmp = std::make_shared<ListNode<T>>();
     }
     catch (std::bad_alloc &error)
     {
@@ -284,7 +274,7 @@ ListIterator<T> List<T>::insert(const ListConstIterator<T> &iterator, const T &d
 
     try
     {
-        tmp = std::shared_ptr<ListNode<T>>(new ListNode<T>);
+        tmp = std::make_shared<ListNode<T>>();
     }
     catch (std::bad_alloc &error)
     {
