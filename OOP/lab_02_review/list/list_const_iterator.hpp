@@ -52,7 +52,7 @@ bool ListConstIterator<T>::is_invalid() const
 }
 
 template <typename T>
-const ListNode<T> *ListConstIterator<T>::operator->() const
+const std::shared_ptr<ListNode<T>> ListConstIterator<T>::operator->() const
 {
     if (this->ptr.expired())
     {
