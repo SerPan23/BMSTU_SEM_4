@@ -104,6 +104,25 @@ void update_y_group(link_list_t& y_groups, int x_start, int y_start, int x_end, 
     }
 }
 
+void draw_act(draw_view_t& view, QColor& color, nodes_t& active_edges, int y)
+{
+    for (int i = 0; i < active_edges.size(); i += 2)
+    {
+        try
+        {
+            Point tmp1(round(active_edges[i].x), y);
+            Point tmp2(active_edges[i + 1].x, y);
+            draw_line(view, color, tmp1, tmp2);
+        }
+        catch (...)
+        {
+            Point tmp1(round(active_edges[i].x), y);
+            Point tmp2(active_edges[i - 1].x, y);
+            draw_line(view, color, tmp1, tmp2);
+        }
+    }
+}
+
 void active_edges_iterator(nodes_t& active_edges)
 {
     for (int i = 0; i < active_edges.size();)
@@ -134,25 +153,6 @@ void add_active_edges(link_list_t& y_groups, nodes_t& active_edges, int y)
     }
 
     sort(active_edges.begin(), active_edges.end(), compare_nodes_x);
-}
-
-void draw_act(draw_view_t& view, QColor& color, nodes_t& active_edges, int y)
-{
-    for (int i = 0; i < active_edges.size(); i += 2)
-    {
-        try
-        {
-            Point tmp1(round(active_edges[i].x), y);
-            Point tmp2(active_edges[i + 1].x, y);
-            draw_line(view, color, tmp1, tmp2);
-        }
-        catch (...)
-        {
-            Point tmp1(round(active_edges[i].x), y);
-            Point tmp2(active_edges[i - 1].x, y);
-            draw_line(view, color, tmp1, tmp2);
-        }
-    }
 }
 
 double fill_with_cap(draw_view_t& view, QColor& color, figures_t& figures, bool delay, int delay_time)
