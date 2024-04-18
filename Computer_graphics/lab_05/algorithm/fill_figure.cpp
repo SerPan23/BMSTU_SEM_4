@@ -130,8 +130,6 @@ void active_edges_iterator(nodes_t& active_edges)
         active_edges[i].x += active_edges[i].dx;
         active_edges[i].dy -= 1;
         if (active_edges[i].dy < 1)
-            //удаляем как в стеке LIFO - размерность списка n x 4,
-            //бывают случаи когда нечетное в этом случае не учитвается
             active_edges.erase(active_edges.begin() + i);
         else
             ++i;
