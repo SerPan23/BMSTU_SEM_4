@@ -13,12 +13,7 @@
 
 #include "list_node.h"
 
-#include <concepts>
-
-template <typename T>
-concept Comparable = requires(T a, T b) {
-    a == b
-}
+#include "concepts.h"
 
 template <Comparable T>
 class List : public BaseContainer

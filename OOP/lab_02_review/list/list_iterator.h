@@ -10,7 +10,9 @@
 
 #include "list_node.h"
 
-template <typename T>
+#include "concepts.h"
+
+template <Comparable T>
 class List;
 
 template <typename T>
