@@ -13,7 +13,7 @@ ListNode<T>::ListNode(const T &data)
     this->data = data;
 }
 template <typename T>
-ListNode<T>::ListNode(std::shared_ptr<ListNode<T>> &node)
+ListNode<T>::ListNode(const std::shared_ptr<ListNode<T>> &node)
 {
     this->next = node->next;
     this->data = node->data;

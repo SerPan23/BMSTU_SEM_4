@@ -14,23 +14,11 @@ ListIterator<T>::ListIterator(const std::shared_ptr<ListNode<T>> &node)
 template <typename T>
 ListIterator<T>::ListIterator(const ListIterator<T> &iterator)
 {
-    if (iterator.ptr.expired())
-    {
-        time_t cur_time = time(NULL);
-        throw InvalidPointer(ctime(&cur_time), __FILE__, typeid(*this).name(), __LINE__);
-    }
-
     this->ptr = iterator.ptr.lock();
 }
 template <typename T>
 ListIterator<T>::ListIterator(List<T> &list)
 {
-    if (list.begin().ptr.expired())
-    {
-        time_t cur_time = time(NULL);
-        throw InvalidPointer(ctime(&cur_time), __FILE__, typeid(*this).name(), __LINE__);
-    }
-
     this->ptr = list.begin().ptr.lock();
 }
 
@@ -60,7 +48,7 @@ std::shared_ptr<ListNode<T>> ListIterator<T>::operator->()
         throw InvalidPointer(ctime(&cur_time), __FILE__, typeid(*this).name(), __LINE__);
     }
 
-    return this->ptr.lock().get();
+    return this->ptr.lock();
 }
 template <typename T>
 const std::shared_ptr<ListNode<T>> ListIterator<T>::operator->() const
@@ -71,7 +59,7 @@ const std::shared_ptr<ListNode<T>> ListIterator<T>::operator->() const
         throw InvalidPointer(ctime(&cur_time), __FILE__, typeid(*this).name(), __LINE__);
     }
 
-    return this->ptr.lock().get();
+    return this->ptr.lock();
 }
 
 template <typename T>
@@ -100,7 +88,7 @@ const T &ListIterator<T>::operator*() const
 template <typename T>
 ListIterator<T>::operator bool() const
 {   
-    return this->ptr.expired();
+    return this->ptr.lock() != nullptr;
 }
 
 template <typename T>
@@ -147,36 +135,12 @@ ListIterator<T> ListIterator<T>::operator++(int)
 template <typename T>
 bool ListIterator<T>::operator!=(const ListIterator<T> &iterator) const
 {
-    if (this->ptr.expired())
-    {
-        time_t cur_time = time(NULL);
-        throw InvalidPointer(ctime(&cur_time), __FILE__, typeid(*this).name(), __LINE__);
-    }
-
-    if (iterator.ptr.expired())
-    {
-        time_t cur_time = time(NULL);
-        throw InvalidPointer(ctime(&cur_time), __FILE__, typeid(*this).name(), __LINE__);
-    }
-
     return this->ptr.lock() != iterator.ptr.lock();
 }
 template <typename T>
 bool ListIterator<T>::operator==(const ListIterator<T> &iterator) const
 {
-    if (this->ptr.expired())
-    {
-        time_t cur_time = time(NULL);
-        throw InvalidPointer(ctime(&cur_time), __FILE__, typeid(*this).name(), __LINE__);
-    }
-
-    if (iterator.ptr.expired())
-    {
-        time_t cur_time = time(NULL);
-        throw InvalidPointer(ctime(&cur_time), __FILE__, typeid(*this).name(), __LINE__);
-    }
-
-    return this->ptr.lock() == iterator.ptr.lock();
+   return this->ptr.lock() == iterator.ptr.lock();
 }
 
 template <typename T>

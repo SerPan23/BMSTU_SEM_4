@@ -70,7 +70,7 @@ List<T>::List(const ListIterator<T> &begin, const ListIterator<T> &end)
     this->head = nullptr;
     this->tail = nullptr;
 
-    for (auto &current = begin; current != end + 1; current++)
+    for (auto current = begin; current != end + 1; current++)
         this->push_back(*current);
 }
 template <Comparable T>
@@ -569,6 +569,17 @@ template <Comparable T>
 ListIterator<T> List<T>::end() noexcept
 {
     return ++ListIterator<T>(this->tail);
+}
+
+template <Comparable T>
+ListConstIterator<T> List<T>::begin() const noexcept
+{
+    return ListConstIterator<T>(this->head);
+}
+template <Comparable T>
+ListConstIterator<T> List<T>::end() const noexcept
+{
+    return ++ListConstIterator<T>(this->tail);
 }
 
 template <Comparable T>

@@ -74,6 +74,9 @@ public:
     ListIterator<T> begin() noexcept;
     ListIterator<T> end() noexcept;
 
+    ListConstIterator<T> begin() const noexcept;
+    ListConstIterator<T> end() const noexcept;
+
     ListConstIterator<T> cbegin() const noexcept;
     ListConstIterator<T> cend() const noexcept;
 

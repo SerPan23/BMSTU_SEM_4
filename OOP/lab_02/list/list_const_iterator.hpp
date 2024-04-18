@@ -14,23 +14,11 @@ ListConstIterator<T>::ListConstIterator(const std::shared_ptr<ListNode<T>> &node
 template <typename T>
 ListConstIterator<T>::ListConstIterator(const ListConstIterator<T> &iterator)
 {
-    if (iterator.ptr.expired())
-    {
-        time_t cur_time = time(NULL);
-        throw InvalidPointer(ctime(&cur_time), __FILE__, typeid(*this).name(), __LINE__);
-    }
-
     this->ptr = iterator.ptr.lock();
 }
 template <typename T>
 ListConstIterator<T>::ListConstIterator(const List<T> &list)
 {
-    if (list.cbegin().ptr.expired())
-    {
-        time_t cur_time = time(NULL);
-        throw InvalidPointer(ctime(&cur_time), __FILE__, typeid(*this).name(), __LINE__);
-    }
-
     this->ptr = list.cbegin().ptr.lock();
 }
 
@@ -60,7 +48,7 @@ const std::shared_ptr<ListNode<T>> ListConstIterator<T>::operator->() const
         throw InvalidPointer(ctime(&cur_time), __FILE__, typeid(*this).name(), __LINE__);
     }
 
-    return this->ptr.lock().get();
+    return this->ptr.lock();
 }
 
 template <typename T>
@@ -78,12 +66,6 @@ const T &ListConstIterator<T>::operator*() const
 template <typename T>
 ListConstIterator<T>::operator bool() const
 {
-    if (this->ptr.expired())
-    {
-        time_t cur_time = time(NULL);
-        throw InvalidPointer(ctime(&cur_time), __FILE__, typeid(*this).name(), __LINE__);
-    }
-
     return this->ptr.lock() != nullptr;
 }
 
@@ -131,35 +113,11 @@ ListConstIterator<T> ListConstIterator<T>::operator++(int)
 template <typename T>
 bool ListConstIterator<T>::operator!=(const ListConstIterator<T> &iterator) const
 {
-    if (this->ptr.expired())
-    {
-        time_t cur_time = time(NULL);
-        throw InvalidPointer(ctime(&cur_time), __FILE__, typeid(*this).name(), __LINE__);
-    }
-
-    if (iterator.ptr.expired())
-    {
-        time_t cur_time = time(NULL);
-        throw InvalidPointer(ctime(&cur_time), __FILE__, typeid(*this).name(), __LINE__);
-    }
-
     return this->ptr.lock() != iterator.ptr.lock();
 }
 template <typename T>
 bool ListConstIterator<T>::operator==(const ListConstIterator<T> &iterator) const
 {
-    if (this->ptr.expired())
-    {
-        time_t cur_time = time(NULL);
-        throw InvalidPointer(ctime(&cur_time), __FILE__, typeid(*this).name(), __LINE__);
-    }
-
-    if (iterator.ptr.expired())
-    {
-        time_t cur_time = time(NULL);
-        throw InvalidPointer(ctime(&cur_time), __FILE__, typeid(*this).name(), __LINE__);
-    }
-
     return this->ptr.lock() == iterator.ptr.lock();
 }
 
