@@ -22,8 +22,8 @@ template <Comparable T>
 List<T>::List(List<T> &&list)
 {
     this->container_size = list.container_size;
-    this->head = list.head;
-    this->tail = list.tail;
+    this->head = std::move(list.head);
+    this->tail = std::move(list.tail);
 }
 template <Comparable T>
 List<T>::List(T *const arr, const int &size)
