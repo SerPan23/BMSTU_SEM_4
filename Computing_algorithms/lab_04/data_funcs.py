@@ -3,6 +3,16 @@ from Point import *
 from random import randint
 
 
+def generate_from_file_1D():
+    with open("data/data_1.txt") as f:
+
+        data = []
+        for line in f:
+            d = [float(i) for i in line.split()]
+            data.append(Point(d[0], d[1], 0, d[2]))
+
+    return data
+
 def generate_data_1D(f, sx, ex, amount):
     data = list()
     x_values = np.linspace(sx, ex, amount)
@@ -12,6 +22,16 @@ def generate_data_1D(f, sx, ex, amount):
 
     return data
 
+
+def generate_from_file_2D():
+    with open("data/data_1.txt") as f:
+
+        data = []
+        for line in f:
+            d = [float(i) for i in line.split()]
+            data.append(Point(d[0], d[1], 0, d[2]))
+
+    return data
 
 def generate_data_2D(f, sx, ex, sy, ey, amount_x, amount_y):
     data = list()
@@ -31,7 +51,7 @@ def set_all_weight(data, w=1):
         
 def set_n_weight(data, n, w=1):
     if 0 <= n < len(data):
-        data[n] = w
+        data[n].weight = w
 
 def print_data(data):
     i = 0
