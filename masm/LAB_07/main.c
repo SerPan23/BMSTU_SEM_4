@@ -34,9 +34,12 @@ int main(void)
 {
     setbuf(stdout, NULL);
     // char buff[STRLEN]; // dst src без перекрытия
-    char str[STRLEN] = "Test";
+    char buff[5]; // dst src с перекрытием
+
+    char str[STRLEN] = "123456";
+    
     // char buff[STRLEN]; // src dst без перекрытия
-    char *buff = &str[2]; // с перекрытием
+    // char *buff = &str[3]; // src dst  с перекрытием
     // char *buff = str; // dst == src
 
     size_t len = my_strlen(str);
