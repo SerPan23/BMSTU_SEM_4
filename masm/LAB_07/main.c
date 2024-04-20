@@ -34,11 +34,11 @@ int main(void)
 {
     setbuf(stdout, NULL);
     // char buff[STRLEN]; // dst src без перекрытия
-    char buff[5]; // dst src с перекрытием
+    // char buff[7]; // dst src с перекрытием
 
     char str[STRLEN] = "123456";
     
-    // char buff[STRLEN]; // src dst без перекрытия
+    char buff[STRLEN]; // src dst без перекрытия
     // char *buff = &str[3]; // src dst  с перекрытием
     // char *buff = str; // dst == src
 

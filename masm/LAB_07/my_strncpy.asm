@@ -7,13 +7,13 @@ global my_strncpy
 
 section .text           ; Начало секции кода
 my_strncpy:
+    push rdi
+
     mov rcx, rdx ; кладем кол-во символов для копирования
     ; проверим разные случаи расположения указателей
     cmp rsi, rdi
     ; ==
     je exit
-    
-    push rdi
     ; >
     jg copy
     ; <
@@ -37,16 +37,11 @@ my_strncpy:
     ; если DF = 1, то уменьшаются на 1
     rep movsb ; делает пока rcx != 0
 
-    ; проверка нужно ли дописать \0 в конце
-    ; lahf ; копирует флаги состояния из регистра eflags в регистр ah
-    ; test ah, 10h ; проверка флага DF
-    ; jz exit ; DF = 0
-    ; mov rdi, 0
+    cld ; сбрасываем флаг направления строки
+    exit:
+
     pop rdi
     add rdi, rdx
     mov al, 0
     stosb
-
-    cld ; сбрасываем флаг направления строки
-    exit:
     ret
