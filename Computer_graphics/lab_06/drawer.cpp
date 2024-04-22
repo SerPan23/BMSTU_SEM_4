@@ -53,9 +53,32 @@ void Drawer::draw_figures(figures_t &figures, QColor& color)
         draw_figure(figures[i], color);
 }
 
+void Drawer::draw_circle(Point &center, int radius, QColor &color)
+{
+    Point r(radius, radius);
+    draw_ellipse(center, r, color);
+}
+
+void Drawer::draw_ellipse(Point &center, Point &radius, QColor &color)
+{
+    QPainter painter(&_pxp);
+    QPen pen(color);
+    painter.setPen(pen);
+
+    painter.drawEllipse(center.x() - radius.x(), center.y() - radius.y(),
+                        radius.x() * 2, radius.y() * 2);
+}
+
+void Drawer::draw_ellipses(ellipses_t &ellipses, QColor &color)
+{
+    for (int i = 0; i < ellipses.size(); i++)
+        draw_ellipse(ellipses[i].center, ellipses[i].radius, color);
+}
+
+
 QColor Drawer::get_pixel_color(const Point &position) const
 {
-    return _pxp.toImage().pixelColor(position.x(), position.y());
+    return QColor(_pxp.toImage().pixelColor(position.x(), position.y()).rgb());
 }
 
 QColor Drawer::get_pixel_color(int x, int y) const
@@ -66,8 +89,8 @@ QColor Drawer::get_pixel_color(int x, int y) const
 void Drawer::clear()
 {
     this->_pxp = QPixmap(_scene->width(), _scene->height());
-    this->_pxp.fill(Qt::transparent);
-
+    // this->_pxp.fill(Qt::transparent);
+    this->_pxp.fill(Qt::white);
 
     _scene->clear();
 }

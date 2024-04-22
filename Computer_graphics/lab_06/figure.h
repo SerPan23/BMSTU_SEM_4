@@ -26,5 +26,13 @@ private:
 
 using figures_t = std::vector<Figure>;
 
+struct ellipse
+{
+    Point center;
+    Point radius;
+};
+using ellipse_t = struct ellipse;
+using ellipses_t = std::vector<ellipse_t>;
+
 
 #endif // FIGURE_H

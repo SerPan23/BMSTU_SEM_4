@@ -38,6 +38,7 @@ private:
 
     Figure current_figure;
     figures_t closed_figures;
+    ellipses_t ellipses;
 
     Point seed = Point(350, 350);
 
@@ -64,7 +65,11 @@ private:
     void write_figures_list();
     void add_text_line(QString str);
     void write_figure(Figure& figure);
+    void write_ellipse(ellipse_t &ellipse);
 
     void btn_fill_clicked();
+
+    void btn_circle_draw_clicked();
+    void btn_ellipse_draw_clicked();
 };
 #endif // MAINWINDOW_H

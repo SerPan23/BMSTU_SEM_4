@@ -1,7 +1,5 @@
 #include "algorithm.h"
 
-#include <iostream>
-
 static void wait(int millisecondsToWait)
 {
     QTime dieTime = QTime::currentTime().addMSecs(millisecondsToWait);
@@ -11,9 +9,6 @@ static void wait(int millisecondsToWait)
 
 void fill_with_seed(Drawer *drawer, Point &seed, QColor &fill_color, QColor &border_color, int delay)
 {
-    // std::cout << drawer->width() << " " << drawer->height() << std::endl;
-    //788 688
-
     std::stack <Point> stack;
 
     stack.push(Point(seed));
@@ -35,10 +30,10 @@ void fill_with_seed(Drawer *drawer, Point &seed, QColor &fill_color, QColor &bor
         int wx = x;  // запоминаем абсциссу
 
         // заполнение справа
-        while (x <= drawer->width() && drawer->get_pixel_color(x, y) != border_color)
+        while (x < drawer->width() && drawer->get_pixel_color(x, y) != border_color)
         {
             drawer->draw_point(x, y, fill_color);
-            x++;
+            x += 1;
         }
 
         int xr = x - 1; // запоминаем пиксель справа
@@ -50,7 +45,7 @@ void fill_with_seed(Drawer *drawer, Point &seed, QColor &fill_color, QColor &bor
         while (x >= 0 && drawer->get_pixel_color(x, y) != border_color)
         {
             drawer->draw_point(x, y, fill_color);
-            x--;
+            x -= 1;
         }
 
         int xl = x + 1; //запоминаем пиксель слева
@@ -58,75 +53,82 @@ void fill_with_seed(Drawer *drawer, Point &seed, QColor &fill_color, QColor &bor
         x = xl;
         y = y + 1;
 
+
         // Ищем затравочные пиксели на строке выше
-        while (x <= xr)
+        if (y < drawer->height())
         {
-            int f = 0;
-
-            while (x < xr && drawer->get_pixel_color(x, y) != border_color &&
-                drawer->get_pixel_color(x, y) != fill_color)
+            while (x <= xr)
             {
-                if (f == 0)
-                    f = 1;
-                x++;
+                int f = 0;
+
+                while (x < xr && drawer->get_pixel_color(x, y) != border_color &&
+                       drawer->get_pixel_color(x, y) != fill_color)
+                {
+                    if (f == 0)
+                        f = 1;
+                    x += 1;
+                }
+
+                // Помещаем в стек крайний справа пиксель
+                if (f == 1)
+                {
+                    if (x == xr && drawer->get_pixel_color(x, y) != fill_color &&
+                        drawer->get_pixel_color(x, y) != border_color)
+                        stack.push(Point(x, y));
+                    else
+                        stack.push(Point(x - 1, y));
+                    f = 0;
+                }
+
+                // Исследуем прерывание интервала
+                wx = x;
+                while (x < xr && (drawer->get_pixel_color(x, y) == border_color ||
+                                  drawer->get_pixel_color(x, y) == fill_color))
+                    x += 1;
+
+                if (x == wx)
+                    x += 1;
             }
-
-            // Помещаем в стек крайний справа пиксель
-            if (f == 1)
-            {
-               if (x == xr && drawer->get_pixel_color(x, y) != fill_color &&
-                   drawer->get_pixel_color(x, y) != border_color)
-                    stack.push(Point(x, y));
-                else
-                   stack.push(Point(x - 1, y));
-                f = 0;
-            }
-
-            // Исследуем прерывание интервала
-            wx = x;
-            while (x < xr && (drawer->get_pixel_color(x, y) == border_color ||
-                    drawer->get_pixel_color(x, y) == fill_color))
-                x++;
-
-            if (x == wx)
-                x++;
         }
 
         x = xl;
         y = y - 2;
 
         // Ищем затравочные пиксели на строке ниже
-        while (x <= xr)
+        if (y >= 0)
         {
-            int f = 0;
-
-            while (x < xr && drawer->get_pixel_color(x, y) != border_color &&
-                   drawer->get_pixel_color(x, y) != fill_color)
+            while (x <= xr)
             {
-                if (f == 0)
-                    f = 1;
-                x++;
+                int f = 0;
+
+                while (x < xr && drawer->get_pixel_color(x, y) != border_color &&
+                       drawer->get_pixel_color(x, y) != fill_color)
+                {
+                    if (f == 0)
+                        f = 1;
+                    x += 1;
+                }
+
+
+                if (f == 1)
+                {
+                    if (x == xr && drawer->get_pixel_color(x, y) != fill_color &&
+                        drawer->get_pixel_color(x, y) != border_color)
+                        stack.push(Point(x, y));
+                    else
+                        stack.push(Point(x - 1, y));
+                    f = 0;
+                }
+
+                // Исследуем прерывание интервала
+                wx = x;
+                while (x < xr && (drawer->get_pixel_color(x, y) == border_color ||
+                                  drawer->get_pixel_color(x, y) == fill_color))
+                    x += 1;
+
+                if (x == wx)
+                    x += 1;
             }
-
-
-            if (f == 1)
-            {
-                if (x == xr && drawer->get_pixel_color(x, y) != fill_color &&
-                    drawer->get_pixel_color(x, y) != border_color)
-                    stack.push(Point(x, y));
-                else
-                    stack.push(Point(x - 1, y));
-                f = 0;
-            }
-
-            // Исследуем прерывание интервала
-            wx = x;
-            while (x < xr && (drawer->get_pixel_color(x, y) == border_color ||
-                    drawer->get_pixel_color(x, y) == fill_color))
-                x++;
-
-            if (x == wx)
-                x++;
         }
 
         if (delay)

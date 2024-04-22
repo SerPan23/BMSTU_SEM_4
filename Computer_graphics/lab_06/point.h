@@ -6,7 +6,7 @@ class Point
 public:
     Point();
     Point(int x, int y);
-    explicit Point(const Point &point);
+    Point(const Point &point);
 
     Point &operator=(const Point &point);
     Point &operator=(const Point &&point);
