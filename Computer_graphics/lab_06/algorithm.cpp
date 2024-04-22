@@ -11,6 +11,9 @@ static void wait(int millisecondsToWait)
 
 void fill_with_seed(Drawer *drawer, Point &seed, QColor &fill_color, QColor &border_color, int delay)
 {
+    // std::cout << drawer->width() << " " << drawer->height() << std::endl;
+    //788 688
+
     std::stack <Point> stack;
 
     stack.push(Point(seed));
@@ -32,7 +35,7 @@ void fill_with_seed(Drawer *drawer, Point &seed, QColor &fill_color, QColor &bor
         int wx = x;  // запоминаем абсциссу
 
         // заполнение справа
-        while (drawer->get_pixel_color(x, y) != border_color && x <= drawer->width())
+        while (x <= drawer->width() && drawer->get_pixel_color(x, y) != border_color)
         {
             drawer->draw_point(x, y, fill_color);
             x++;
@@ -44,7 +47,7 @@ void fill_with_seed(Drawer *drawer, Point &seed, QColor &fill_color, QColor &bor
 
 
         // заполнение слева
-        while (drawer->get_pixel_color(x, y) != border_color and x >= 0)
+        while (x >= 0 && drawer->get_pixel_color(x, y) != border_color)
         {
             drawer->draw_point(x, y, fill_color);
             x--;
@@ -60,8 +63,8 @@ void fill_with_seed(Drawer *drawer, Point &seed, QColor &fill_color, QColor &bor
         {
             int f = 0;
 
-            while (drawer->get_pixel_color(x, y) != border_color &&
-                drawer->get_pixel_color(x, y) != fill_color && x < xr)
+            while (x < xr && drawer->get_pixel_color(x, y) != border_color &&
+                drawer->get_pixel_color(x, y) != fill_color)
             {
                 if (f == 0)
                     f = 1;
@@ -81,8 +84,8 @@ void fill_with_seed(Drawer *drawer, Point &seed, QColor &fill_color, QColor &bor
 
             // Исследуем прерывание интервала
             wx = x;
-            while ((drawer->get_pixel_color(x, y) == border_color ||
-                    drawer->get_pixel_color(x, y) == fill_color) && x < xr)
+            while (x < xr && (drawer->get_pixel_color(x, y) == border_color ||
+                    drawer->get_pixel_color(x, y) == fill_color))
                 x++;
 
             if (x == wx)
@@ -97,8 +100,8 @@ void fill_with_seed(Drawer *drawer, Point &seed, QColor &fill_color, QColor &bor
         {
             int f = 0;
 
-            while (drawer->get_pixel_color(x, y) != border_color &&
-                   drawer->get_pixel_color(x, y) != fill_color && x < xr)
+            while (x < xr && drawer->get_pixel_color(x, y) != border_color &&
+                   drawer->get_pixel_color(x, y) != fill_color)
             {
                 if (f == 0)
                     f = 1;
@@ -118,8 +121,8 @@ void fill_with_seed(Drawer *drawer, Point &seed, QColor &fill_color, QColor &bor
 
             // Исследуем прерывание интервала
             wx = x;
-            while ((drawer->get_pixel_color(x, y) == border_color ||
-                    drawer->get_pixel_color(x, y) == fill_color) && x < xr)
+            while (x < xr && (drawer->get_pixel_color(x, y) == border_color ||
+                    drawer->get_pixel_color(x, y) == fill_color))
                 x++;
 
             if (x == wx)
