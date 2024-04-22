@@ -2,11 +2,18 @@ import numpy as np
 from matplotlib import pyplot as plt
 from useful import *
 
-def get_value_2D(x, y, powx, powy):
+
+def get_value_2D_pows(x, y, powx, powy):
     return x**powx * y**powy
 
 
-def make_slau_2D(data, n):
+def get_value_2D_exp(x, y, powx, powy):
+    # return np.exp(x**powx) * np.exp(y**powy)
+    # return x**powx * y**powy
+    return np.exp(abs(x)) * np.exp(y)
+
+
+def make_slau_2D(data, n, get_value_2D=get_value_2D_pows):
     a = list()
     b = list()
     for i in range(n + 1):
@@ -32,9 +39,9 @@ def make_slau_2D(data, n):
     return slau
 
 
-def least_squares_method_2D(data, n=1, print_mode=False):
+def least_squares_method_2D(data, n=1, print_mode=False, get_value_2D=get_value_2D_pows):
 
-    slau = make_slau_2D(data, n)
+    slau = make_slau_2D(data, n, get_value_2D)
     
     if print_mode:
         print("\nМатрица СЛАУ:")

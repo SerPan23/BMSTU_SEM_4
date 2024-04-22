@@ -3,9 +3,8 @@ from Point import *
 from random import randint
 
 
-def generate_from_file_1D():
-    with open("data/data_1.txt") as f:
-
+def generate_from_file_1D(path="data/data_1D/data_1.txt"):
+    with open(path) as f:
         data = []
         for line in f:
             d = [float(i) for i in line.split()]
@@ -23,13 +22,19 @@ def generate_data_1D(f, sx, ex, amount):
     return data
 
 
-def generate_from_file_2D():
-    with open("data/data_1.txt") as f:
-
+def generate_from_file_2D(path):
+    with open(path) as f:
         data = []
+        flag = False
         for line in f:
+            if line[0] == '/':
+                flag = True
+                continue
             d = [float(i) for i in line.split()]
-            data.append(Point(d[0], d[1], 0, d[2]))
+            if flag:
+                data.append(Point(d[1], d[2], d[0], d[3]))
+            else:
+                data.append(Point(d[0], d[1], d[2], d[3]))
 
     return data
 
