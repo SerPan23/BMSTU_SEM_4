@@ -41,6 +41,7 @@ private:
     ellipses_t ellipses;
 
     Point seed = Point(350, 350);
+    // Point seed = Point(-1, -1);
 
     void show_err_msg(QString);
     void set_preview_widget_color(QWidget *widget, QColor color);
@@ -61,6 +62,11 @@ private:
     void close_figure();
     void mouse_close_figure();
     void btn_close_figure_clicked();
+
+    void write_seed_text();
+    void set_seed(int x, int y);
+    void mouse_set_seed();
+    void form_set_seed();
 
     void write_figures_list();
     void add_text_line(QString str);

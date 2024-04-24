@@ -263,7 +263,7 @@
      <string>Добавить затравку</string>
     </property>
    </widget>
-   <widget class="QLabel" name="label">
+   <widget class="QLabel" name="seed_text">
     <property name="geometry">
      <rect>
       <x>10</x>

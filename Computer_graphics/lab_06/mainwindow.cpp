@@ -12,6 +12,7 @@ MainWindow::MainWindow(QWidget *parent):
     set_preview_widget_color(ui->fill_color_preview, this->fill_color);
     set_preview_widget_color(ui->border_color_preview, this->border_color);
 
+    write_seed_text();
 
 
     connect(ui->btn_fill_color_change, &QPushButton::clicked, this,
@@ -33,6 +34,15 @@ MainWindow::MainWindow(QWidget *parent):
 
     connect(drawer->scene(), &MyGraphicsScene::mouseRightBtnClicked, this,
             &MainWindow::mouse_close_figure);
+
+    connect(drawer->scene(), &MyGraphicsScene::mouseLeftBtnHold, this,
+            &MainWindow::mouse_add_dot);
+
+    connect(drawer->scene(), &MyGraphicsScene::mouseRightBtnClickedWithShift, this,
+            &MainWindow::mouse_set_seed);
+
+    connect(ui->btn_add_fill_dot, &QPushButton::clicked, this,
+            &MainWindow::form_set_seed);
 
 
     connect(ui->btn_close_figure, &QPushButton::clicked, this,
@@ -196,6 +206,46 @@ void MainWindow::btn_close_figure_clicked()
     close_figure();
 }
 
+void MainWindow::write_seed_text()
+{
+    ui->seed_text->setText("Затравка (x; y): (" +
+                           QString::number(seed.x()) + "; " + QString::number(seed.y()) + ")");
+}
+
+void MainWindow::set_seed(int x, int y)
+{
+    this->seed = Point(x, y);
+    write_seed_text();
+}
+
+void MainWindow::mouse_set_seed()
+{
+    MyGraphicsScene *scene = (MyGraphicsScene *)ui->graphicsView->scene();
+    QPointF point = scene->get_mouse_pos();
+    set_seed(round(point.x()), round(point.y()));
+}
+
+void MainWindow::form_set_seed()
+{
+    bool x_ok, y_ok;
+
+    int x = ui->input_x->text().toInt(&x_ok);
+    int y = ui->input_y->text().toInt(&y_ok);
+
+    if (!x_ok)
+    {
+        show_err_msg("Не введена координата x точки");
+        return;
+    }
+    if (!y_ok)
+    {
+        show_err_msg("Не введена координата y точки");
+        return;
+    }
+
+    set_seed(x, y);
+}
+
 void MainWindow::add_text_line(QString str)
 {
     ui->figures_list->appendPlainText(str);
@@ -252,11 +302,11 @@ void MainWindow::btn_fill_clicked()
         return;
     }
 
-    if (closed_figures.empty())
-    {
-        show_err_msg("Не введено ниодной фигуры");
-        return;
-    }
+    // if (closed_figures.empty())
+    // {
+    //     show_err_msg("Не введено ниодной фигуры");
+    //     return;
+    // }
 
     bool delay = ui->is_delay->isChecked();
 

@@ -14,14 +14,22 @@ public:
 
 protected:
     void mousePressEvent(QGraphicsSceneMouseEvent *mouseEvent);
+    void mouseMoveEvent(QGraphicsSceneMouseEvent *mouseEvent);
+    void mouseReleaseEvent(QGraphicsSceneMouseEvent *mouseEvent);
 
 private:
     QPointF mouse_pos;
+    bool is_left_hold = false;
+    bool shift_pressed;
 
 signals:
     void posChanged();
     void mouseLeftBtnClicked();
     void mouseRightBtnClicked();
+
+    void mouseLeftBtnHold();
+
+    void mouseRightBtnClickedWithShift();
 };
 
 #endif // MYGRAPHICSSCENE_H
