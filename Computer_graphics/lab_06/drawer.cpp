@@ -2,6 +2,8 @@
 
 Drawer::Drawer(QGraphicsView *view, QObject *parent)
 {
+    view->setFrameShape(QFrame::NoFrame);
+
     _scene = new MyGraphicsScene(parent);
 
     view->setScene(_scene);
