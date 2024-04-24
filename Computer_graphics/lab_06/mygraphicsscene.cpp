@@ -1,7 +1,5 @@
 #include "mygraphicsscene.h"
 
-#include <iostream>
-
 #include <QApplication>
 #include <Qt>
 
