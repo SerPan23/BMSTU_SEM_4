@@ -61,7 +61,7 @@ void fill_with_seed(Drawer *drawer, Point &seed, QColor &fill_color, QColor &bor
             {
                 int f = 0;
 
-                while (x < xr && drawer->get_pixel_color(x, y) != border_color &&
+                while (x <= xr && drawer->get_pixel_color(x, y) != border_color &&
                        drawer->get_pixel_color(x, y) != fill_color)
                 {
                     if (f == 0)
@@ -101,7 +101,7 @@ void fill_with_seed(Drawer *drawer, Point &seed, QColor &fill_color, QColor &bor
             {
                 int f = 0;
 
-                while (x < xr && drawer->get_pixel_color(x, y) != border_color &&
+                while (x <= xr && drawer->get_pixel_color(x, y) != border_color &&
                        drawer->get_pixel_color(x, y) != fill_color)
                 {
                     if (f == 0)
