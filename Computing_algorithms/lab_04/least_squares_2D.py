@@ -10,7 +10,7 @@ def get_value_2D_pows(x, y, powx, powy):
 def get_value_2D_exp(x, y, powx, powy):
     # return np.exp(x**powx) * np.exp(y**powy)
     # return x**powx * y**powy
-    return np.exp(abs(x)) * np.exp(y)
+    return x ** powx * np.exp(y * powy)
 
 
 def make_slau_2D(data, n, get_value_2D=get_value_2D_pows):
