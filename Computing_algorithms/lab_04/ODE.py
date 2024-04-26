@@ -22,7 +22,7 @@ def get_init_func(x):
             - (1 + math.sqrt(math.e)) * erfi(x/math.sqrt(2))))/erfi(1/math.sqrt(2))
 
 
-def ODE(x_start=0, x_end=1, n=10):
+def ODE(x_start=-0.5, x_end=2, n=100):
     # x_start = -0.5
     # x_end = 2
     # n = 10
