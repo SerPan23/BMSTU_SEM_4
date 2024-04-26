@@ -11,8 +11,7 @@ size_t my_strlen(const char* str)
     asm(
         ".intel_syntax noprefix\n" // для удобства чтобы писать как раньше писали
         "mov rcx, -1\n" // кладем максимально положительное (что равно -1), так как не знаем длину
-        "xor rax, rax\n"
-        "mov rax, 0\n" // символ поиска
+        "xor rax, rax\n" // символ поиска
         "mov rdi, %1\n"
         "cld\n" // очистка флагов
         "repne scasb\n" // ищем нулевой байт в строке
@@ -38,8 +37,8 @@ int main(void)
 
     char str[STRLEN] = "123456";
     
-    char buff[STRLEN]; // src dst без перекрытия
-    // char *buff = &str[3]; // src dst  с перекрытием
+    // char buff[STRLEN]; // src dst без перекрытия
+    char *buff = &str[3]; // src dst  с перекрытием
     // char *buff = str; // dst == src
 
     size_t len = my_strlen(str);
