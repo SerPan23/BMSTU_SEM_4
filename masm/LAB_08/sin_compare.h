@@ -21,9 +21,9 @@ void asm_sin()
     double res = 0.0;
     double arg = 0.0;
     __asm__(
-        "\n\t fldpi"
-        "\n\t fsin"
-        "\n\t fstp %0"
+        "fldpi\n"
+        "fsin\n"
+        "fstp %0\n"
         : "=m"(res));
     printf("sin(pi) = %g\n", res);
 
@@ -31,26 +31,26 @@ void asm_sin()
     div = 2.0;
 
     __asm__(
-        "\n\t fldpi"
-        "\n\t fld %1"
-        "\n\t fdivp"
-        "\n\t fsin"
-        "\n\t fstp %0"
+        "fldpi\n"
+        "fld %1\n"
+        "fdivp\n"
+        "fsin\n"
+        "fstp %0\n"
         : "=m"(res) : "m"(div));
     printf("sin(pi / 2) = %g\n", res);
 
     arg = 3.14;
     __asm__(
-        "\n\t fld %1"
-        "\n\t fsin"
-        "\n\t fstp %0" : "=m"(res) : "m"(arg));
+        "fld %1\n"
+        "fsin\n"
+        "fstp %0\n" : "=m"(res) : "m"(arg));
     printf("sin(3.14) = %g\n", res);
 
     arg = 3.141596;
     __asm__(
-        "\n\t fld %1"
-        "\n\t fsin"
-        "\n\t fstp %0" : "=m"(res) : "m"(arg));
+        "fld %1\n"
+        "fsin\n"
+        "fstp %0\n" : "=m"(res) : "m"(arg));
     printf("sin(3.141596) = %g\n", res);
 }
 

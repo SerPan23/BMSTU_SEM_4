@@ -4,7 +4,7 @@
 #include "sum.h"
 #include "mul.h"
 #include "sin_compare.h"
-
+#include "find_func_root.h"
 
 int main()
 {
@@ -16,13 +16,16 @@ int main()
     measure<float>(mul<float>, "mul");
     measure<float>(mul_asm<float>, "asm mul");
 
-    std::cout << "double compare:" << std::endl;
+    std::cout << "\ndouble compare:" << std::endl;
     measure<double>(sum<double>, "add");
     measure<double>(sum_asm<double>, "asm add");
     measure<double>(mul<double>, "mul");
     measure<double>(mul_asm<double>, "asm mul");
 
-    std::cout << "Sin compare:" << std::endl;
+    std::cout << "\nSin compare:" << std::endl;
     c_sin();
+    std::cout << std::endl;
     asm_sin();
+
+    std::cout << "\nRoot: " << find_func_root(0.6, 1.2, 100000) << std::endl;
 }

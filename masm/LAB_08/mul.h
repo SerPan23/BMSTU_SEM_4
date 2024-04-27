@@ -4,28 +4,28 @@
 template <typename Type>
 Type mul(Type a, Type b)
 {
-    Type result = 0;
+    Type res = 0;
 
-    result = a * b;
+    res = a * b;
 
-    return result;
+    return res;
 }
 
 template <typename Type>
 Type mul_asm(Type a, Type b)
 {
-    Type result = 0;
+    Type res = 0;
 
     __asm__(
         "fld %1\n"
         "fld %2\n"
         "fmulp %%ST(1), %%ST(0)\n"
         "fstp %0\n"
-        : "=m"(result)
+        : "=m"(res)
         : "m"(a),
           "m"(b));
 
-    return result;
+    return res;
 }
 
 #endif

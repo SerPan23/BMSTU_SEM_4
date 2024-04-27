@@ -7,9 +7,9 @@
 
 #define ITER_COUNT 100
 
-static long delta_time_ms(struct timespec mt1, struct timespec mt2)
+static long delta_time(struct timespec mt1, struct timespec mt2)
 {
-    return (1000000000 * (mt2.tv_sec - mt1.tv_sec) + (mt2.tv_nsec - mt1.tv_nsec)) / 1000000.0;
+    return (1000000000 * (mt2.tv_sec - mt1.tv_sec) + (mt2.tv_nsec - mt1.tv_nsec));
 }
 
 template <typename T>
@@ -28,7 +28,7 @@ void measure(T (*func)(T a, T b), const std::string &name)
 
         clock_gettime(CLOCK_REALTIME, &tend);
 
-        sum += delta_time_ms(tbegin, tend);
+        sum += delta_time(tbegin, tend);
     }
     std::cout << name << " time = " << sum / ITER_COUNT << std::endl;
 }

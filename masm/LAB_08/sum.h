@@ -4,17 +4,17 @@
 template <typename Type>
 Type sum(Type a, Type b)
 {
-    Type result = 0;
+    Type res = 0;
 
-    result = a + b;
+    res = a + b;
 
-    return result;
+    return res;
 }
 
 template <typename Type>
 Type sum_asm(Type a, Type b)
 {
-    Type result = 0;
+    Type res = 0;
 
     __asm__(
         "fld %1\n"                 // загружаем a на вершину стека
@@ -22,12 +22,12 @@ Type sum_asm(Type a, Type b)
         "faddp %%ST(1), %%ST(0)\n" // складываем ST(1) и ST(0), сохраняем результат в ST(1)
                                    // и извлекаем из стека сопроцессора (поэтому 'p' в названии команды)
         "fstp %0\n"                // извлекаем число из FPU в память, в данном случае из ST(0) в res
-        : "=m"(result)             // res - выходной параметр
+        : "=m"(res)                // res - выходной параметр
         : "m"(a),                  // a - входной параметр
           "m"(b)                   // b - входной параметр
     );
 
-    return result;
+    return res;
 }
 
 #endif
