@@ -27,5 +27,5 @@ int main()
     std::cout << std::endl;
     asm_sin();
 
-    std::cout << "\nRoot: " << find_func_root(0.6, 1.2, 100000) << std::endl;
+    std::cout << "\nRoot: " << find_func_root(0, 5, 100000) << std::endl;
 }

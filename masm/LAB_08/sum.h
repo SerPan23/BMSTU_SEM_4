@@ -1,20 +1,20 @@
 #ifndef SUM_H
 #define SUM_H
 
-template <typename Type>
-Type sum(Type a, Type b)
+template <typename T>
+T sum(T a, T b)
 {
-    Type res = 0;
+    T res = 0;
 
     res = a + b;
 
     return res;
 }
 
-template <typename Type>
-Type sum_asm(Type a, Type b)
+template <typename T>
+T sum_asm(T a, T b)
 {
-    Type res = 0;
+    T res = 0;
 
     __asm__(
         "fld %1\n"                 // загружаем a на вершину стека

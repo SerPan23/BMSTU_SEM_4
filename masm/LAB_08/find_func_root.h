@@ -11,7 +11,7 @@ double func(double x)
     double res = 0;
     double m = 5;
 
-    __asm(
+    __asm__(
         "fld %1\n"
         "fld %1\n"
         "fmulp\n" // x^2
@@ -23,41 +23,6 @@ double func(double x)
         "fstp %0\n"
         : "=m"(res)
         : "m"(x), "m"(m));
-
-    //     double first_part = 0;
-    //     __asm__(
-    //         "fld %1\n"
-    //         "fld %1\n"
-    //         "fmulp %%ST(1), %%ST(0)\n"
-    //         "fstp %0\n"
-    //         : "=m"(first_part)
-    //         : "m"(x));
-
-    //     double second_part = 0;
-    //     __asm__(
-    //         "fld %2\n"
-    //         "fld %1\n"
-    //         "fmulp %%ST(1), %%ST(0)\n"
-    //         "fstp %0\n"
-    //         : "=m"(second_part)
-    //         : "m"(x), "m"(m));
-
-    //     double arg = 0;
-    //     __asm__(
-    //         "fld %1\n"                 // загружаем a на вершину стека
-    //         "fld %2\n"                 // загружаем b на вершину стека
-    //         "faddp %%ST(1), %%ST(0)\n" // складываем ST(1) и ST(0), сохраняем результат в ST(1)
-    //                                    // и извлекаем из стека сопроцессора (поэтому 'p' в названии команды)
-    //         "fstp %0\n"                // извлекаем число из FPU в память, в данном случае из ST(0) в res
-    //         : "=m"(arg)                // res - выходной параметр
-    //         : "m"(first_part),         // a - входной параметр
-    //           "m"(second_part)         // b - входной параметр
-    //     );
-
-    //     __asm__(
-    //         "fld %1\n"
-    //         "fsin\n"
-    //         "fstp %0\n" : "=m"(res) : "m"(arg));
 
     return res;
 }

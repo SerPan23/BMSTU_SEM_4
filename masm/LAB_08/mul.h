@@ -1,20 +1,20 @@
 #ifndef MUL_H
 #define MUL_H
 
-template <typename Type>
-Type mul(Type a, Type b)
+template <typename T>
+T mul(T a, T b)
 {
-    Type res = 0;
+    T res = 0;
 
     res = a * b;
 
     return res;
 }
 
-template <typename Type>
-Type mul_asm(Type a, Type b)
+template <typename T>
+T mul_asm(T a, T b)
 {
-    Type res = 0;
+    T res = 0;
 
     __asm__(
         "fld %1\n"
