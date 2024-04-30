@@ -36,6 +36,7 @@ private:
     lines_t lines;
 
     rect_t cut_rect;
+    bool cut_rect_start = false;
     bool is_cut_rect_set = false;
 
     QColor line_color = QColor(0, 0, 255);

@@ -101,7 +101,8 @@ void MainWindow::clear_clicked()
 void MainWindow::draw()
 {
     drawer->draw_lines(lines, line_color);
-    drawer->draw_rect(cut_rect, rect_color);
+    if (is_cut_rect_set)
+        drawer->draw_rect(cut_rect, rect_color);
 }
 void MainWindow::update_view()
 {
@@ -121,7 +122,19 @@ void MainWindow::add_line(int x_s, int y_s, int x_e, int y_e)
 }
 void MainWindow::mouse_add_line()
 {
+    MyGraphicsScene *scene = (MyGraphicsScene *)ui->graphicsView->scene();
+    QPointF point = scene->get_mouse_pos();
 
+    if (cur_line_start)
+    {
+        cur_line.end = Point(round(point.x()), round(point.y()));
+        lines.push_back(cur_line);
+        update_view();
+    }
+    else
+        cur_line.start = Point(round(point.x()), round(point.y()));
+
+    cur_line_start = !cur_line_start;
 }
 void MainWindow::form_add_line()
 {
@@ -169,7 +182,22 @@ void MainWindow::add_rect(int x_s, int y_s, int x_e, int y_e)
 }
 void MainWindow::mouse_add_rect()
 {
+    MyGraphicsScene *scene = (MyGraphicsScene *)ui->graphicsView->scene();
+    QPointF point = scene->get_mouse_pos();
 
+    if (cut_rect_start)
+    {
+        cut_rect.right_down = Point(round(point.x()), round(point.y()));
+        is_cut_rect_set = true;
+    }
+    else
+    {
+        cut_rect.left_top = Point(round(point.x()), round(point.y()));
+        is_cut_rect_set = false;
+    }
+
+    cut_rect_start = !cut_rect_start;
+    update_view();
 }
 void MainWindow::form_add_rect()
 {
