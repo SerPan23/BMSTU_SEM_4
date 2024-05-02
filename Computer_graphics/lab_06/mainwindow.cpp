@@ -296,11 +296,11 @@ static long delta_time(struct timespec mt1, struct timespec mt2)
 
 void MainWindow::btn_fill_clicked()
 {
-    // if (current_figure.size() > 0 && !current_figure.is_closed())
-    // {
-    //     show_err_msg("Замкните все фигуры");
-    //     return;
-    // }
+    if (current_figure.size() > 0 && !current_figure.is_closed())
+    {
+        show_err_msg("Замкните все фигуры");
+        return;
+    }
 
     bool delay = ui->is_delay->isChecked();
 
