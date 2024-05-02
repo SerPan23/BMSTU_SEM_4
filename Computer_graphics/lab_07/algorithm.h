@@ -3,24 +3,10 @@
 
 #include "point.h"
 #include <vector>
+#include "drawer.h"
 
-struct line
-{
-    Point start;
-    Point end;
-};
 
-using line_t = struct line;
-
-using lines_t = std::vector<line_t>;
-
-struct rect
-{
-    Point left_top;
-    Point right_down;
-};
-
-using rect_t = struct rect;
+void simple_cut(Drawer &drawer, rect_t &clipper, line_t line);
 
 
 
