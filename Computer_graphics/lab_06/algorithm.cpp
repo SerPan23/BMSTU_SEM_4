@@ -24,11 +24,11 @@ void fill_with_seed(Drawer *drawer, Point &seed, QColor &fill_color, QColor &bor
         x = point.x();
         y = point.y();
 
-        if (y < 0 || drawer->height() < y)
-            continue;
+        drawer->draw_point(x, y, fill_color);
 
         int wx = x;  // запоминаем абсциссу
 
+        x += 1;
         // заполнение справа
         while (x < drawer->width() && drawer->get_pixel_color(x, y) != border_color)
         {
@@ -40,7 +40,7 @@ void fill_with_seed(Drawer *drawer, Point &seed, QColor &fill_color, QColor &bor
 
         x = wx;
 
-
+        x -= 1;
         // заполнение слева
         while (x >= 0 && drawer->get_pixel_color(x, y) != border_color)
         {
@@ -53,31 +53,29 @@ void fill_with_seed(Drawer *drawer, Point &seed, QColor &fill_color, QColor &bor
         x = xl;
         y = y + 1;
 
-
         // Ищем затравочные пиксели на строке выше
         if (y < drawer->height())
         {
             while (x <= xr)
             {
-                int f = 0;
+                bool f = false;
 
                 while (x <= xr && drawer->get_pixel_color(x, y) != border_color &&
                        drawer->get_pixel_color(x, y) != fill_color)
                 {
-                    if (f == 0)
-                        f = 1;
+                    f = true;
                     x += 1;
                 }
 
                 // Помещаем в стек крайний справа пиксель
-                if (f == 1)
+                if (f)
                 {
                     if (x == xr && drawer->get_pixel_color(x, y) != fill_color &&
                         drawer->get_pixel_color(x, y) != border_color)
                         stack.push(Point(x, y));
                     else
                         stack.push(Point(x - 1, y));
-                    f = 0;
+                    f = false;
                 }
 
                 // Исследуем прерывание интервала
@@ -99,25 +97,24 @@ void fill_with_seed(Drawer *drawer, Point &seed, QColor &fill_color, QColor &bor
         {
             while (x <= xr)
             {
-                int f = 0;
+                bool f = false;
 
                 while (x <= xr && drawer->get_pixel_color(x, y) != border_color &&
                        drawer->get_pixel_color(x, y) != fill_color)
                 {
-                    if (f == 0)
-                        f = 1;
+                    f = true;
                     x += 1;
                 }
 
 
-                if (f == 1)
+                if (f)
                 {
                     if (x == xr && drawer->get_pixel_color(x, y) != fill_color &&
                         drawer->get_pixel_color(x, y) != border_color)
                         stack.push(Point(x, y));
                     else
                         stack.push(Point(x - 1, y));
-                    f = 0;
+                    f = false;
                 }
 
                 // Исследуем прерывание интервала
