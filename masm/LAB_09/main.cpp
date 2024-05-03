@@ -49,17 +49,52 @@ int main(void)
 {
 
     matrix_t a, b;
-    matrix_read(a);
-    matrix_read(b);
-    std::cout << std::endl;
 
+    std::cout << std::endl
+              << "A matrix enter:" << std::endl;
+    read_size(a.n, a.m);
+    if (a.n <= 0 || a.m <= 0)
+    {
+        std::cout << std::endl
+                  << "ERROR: Wrong matrix A size"<< std::endl;
+        return -1;
+    }
+    matrix_read(a, a.n, a.m);
+
+    std::cout << std::endl
+              << "B matrix enter:" << std::endl;
+    read_size(b.n, b.m);
+    if (b.n <= 0 || b.m <= 0)
+    {
+        std::cout << std::endl
+                  << "ERROR: Wrong matrix A size" << std::endl;
+        return -1;
+    }
+
+    matrix_read(b, b.n, b.m);
+
+    std::cout << std::endl
+              << "A:" << std::endl;
     matrix_print(a);
-    std::cout << std::endl;
+    std::cout << std::endl
+              << "B:" << std::endl;
     matrix_print(b);
 
-    std::cout << std::endl;
-    matrix res = matrix_mul_sse(a, b);
-    matrix_print(res);
+    if (a.m != b.n)
+    {
+        std::cout << std::endl
+                  << "ERROR: The number of columns in the first matrix should be "
+                     "equal to the number of rows in the second."
+                  << std::endl;
+        return -1;
+    }
+    else
+    {
+        std::cout << std::endl
+                  << "Result:" << std::endl;
+        matrix res = matrix_mul_sse(a, b);
+        matrix_print(res);
+    }
 
     return 0;
 }

@@ -30,17 +30,20 @@ void matrix_free(matrix_t &matrix)
     matrix.m = 0;
 }
 
-void matrix_read(matrix_t &matrix)
+void read_size(int &n, int &m)
 {
     std::cout << "Enter rows count: ";
-    std::cin >> matrix.n;
+    std::cin >> n;
 
     std::cout << "Enter cols count: ";
-    std::cin >> matrix.m;
+    std::cin >> m;
+}
 
+void matrix_read(matrix_t &matrix, int rows, int cols)
+{
     std::cout << "Enter matrix elements:" << std::endl;
 
-    matrix = matrix_alloc(matrix.n, matrix.m);
+    matrix = matrix_alloc(rows, cols);
 
     for (int i = 0; i < matrix.n; i++)
         for (int j = 0; j < matrix.m; j++)
@@ -86,11 +89,11 @@ static double mul_and_sum_sse(double *sa, double *sb, int n)
     for (size_t i = 0; i < n; i += sizeof(__float128) / sizeof(double), a++, b++)
     {
         __asm__(
-            "movapd xmm0, %1\n\t"
-            "movapd xmm1, %2\n\t"
-            "mulpd xmm0, xmm1\n\t"
-            "haddpd xmm0, xmm0\n\t"
-            "movsd %0, xmm0\n\t"
+            "movapd xmm0, %1\n"   // копирование выровненных данных (в нашем случае двух чисел типа double)
+            "movapd xmm1, %2\n"   // так как у нас всего 128 бит, а double 8 байт
+            "mulpd xmm0, xmm1\n"  // перемножает 2 дорожки операндов с числами с плавающей точкой двойной точности
+            "haddpd xmm0, xmm0\n" // горизонтально складывает 2 дорожки операндов с числами с плавающей точкой двойной точности
+            "movsd %0, xmm0\n"
             : "=m"(tmp)
             : "m"(*a), "m"(*b)
             : "xmm0", "xmm1");
