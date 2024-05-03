@@ -50,7 +50,7 @@ def three_dimensional_interpolation(data, point, algo_list, newton_ns):
             #     print(el.x, el.y)
             # print("end\n")
 
-        if algo_list[0] == "newton":
+        if algo_list[1] == "newton":
             tmp = Point(z_arr[k], newton_polynom(
                 y_values, newton_ns[1], point[1]))
         else:
@@ -64,7 +64,7 @@ def three_dimensional_interpolation(data, point, algo_list, newton_ns):
     # print("end\n")
         
     result = 0
-    if algo_list[0] == "newton":
+    if algo_list[2] == "newton":
         result = newton_polynom(z_values, newton_ns[2], point[2])
     else:
         result = spline(z_values, point[2], start, end)

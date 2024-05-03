@@ -19,10 +19,10 @@ z_start, z_end, z_counts = -1, 2, 30
 
 
 def f(x, y, z):
-    # return 1 / (x + y) - z
+    return 1 / (x + y) - z
     # return z * x * y
     # return (x**2 + y**2) / z
-    return np.exp(2 * x - y) * z**2
+    # return np.exp(2 * x - y) * z**2
 
 
 data = io.generateData(f, x_start, x_end, x_counts,
@@ -31,7 +31,7 @@ data = io.generateData(f, x_start, x_end, x_counts,
 
 # io.print_data(data)
 
-point = [-0.152, 1.141, 1.43]
+point = [-1.152, 1.141, -1.43]
 newton_ns = [3, 2, 5]
 
 

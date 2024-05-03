@@ -42,7 +42,7 @@ def get_coefficients(legendre_polynomial_roots):
     return coefs
 
 
-def integrate_gauss(func: Fn[[float], float], a: float, b: float, n=3):
+def integrate_gauss(func: Fn[[float], float], a: float, b: float, n=8):
     roots = get_legendre_polynomial_roots(n)
     coefs = get_coefficients(roots)
 
@@ -54,23 +54,31 @@ def integrate_gauss(func: Fn[[float], float], a: float, b: float, n=3):
     return result
 
 
-def integrate_simpson(func: Fn[[float], float], a: float, b: float, n=30):
-    h = (b - a) / (n*2)
+def integrate_simpson(func: Fn[[float], float], a: float, b: float, n=16):
+    # h = (b - a) / (n*2)
 
-    xs = np.array([a + i * h for i in range(n*2 + 1)])
-    ys = np.array([func(x) for x in xs])
+    # xs = np.array([a + i * h for i in range(n*2 + 1)])
+    # ys = np.array([func(x) for x in xs])
 
-    s1 = 4 * np.sum([ys[2*i - 1] for i in range(1, n)])
-    s2 = 2 * np.sum([ys[2*i] for i in range(1, n - 1)])
-    s = (h / 3) * (ys[0] + s1 + s2 + ys[-1])
+    # s1 = 4 * np.sum([ys[2*i - 1] for i in range(1, n)])
+    # s2 = 2 * np.sum([ys[2*i] for i in range(1, n - 1)])
+    # s = (h / 3) * (ys[0] + s1 + s2 + ys[-1])
 
-    return s
+    # return s
+    x = np.linspace(a, b, n+1)
+    y = [func(xi) for xi in x]
+    return sum([y[i-1] + 4*y[i] + y[i+1] for i in range(1, n, 2)]) * (b - a) / 3 / n
 
 
 # Integration region
 def G(x: float, y: float):
     return x >= 0 and y >= 0 and (x + y) <= 1
 
+# y = x
+# y = x^2
+# f = (x + y^2)
+def G_2(x: float, y: float):
+    return y<=1 and y>=0 and x>=0 and x<=1 and y>=x**2 and y<=x
 
 def integrate_region(integrate_main: IntegrationFn,
                      integrate_Fs: IntegrationFn,

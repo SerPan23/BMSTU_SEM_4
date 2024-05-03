@@ -22,3 +22,30 @@ def read_data(path:str):
     y = np.array(y)
     return x, y, z
 
+
+def data_generator(f, x_start, x_end, x_step, y_start, y_end, y_step):
+    x = []
+    y = []
+    z = []
+    
+    cur_x = x_start
+    while (cur_x <= x_end):
+        x.append(cur_x)
+        cur_x += x_step
+        
+    cur_y = y_start
+    while (cur_y <= y_end):
+        y.append(cur_y)
+        cur_y += y_step
+        
+    for i in range(len(x)):
+        tmp = []
+        for j in range(len(y)):
+            tmp.append(f(x[i], y[j]))
+        z.append(tmp)
+    
+    x = np.array(x)
+    y = np.array(y)
+    return x, y, z
+        
+        
