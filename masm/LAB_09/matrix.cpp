@@ -113,7 +113,7 @@ matrix_t matrix_mul_sse(matrix_t &a, matrix_t &b)
     for (int i = 0; i < res.n; i++)
         for (int j = 0; j < res.m; j++)
             // res.data[i][j] = mul_and_sum_standart(a.data[i], trans_b.data[j], b.m);
-            res.data[i][j] = mul_and_sum_sse(a.data[i], trans_b.data[j], b.m);
+            res.data[i][j] = mul_and_sum_sse(a.data[i], trans_b.data[j], a.m);
 
     return res;
 }
