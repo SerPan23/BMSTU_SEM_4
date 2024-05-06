@@ -28,7 +28,11 @@ void Drawer::draw_point(int x, int y, QColor& color)
 
 void Drawer::draw_point(Point &p, QColor& color)
 {
-    draw_line(p, p, color);
+    QPainter painter(&_pxp);
+    QPen pen(color);
+    pen.setWidth(1);
+    painter.setPen(pen);
+    painter.drawLine(p.x(), p.y(), p.x(), p.y());
 }
 
 void Drawer::draw_line(Point &start, Point &end, QColor& color)
@@ -46,13 +50,13 @@ void Drawer::draw_lines(lines_t &lines, QColor& color)
 }
 void Drawer::draw_rect(rect_t &rect, QColor& color)
 {
-    Point right_top(rect.right_down.x(), rect.left_top.y());
-    Point left_down(rect.left_top.x(), rect.right_down.y());
+    Point right_top(rect.p2.x(), rect.p1.y());
+    Point left_down(rect.p1.x(), rect.p2.y());
 
-    draw_line(rect.left_top, right_top, color);
-    draw_line(right_top, rect.right_down, color);
-    draw_line(rect.right_down, left_down, color);
-    draw_line(left_down, rect.left_top, color);
+    draw_line(rect.p1, right_top, color);
+    draw_line(right_top, rect.p2, color);
+    draw_line(rect.p2, left_down, color);
+    draw_line(left_down, rect.p1, color);
 }
 
 QColor Drawer::get_pixel_color(const Point &position) const

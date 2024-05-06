@@ -39,6 +39,11 @@ MainWindow::MainWindow(QWidget *parent):
     connect(ui->btn_add_rect, &QPushButton::clicked, this,
             &MainWindow::form_add_rect);
 
+    connect(ui->btn_cut, &QPushButton::clicked, this,
+            &MainWindow::btn_cut_clicked);
+
+
+
     QLocale locale(QLocale::C);
     locale.setNumberOptions(QLocale::RejectGroupSeparator);
 
@@ -173,8 +178,8 @@ void MainWindow::form_add_line()
 
 void MainWindow::add_rect(int x_s, int y_s, int x_e, int y_e)
 {
-    cut_rect.left_top = Point(x_s, y_s);
-    cut_rect.right_down = Point(x_e, y_e);
+    cut_rect.p1 = Point(x_s, y_s);
+    cut_rect.p2 = Point(x_e, y_e);
 
     is_cut_rect_set = true;
 
@@ -187,12 +192,12 @@ void MainWindow::mouse_add_rect()
 
     if (cut_rect_start)
     {
-        cut_rect.right_down = Point(round(point.x()), round(point.y()));
+        cut_rect.p2 = Point(round(point.x()), round(point.y()));
         is_cut_rect_set = true;
     }
     else
     {
-        cut_rect.left_top = Point(round(point.x()), round(point.y()));
+        cut_rect.p1 = Point(round(point.x()), round(point.y()));
         is_cut_rect_set = false;
     }
 
@@ -236,5 +241,6 @@ void MainWindow::form_add_rect()
 
 void MainWindow::btn_cut_clicked()
 {
-
+    simple_cut(drawer, cut_rect, lines, result_color);
+    drawer->render();
 }

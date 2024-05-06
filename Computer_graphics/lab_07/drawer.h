@@ -20,8 +20,8 @@ using lines_t = std::vector<line_t>;
 
 struct rect
 {
-    Point left_top;
-    Point right_down;
+    Point p1;
+    Point p2;
 };
 
 using rect_t = struct rect;
