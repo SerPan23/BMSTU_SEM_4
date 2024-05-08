@@ -111,6 +111,7 @@ void MainWindow::draw()
 }
 void MainWindow::update_view()
 {
+    drawer->clear();
     draw();
     drawer->render();
 }
