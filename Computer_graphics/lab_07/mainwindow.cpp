@@ -101,6 +101,10 @@ void MainWindow::clear_clicked()
 {
     drawer->clear();
     //TODO: ADD LINES AND RECT CLEAR
+    lines.clear();
+    cur_line_start = false;
+    cut_rect_start = false;
+    is_cut_rect_set = false;
 }
 
 void MainWindow::draw()
@@ -123,6 +127,7 @@ void MainWindow::add_line(int x_s, int y_s, int x_e, int y_e)
     line.end = Point(x_e, y_e);
 
     lines.push_back(line);
+    cur_line_start = false;
 
     update_view();
 }
@@ -135,10 +140,16 @@ void MainWindow::mouse_add_line()
     {
         cur_line.end = Point(round(point.x()), round(point.y()));
         lines.push_back(cur_line);
+        ui->input_x_e_line->setText(QString::number(cur_line.end.x()));
+        ui->input_y_e_line->setText(QString::number(cur_line.end.y()));
         update_view();
     }
     else
+    {
         cur_line.start = Point(round(point.x()), round(point.y()));
+        ui->input_x_s_line->setText(QString::number(cur_line.start.x()));
+        ui->input_y_s_line->setText(QString::number(cur_line.start.y()));
+    }
 
     cur_line_start = !cur_line_start;
 }
@@ -183,6 +194,7 @@ void MainWindow::add_rect(int x_s, int y_s, int x_e, int y_e)
     cut_rect.p2 = Point(x_e, y_e);
 
     is_cut_rect_set = true;
+    cut_rect_start = false;
 
     update_view();
 }
@@ -195,11 +207,17 @@ void MainWindow::mouse_add_rect()
     {
         cut_rect.p2 = Point(round(point.x()), round(point.y()));
         is_cut_rect_set = true;
+
+        ui->input_x_e_rect->setText(QString::number(cut_rect.p2.x()));
+        ui->input_y_e_rect->setText(QString::number(cut_rect.p2.y()));
     }
     else
     {
         cut_rect.p1 = Point(round(point.x()), round(point.y()));
         is_cut_rect_set = false;
+
+        ui->input_x_s_rect->setText(QString::number(cut_rect.p1.x()));
+        ui->input_y_s_rect->setText(QString::number(cut_rect.p1.y()));
     }
 
     cut_rect_start = !cut_rect_start;
@@ -242,6 +260,25 @@ void MainWindow::form_add_rect()
 
 void MainWindow::btn_cut_clicked()
 {
+
+    if (!is_cut_rect_set)
+    {
+        show_err_msg("Не введен отсекатель");
+        return;
+    }
+
+    if (cut_rect_start)
+    {
+        show_err_msg("Не закончен ввод отсекателя");
+        return;
+    }
+
+    if (cur_line_start)
+    {
+        show_err_msg("Не закончен ввод отрезка");
+        return;
+    }
+
     simple_cut(drawer, cut_rect, lines, result_color);
     drawer->render();
 }

@@ -179,7 +179,7 @@
      </layout>
     </widget>
    </widget>
-   <widget class="QWidget" name="">
+   <widget class="QWidget" name="layoutWidget">
     <property name="geometry">
      <rect>
       <x>10</x>
@@ -260,7 +260,7 @@
      </item>
     </layout>
    </widget>
-   <widget class="QWidget" name="">
+   <widget class="QWidget" name="layoutWidget">
     <property name="geometry">
      <rect>
       <x>10</x>
@@ -273,7 +273,7 @@
      <item>
       <widget class="QLabel" name="label_3">
        <property name="text">
-        <string>Координаты верхнего левого угла отсекателя</string>
+        <string>Координаты первой точки отсекателя</string>
        </property>
       </widget>
      </item>
@@ -304,7 +304,7 @@
      <item>
       <widget class="QLabel" name="label_12">
        <property name="text">
-        <string>Координаты нижнего правого угла отсекателя</string>
+        <string>Координаты второй точки отсекателя</string>
        </property>
       </widget>
      </item>
