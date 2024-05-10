@@ -5,7 +5,7 @@ $(shell mkdir -p $(OUTPATH))
 
 SRCS := $(wildcard *.c)
 
-CFLAGS = -std=c++20 -c -O0 -masm=intel -msse
+CFLAGS = -std=c++20 -c -O0 -masm=intel -msse -g3
 
 OBJS = $(OUTPATH)main.o $(OUTPATH)matrix.o
 
@@ -20,6 +20,8 @@ $(OUTPATH)%.d : %.cpp
 
 include $(SRCS:.c=.d)
 
+.PHONY:
+debug: app.exe
 
 .PHONY:
 run : app.exe

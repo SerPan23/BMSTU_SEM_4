@@ -68,6 +68,7 @@ int main(void)
     {
         std::cout << std::endl
                   << "ERROR: Wrong matrix A size" << std::endl;
+        matrix_free(a);
         return -1;
     }
 
@@ -86,15 +87,22 @@ int main(void)
                   << "ERROR: The number of columns in the first matrix should be "
                      "equal to the number of rows in the second."
                   << std::endl;
+        matrix_free(a);
+        matrix_free(b);
         return -1;
     }
     else
     {
         std::cout << std::endl
                   << "Result:" << std::endl;
-        matrix res = matrix_mul_sse(a, b);
+        matrix_t res = matrix_mul_sse(a, b);
         matrix_print(res);
+
+        matrix_free(res);
     }
+
+    matrix_free(a);
+    matrix_free(b);
 
     return 0;
 }

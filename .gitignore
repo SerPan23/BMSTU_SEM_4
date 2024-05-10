@@ -248,3 +248,5 @@ CMakeLists.txt.user*
 *.COM
 OOP/lab_02/.vscode/settings.json
 Computing_algorithms/lab_04/.ipynb_checkpoints/main-checkpoint.ipynb
+
+masm/LAB_09/.vscode/

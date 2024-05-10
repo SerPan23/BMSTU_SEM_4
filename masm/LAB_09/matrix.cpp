@@ -9,7 +9,7 @@ matrix_t matrix_alloc(int n, int m)
     matrix.data = (double **) calloc(matrix.n, sizeof(double*));
 
     for (int i = 0; i < matrix.n; i++)
-        matrix.data[i] = (double *)calloc(matrix.m, sizeof(double));
+        matrix.data[i] = (double *)calloc(matrix.m + matrix.m % 2, sizeof(double));
 
     return matrix;
 }
@@ -83,7 +83,7 @@ static double mul_and_sum_standart(double *a, double *b, int m)
 
 static double mul_and_sum_sse(double *sa, double *sb, int n)
 {
-    double tmp, res = 0;
+    double tmp = 0.0, res = 0.0;
     __float128 *a = (__float128 *)sa;
     __float128 *b = (__float128 *)sb;
     for (size_t i = 0; i < n; i += sizeof(__float128) / sizeof(double), a++, b++)
@@ -98,8 +98,10 @@ static double mul_and_sum_sse(double *sa, double *sb, int n)
             : "m"(*a), "m"(*b)
             : "xmm0", "xmm1");
 
+    // std::cout << tmp << std::endl;
         res += tmp;
     }
+
 
     return res;
 }
@@ -114,6 +116,8 @@ matrix_t matrix_mul_sse(matrix_t &a, matrix_t &b)
         for (int j = 0; j < res.m; j++)
             // res.data[i][j] = mul_and_sum_standart(a.data[i], trans_b.data[j], b.m);
             res.data[i][j] = mul_and_sum_sse(a.data[i], trans_b.data[j], a.m);
+
+    matrix_free(trans_b);
 
     return res;
 }
