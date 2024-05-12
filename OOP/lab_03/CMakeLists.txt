@@ -17,9 +17,41 @@ set(PROJECT_SOURCES
         qt_ui/mainwindow.cpp
         qt_ui/mainwindow.h
         qt_ui/mainwindow.ui
+
+        commands/Facade.h
+        commands/Command.h
+        commands/Camera/CameraCommand.h commands/Camera/CameraCommand.cpp
+        commands/Scene/SceneCommand.h commands/Scene/SceneCommand.cpp
+        commands/Object/ObjectCommand.h commands/Object/ObjectCommand.cpp
+
+        managers/ManagerSolution.h managers/ManagerSolution.cpp
+        managers/BaseManager.h
+        managers/draw/DrawManager.h managers/draw/DrawManager.cpp
+        managers/draw/DrawManagerCreator.h managers/draw/DrawManagerCreator.cpp
+        managers/scene/SceneManager.h managers/scene/SceneManager.cpp
+        managers/scene/SceneManagerCreator.h managers/scene/SceneManagerCreator.cpp
+        managers/camera/CameraManager.h managers/camera/CameraManager.cpp
+        managers/camera/CameraManagerCreator.h managers/camera/CameraManagerCreator.cpp
+        managers/transform/TransformManager.h managers/transform/TransformManager.cpp
+        managers/transform/TransformManagerCreator.h managers/transform/TransformManagerCreator.cpp
+        managers/load/LoadManager.h managers/load/LoadManager.cpp
+        managers/load/LoadManagerCreator.h managers/load/LoadManagerCreator.cpp
+
+        objects/BaseObject.h objects/BaseObject.cpp
+        objects/ObjectComposite.h objects/ObjectComposite.cpp
+
+        drawer/DrawerSolution.h
+        drawer/AbstractFactory.h
+        drawer/BaseDrawer.h
+        drawer/Qt/QtFactory.h drawer/Qt/QtFactory.cpp
+        drawer/Qt/QtDrawer.h drawer/Qt/QtDrawer.cpp
 )
 
 include_directories("${CMAKE_CURRENT_LIST_DIR}/qt_ui")
+include_directories("${CMAKE_CURRENT_LIST_DIR}/commands")
+include_directories("${CMAKE_CURRENT_LIST_DIR}/managers")
+include_directories("${CMAKE_CURRENT_LIST_DIR}/drawer")
+
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
     qt_add_executable(lab_03
