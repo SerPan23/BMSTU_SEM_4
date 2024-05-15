@@ -45,18 +45,30 @@ set(PROJECT_SOURCES
         drawer/BaseDrawer.h
         drawer/Qt/QtFactory.h drawer/Qt/QtFactory.cpp
         drawer/Qt/QtDrawer.h drawer/Qt/QtDrawer.cpp
+        drawer/DrawerSolution.hpp
+
+        visitor/BaseVisitor.h
+        visitor/draw/DrawVisitor.h visitor/draw/DrawVisitor.cpp
+
+        scene/Scene.h scene/Scene.cpp
+        scene/SceneGroup.h scene/SceneGroup.cpp
 )
 
 include_directories("${CMAKE_CURRENT_LIST_DIR}/qt_ui")
 include_directories("${CMAKE_CURRENT_LIST_DIR}/commands")
 include_directories("${CMAKE_CURRENT_LIST_DIR}/managers")
 include_directories("${CMAKE_CURRENT_LIST_DIR}/drawer")
+include_directories("${CMAKE_CURRENT_LIST_DIR}/objects")
+include_directories("${CMAKE_CURRENT_LIST_DIR}/visitor")
+include_directories("${CMAKE_CURRENT_LIST_DIR}/scene")
 
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
     qt_add_executable(lab_03
         MANUAL_FINALIZATION
         ${PROJECT_SOURCES}
+        objects/VisibleObjects/VisibleObject.h
+        objects/InvisibleObjects/InVisibleObject.h
     )
 # Define target properties for Android with Qt 6 as:
 #    set_property(TARGET lab_03 APPEND PROPERTY QT_ANDROID_PACKAGE_SOURCE_DIR

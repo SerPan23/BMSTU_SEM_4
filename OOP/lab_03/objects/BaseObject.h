@@ -5,6 +5,11 @@ class BaseObject
 {
 public:
     BaseObject();
+    virtual ~BaseObject() = default;
+
+
+    virtual bool isVisible() { return false; };
+    virtual bool isComposite() { return  false; };
 };
 
 #endif // BASEOBJECT_H
