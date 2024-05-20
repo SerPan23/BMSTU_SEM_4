@@ -39,6 +39,17 @@ set(PROJECT_SOURCES
 
         objects/BaseObject.h objects/BaseObject.cpp
         objects/ObjectComposite.h objects/ObjectComposite.cpp
+        objects/VisibleObjects/VisibleObject.h
+        objects/InvisibleObjects/InVisibleObject.h
+        objects/VisibleObjects/model/BaseModel.h objects/VisibleObjects/model/BaseModel.cpp
+        objects/VisibleObjects/model/MeshModel/MeshModel.h objects/VisibleObjects/model/MeshModel/MeshModel.cpp
+
+        objects_data/MeshModelData/MeshModelData.h objects_data/MeshModelData//MeshModelData.cpp
+        objects_data/MeshModelData//VertexEdgeData.h objects_data/MeshModelData//VertexEdgeData.cpp
+        objects_data/MeshModelData//AdjacencyListData.h objects_data/MeshModelData//AdjacencyListData.cpp
+        objects_data/MeshModelData//Vertex.h objects_data/MeshModelData//Vertex.cpp
+        objects_data/MeshModelData/Edge.h objects_data/MeshModelData/Edge.cpp
+        objects_data/MeshModelData/AdjacencyList.h objects_data/MeshModelData/AdjacencyList.cpp
 
         drawer/DrawerSolution.h
         drawer/AbstractFactory.h
@@ -59,6 +70,7 @@ include_directories("${CMAKE_CURRENT_LIST_DIR}/commands")
 include_directories("${CMAKE_CURRENT_LIST_DIR}/managers")
 include_directories("${CMAKE_CURRENT_LIST_DIR}/drawer")
 include_directories("${CMAKE_CURRENT_LIST_DIR}/objects")
+include_directories("${CMAKE_CURRENT_LIST_DIR}/objects_data")
 include_directories("${CMAKE_CURRENT_LIST_DIR}/visitor")
 include_directories("${CMAKE_CURRENT_LIST_DIR}/scene")
 
@@ -67,8 +79,6 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
     qt_add_executable(lab_03
         MANUAL_FINALIZATION
         ${PROJECT_SOURCES}
-        objects/VisibleObjects/VisibleObject.h
-        objects/InvisibleObjects/InVisibleObject.h
     )
 # Define target properties for Android with Qt 6 as:
 #    set_property(TARGET lab_03 APPEND PROPERTY QT_ANDROID_PACKAGE_SOURCE_DIR
