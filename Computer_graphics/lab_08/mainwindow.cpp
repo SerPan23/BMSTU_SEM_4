@@ -289,8 +289,6 @@ void MainWindow::btn_cut_clicked()
         return;
     }
 
-
-    // simple_cut(drawer, cut_rect, lines, result_color);
     cyrus_beck_cut(drawer, clip, lines, result_color);
     drawer->render();
 }
