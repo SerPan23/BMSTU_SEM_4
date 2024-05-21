@@ -20,6 +20,7 @@ public:
     void visit(Scene &scene) override;
     void visit(SceneGroup &group) override;
     void visit(MeshModel &model) override;
+    void visit(LightSource &light) override;
     void visit(BaseCamera &camera) override;
 
 private:

@@ -6,7 +6,9 @@
 class SceneGroup : public ObjectComposite
 {
 public:
-    SceneGroup();
+    SceneGroup() = default;
+
+    virtual void accept(BaseVisitor& v) override;
 };
 
 #endif // SCENEGROUP_H

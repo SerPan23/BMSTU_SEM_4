@@ -3,11 +3,11 @@
 
 #include "BaseObject.h"
 
-class InvisibleObject : public BaseObject
+class InVisibleObject : public BaseObject
 {
 public:
-    InvisibleObject() = default;
-    ~InvisibleObject() = default;
+    InVisibleObject() = default;
+    ~InVisibleObject() = default;
 
     bool isVisible() override { return false; }
 };

@@ -4,7 +4,43 @@
 class Vertex
 {
 public:
-    Vertex();
+    Vertex() = default;
+    Vertex(const double x, const double y, const double z);
+
+    Vertex(const Vertex &vertex) = default;
+    Vertex(const Vertex &&vertex) noexcept;
+
+    Vertex &operator=(const Vertex &vertex) = default;
+    Vertex &operator=(Vertex &&vertex) noexcept;
+
+    ~Vertex() = default;
+
+    double getX() const;
+    double getY() const;
+    double getZ() const;
+
+    void setX(double const x);
+    void setY(double const y);
+    void setZ(double const z);
+
+    bool operator==(const Vertex &vertex) const noexcept;
+    bool isEqual(const Vertex &vertex) const noexcept;
+
+    bool operator!=(const Vertex &vertex) const noexcept;
+    bool isNotEqual(const Vertex &vertex) const noexcept;
+
+    Vertex operator+(const Vertex &vertex)  const;
+    Vertex operator-(const Vertex &vertex)  const;
+
+    Vertex getAbsVertex(const Vertex &center);
+
+    Vertex getCenter() const;
+    // void transform(const Matrix<double> &mtr);
+
+private:
+    double x_;
+    double y_;
+    double z_;
 };
 
 #endif // VERTEX_H

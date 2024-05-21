@@ -1,3 +1,6 @@
 #include "SceneGroup.h"
 
-SceneGroup::SceneGroup() {}
+void SceneGroup::accept(BaseVisitor& v)
+{
+    v.visit(*this);
+}

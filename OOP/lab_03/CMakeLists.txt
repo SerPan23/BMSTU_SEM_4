@@ -12,6 +12,32 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Widgets)
 find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets)
 
+
+function(add_include_directories_recursive dir)
+    include_directories("${dir}")
+    get_filename_component(abs_dir "${dir}" ABSOLUTE)
+    file(GLOB subdirs RELATIVE "${abs_dir}" "${abs_dir}/*")
+    foreach(subdir ${subdirs})
+        if(IS_DIRECTORY "${abs_dir}/${subdir}")
+            include_directories("${abs_dir}/${subdir}")
+            add_include_directories_recursive("${abs_dir}/${subdir}")
+        endif()
+    endforeach()
+endfunction()
+
+# Вызываем функцию для добавления всех подпапок в качестве корневых директорий
+# add_include_directories_recursive("${CMAKE_CURRENT_SOURCE_DIR}/include")
+
+add_include_directories_recursive("${CMAKE_CURRENT_LIST_DIR}/qt_ui")
+add_include_directories_recursive("${CMAKE_CURRENT_LIST_DIR}/commands")
+add_include_directories_recursive("${CMAKE_CURRENT_LIST_DIR}/managers")
+add_include_directories_recursive("${CMAKE_CURRENT_LIST_DIR}/drawer")
+add_include_directories_recursive("${CMAKE_CURRENT_LIST_DIR}/objects")
+add_include_directories_recursive("${CMAKE_CURRENT_LIST_DIR}/objects_data")
+add_include_directories_recursive("${CMAKE_CURRENT_LIST_DIR}/visitor")
+add_include_directories_recursive("${CMAKE_CURRENT_LIST_DIR}/scene")
+add_include_directories_recursive("${CMAKE_CURRENT_LIST_DIR}/load")
+
 set(PROJECT_SOURCES
         main.cpp
         qt_ui/mainwindow.cpp
@@ -37,12 +63,16 @@ set(PROJECT_SOURCES
         managers/load/LoadManager.h managers/load/LoadManager.cpp
         managers/load/LoadManagerCreator.h managers/load/LoadManagerCreator.cpp
 
-        objects/BaseObject.h objects/BaseObject.cpp
+        objects/BaseObject.h
         objects/ObjectComposite.h objects/ObjectComposite.cpp
         objects/VisibleObjects/VisibleObject.h
         objects/InvisibleObjects/InVisibleObject.h
         objects/VisibleObjects/model/BaseModel.h objects/VisibleObjects/model/BaseModel.cpp
         objects/VisibleObjects/model/MeshModel/MeshModel.h objects/VisibleObjects/model/MeshModel/MeshModel.cpp
+        objects/InvisibleObjects/LightSource.h objects/InvisibleObjects/LightSource.cpp
+        objects/InvisibleObjects/camera/BaseCamera.h objects/InvisibleObjects/camera/BaseCamera.cpp
+        objects/InvisibleObjects/camera/FPSCamera.h objects/InvisibleObjects/camera/FPSCamera.cpp
+        objects/InvisibleObjects/camera/CameraFactory.h objects/InvisibleObjects/camera/CameraFactory.cpp
 
         objects_data/MeshModelData/MeshModelData.h objects_data/MeshModelData//MeshModelData.cpp
         objects_data/MeshModelData//VertexEdgeData.h objects_data/MeshModelData//VertexEdgeData.cpp
@@ -63,17 +93,20 @@ set(PROJECT_SOURCES
 
         scene/Scene.h scene/Scene.cpp
         scene/SceneGroup.h scene/SceneGroup.cpp
+
+        load/directors/MeshModelDirector.h load/directors/MeshModelDirector.cpp
+        load/builders/ModelBuilder.h
+        load/builders/BuilderSolution.h load/builders/BuilderSolution.cpp
+        load/builders/MeshModel/MeshModelBuilder.h load/builders/MeshModel/MeshModelBuilder.cpp
+        load/builders/MeshModel/MeshModelBuilderFactory.h load/builders/MeshModel/MeshModelBuilderFactory.cpp
+        load/builders/MeshModel/VertexEdgeMeshModelBuilder.h load/builders/MeshModel/VertexEdgeMeshModelBuilder.cpp
+        load/builders/MeshModel/AdjacencyListMeshModelBuilder.h load/builders/MeshModel/AdjacencyListMeshModelBuilder.cpp
+        load/sources/SourceSolution.h load/sources/SourceSolution.cpp
+        load/sources/ModelSourceFactory.h load/sources/ModelSourceFactory.cpp
+        load/sources/ModelSource.h load/sources/ModelSource.cpp
+        load/sources/VertexEdgeSource.h load/sources/VertexEdgeSource.cpp
+        load/sources/AdjacencyListSource.h load/sources/AdjacencyListSource.cpp
 )
-
-include_directories("${CMAKE_CURRENT_LIST_DIR}/qt_ui")
-include_directories("${CMAKE_CURRENT_LIST_DIR}/commands")
-include_directories("${CMAKE_CURRENT_LIST_DIR}/managers")
-include_directories("${CMAKE_CURRENT_LIST_DIR}/drawer")
-include_directories("${CMAKE_CURRENT_LIST_DIR}/objects")
-include_directories("${CMAKE_CURRENT_LIST_DIR}/objects_data")
-include_directories("${CMAKE_CURRENT_LIST_DIR}/visitor")
-include_directories("${CMAKE_CURRENT_LIST_DIR}/scene")
-
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
     qt_add_executable(lab_03

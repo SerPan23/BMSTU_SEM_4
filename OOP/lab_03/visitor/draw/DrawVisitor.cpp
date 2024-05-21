@@ -20,6 +20,13 @@ void DrawVisitor::visit(MeshModel &model)
 
 }
 
+
+void DrawVisitor::visit(LightSource &light)
+{
+
+}
+
+
 void DrawVisitor::visit(BaseCamera &camera)
 {
 
