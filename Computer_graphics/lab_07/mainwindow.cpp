@@ -272,6 +272,11 @@ void MainWindow::btn_cut_clicked()
         show_err_msg("Не закончен ввод отсекателя");
         return;
     }
+    if ((cut_rect.p1.x() == cut_rect.p2.x()) || (cut_rect.p1.y() == cut_rect.p2.y()))
+    {
+        show_err_msg("Отесекатель должен быть прямоугольником");
+        return;
+    }
 
     if (cur_line_start)
     {
