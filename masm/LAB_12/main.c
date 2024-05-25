@@ -11,28 +11,39 @@ typedef struct arr
 } arr_t;
 
 
-// size_t my_strlen(const char *str)
-// {
-//     size_t len;
+size_t my_strlen(const char *str)
+{
+    size_t len;
 
-//     __asm__ __volatile__(
-//         "mov X1, %1\n"
-//         "mov X2, #0\n" // длина изначально 0
-//         "loop:\n"
-//         "ldrb w0, [x1, x2]\n" // Загружаем байт из памяти, находящейся по адресу x1 + x2
-//         "cbz w0, end\n"       // Проверяется w0 == 0, Если да, то переход к метке end
-//         "add x2, x2, #1\n"
-//         "B loop\n"
-//         "end:\n"
-//         "mov %0, X2\n"
-//         : "=r"(len) // выходной параметр, говорим что из регистра %0 кладем в len
-//         : "r"(str)  // входной параметр, помещаем str в регистр %1
-//         // список регистров, которые будут использоваться программой и
-//         // значения которых будут затерты в процессе выполнения программы.
-//         : "r0", "r1", "r2");
+    // __asm__ __volatile__(
+    //     "mov X1, %1\n"
+    //     "mov X2, #0\n" // длина изначально 0
+    //     "loop:\n"
+    //     "ldrb w0, [x1, x2]\n" // Загружаем байт из памяти, находящейся по адресу x1 + x2
+    //     "cbz w0, end\n"       // Проверяется w0 == 0, Если да, то переход к метке end
+    //     "add x2, x2, #1\n"
+    //     "B loop\n"
+    //     "end:\n"
+    //     "mov %0, X2\n"
+    //     : "=r"(len)
+    //     : "r"(str)
+    //     : "r0", "r1", "r2");
 
-//     return len;
-// }
+    __asm__ __volatile__(
+        "mov X0, %1\n"
+        "mov W1, 0\n"
+        "loop: LDRB W5, [X0], #1\n"
+        "cmp W5, W1\n"
+        "B.NE loop\n"
+        "sub x0, x0, %1\n"
+        "sub x0, x0, #1\n"
+        "mov %0, X0\n"
+        : "=r"(len)
+        : "r"(str)
+        : "r0", "r1", "r2");
+
+    return len;
+}
 
 void arr_add(const arr_t *arr1, const arr_t *arr2, const arr_t *res)
 {
@@ -74,11 +85,11 @@ void arr_print(const char *name, const arr_t *arr)
 
 int main(void)
 {
-    // char str[STRLEN] = "123456";
+    char str[STRLEN] = "123456";
 
-    // size_t len = my_strlen(str);
+    size_t len = my_strlen(str);
 
-    // printf("Str = %s, len = %zu\n", str, len);
+    printf("Str = %s, len = %zu\n", str, len);
 
     double d1[N] = {1, 2, 3, 4, 5};
     double d2[N] = {0.1, 0.2, 0.3, 0.4, 0.5};
