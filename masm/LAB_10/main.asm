@@ -86,203 +86,32 @@ section .text
 
 
     _clicked_calc_btn:
-        and rsp, 0xFFFFFFFFFFFFFFF0
+        push rbp
 
         mov rdi, qword [ rel entry_1 ]
         call gtk_entry_get_text
         mov qword [ rel start ], rax
 
-
         mov rdi, qword [ rel entry_2 ]
         call gtk_entry_get_text
         mov qword [ rel end ], rax
 
-
         mov rdi, qword [ rel entry_3 ]
         call gtk_entry_get_text
         mov qword [ rel step_count ], rax
-
-
-
-        ; -------
-        ; Выравниваем стек по 16 байтам
-        ; and rsp, 0xFFFFFFFFFFFFFFF0
-        ; Сохраняем сохраняемые регистры
-        push rbx
-        push r12
-        push r13
-        push r14
-        push r15
-
-        ; Сохраняем значение rsp в стек
-        mov rbp, rsp
-        push rbp
 
         mov rdi, qword [ rel start ]
         mov rsi, qword [ rel end ]
         mov rdx, qword [ rel step_count ]
         call str_func_root
 
-
-        ; Восстанавливаем значение rsp из стека
-        pop rbp
-        mov rsp, rbp
-
-        ; Восстанавливаем сохраняемые регистры
-        pop r15
-        pop r14
-        pop r13
-        pop r12
-        pop rbx
-
-
         mov rdi, qword [ rel result_label ]
-        mov rsi, qword [ rel ans ]
+        mov rsi, ans
         call gtk_label_set_text
 
+        pop rbp
+
         ret
-
-    ; _clicked_calc_btn:
-    ;     ; sub rsp, 8
-    ;     and rsp, 0xFFFFFFFFFFFFFFF0
-
-    ;     mov rdi, qword [ rel entry_1 ]
-    ;     call gtk_entry_get_text
-
-
-    ;     mov rdi, rax
-    ;     call g_ascii_strtod
-    ;     ; mov rdx, rax ; first
-    ;     mov qword [ rel start ], rax
-
-
-    ;     mov rdi, qword [ rel entry_2 ]
-    ;     call gtk_entry_get_text
-
-    ;     mov rdi, rax
-    ;     call g_ascii_strtod
-    ;     ; mov rsi, rax ; second
-    ;     mov qword [ rel end ], rax
-
-
-    ;     mov rdi, qword [ rel entry_3 ]
-    ;     call gtk_entry_get_text
-
-        
-    ;     mov rdi, rax
-    ;     call g_ascii_strtod
-        
-    ;     ; mov rdi, rdx ; first in rdi
-    ;     ; mov rdx, rax ; third
-    ;     mov qword [ rel step_count ], rax
-
-
-    ;     ;--------
-
-    ;     ; and rsp, 0xFFFFFFFFFFFFFFF0
-    ;     ; sub rsp, 8
-
-    ;     mov rdi, qword [ rel start ]
-    ;     mov rsi, qword [ rel end ]
-    ;     mov rdx, qword [ rel step_count ]
-    ;     call find_func_root
-
-
-    ;     mov rdi, ans
-    ;     mov rsi, 150
-    ;     mov rdx, rax
-    ;     call g_ascii_dtostr
-
-
-    ;     mov rdi, qword [ rel result_label ]
-    ;     mov rsi, ans
-    ;     call gtk_label_set_text
-
-    ;     ret
-
-    
-    ; _clicked_calc_btn:
-        ; mov rdi, qword [ rel entry_1 ]
-        ; call gtk_entry_get_text
-
-        ; ; Выравнивание стека
-        ; and rsp, 0xFFFFFFFFFFFFFFF0
-        ; ; ; Сохранение указателя стека
-        ; ; mov rbp, rsp
-
-        ; mov rdi, rax
-        ; call str_to_double
-        ; mov rdx, rax ; first
-
-        ; ; Восстановление указателя стека
-        ; ; mov rsp, rbp
-
-
-        ; mov rdi, qword [ rel entry_2 ]
-        ; call gtk_entry_get_text
-
-
-        ; ; Выравнивание стека
-        ; and rsp, 0xFFFFFFFFFFFFFFF0
-        ; ; Сохранение указателя стека
-        ; ; mov rbp, rsp
-
-
-        ; mov rdi, rax
-        ; call str_to_double
-        ; mov rsi, rax ; second
-
-        ; ; Восстановление указателя стека
-        ; ; mov rsp, rbp
-
-        ; mov rdi, qword [ rel entry_3 ]
-        ; call gtk_entry_get_text
-
-        ; mov rdi, rdx ; first in rdi
-
-
-        ; ; Выравнивание стека
-        ; and rsp, 0xFFFFFFFFFFFFFFF0
-        ; ; Сохранение указателя стека
-        ; ; mov rbp, rsp
-
-        ; mov rdi, rax
-        ; call str_to_double
-        ; mov rdx, rax ; third
-
-        ; ; Восстановление указателя стека
-        ; ; mov rsp, rbp
-
-
-
-        ; ; call find_func_root
-        ; ; mov rdi, rax
-        ; ; call num_to_str
-        ; ; mov rdi, qword [ rel result_label ]
-        ; ; mov rsi, rax
-        ; ; call gtk_label_set_text
-
-
-        ; ; Выравнивание стека
-        ; and rsp, 0xFFFFFFFFFFFFFFF0
-        ; ; Сохранение указателя стека
-        ; ; mov rbp, rsp
-
-        ; mov rcx, [ rel ans ]
-        ; call str_func_root
-
-        ; ; Восстановление указателя стека
-        ; ; mov rsp, rbp
-
-
-        ; mov rdi, qword [ rel result_label ]
-        ; mov rsi, [ rel ans ]
-        ; call gtk_label_set_text
-
-        ; ret
-
-
-
     
     main:
         push rbp
@@ -431,4 +260,6 @@ section .text
 
         call gtk_main
         
+        pop rbp
+
         ret
