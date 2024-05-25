@@ -65,7 +65,7 @@ void arr_add(const arr_t *arr1, const arr_t *arr2, const arr_t *res)
     if (arr1->size % 2 != 0)
     {
         __asm__ __volatile__(
-            "ldr d0, [%0]\n" // ld4 загружает значения типа doble в регистр NEON d0 (64 битная часть v0)
+            "ldr d0, [%0]\n" // ldr загружает значения типа doble в регистр NEON d0 (64 битная часть v0)
             "ldr d1, [%1]\n"
             "fadd d2, d0, d1\n"
             "str d2, [%2]\n"
