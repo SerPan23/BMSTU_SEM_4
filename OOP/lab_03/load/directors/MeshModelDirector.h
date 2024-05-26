@@ -3,13 +3,15 @@
 
 #include <memory>
 
-#include "MeshModel.h"
-#include "MeshModelBuilder.h"
+#include "ModelDirector.h"
 
-class MeshModelDirector
+#include "BaseModel.h"
+#include "ModelBuilder.h"
+
+class MeshModelDirector : public ModelDirector
 {
 public:
-    std::shared_ptr<MeshModel> create(std::shared_ptr<MeshModelBuilder> builder);
+    virtual std::shared_ptr<BaseModel> create(std::shared_ptr<ModelBuilder> builder) override;
 };
 
 #endif // MESHMODELDIRECTOR_H

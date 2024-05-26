@@ -4,7 +4,7 @@
 class MeshModelData
 {
 public:
-    MeshModelData();
+    MeshModelData() = default;
 };
 
 #endif // MESHMODELDATA_H

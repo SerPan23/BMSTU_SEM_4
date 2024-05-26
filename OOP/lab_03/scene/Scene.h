@@ -12,15 +12,17 @@ public:
     Scene();
     ~Scene() = default;
 
-    bool addObject(std::shared_ptr<BaseObject> &obj);
+    int addObject(const std::shared_ptr<BaseObject> &obj);
     bool removeObject(const Iterator &);
-    std::shared_ptr<SceneGroup> getVisibleObjects();
-    std::shared_ptr<SceneGroup> getInVisibleObjects();
+    bool removeObject(const int id);
+    std::shared_ptr<BaseObject> getObject(int objectId);
+
+    std::shared_ptr<SceneGroup> getObjects();
+
     void accept(BaseVisitor& v);
 
 private:
-    std::shared_ptr<SceneGroup> visibleObjects_;
-    std::shared_ptr<SceneGroup> inVisibleObjects_;
+    std::shared_ptr<SceneGroup> objects_;
 };
 
 #endif // SCENE_H

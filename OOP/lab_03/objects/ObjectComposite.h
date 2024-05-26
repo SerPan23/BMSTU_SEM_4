@@ -16,7 +16,7 @@ public:
      virtual void updateCenter() override;
 
 
-    virtual bool add(const std::shared_ptr<BaseObject> &) override;
+    virtual int add(const std::shared_ptr<BaseObject> &) override;
     virtual bool remove(const Iterator &) override;
     virtual std::shared_ptr<BaseObject> getObject(int id) override;
     virtual Iterator begin() override;
@@ -25,7 +25,7 @@ public:
     // + restoreMem(Memento)
 
 private:
-    std::vector<std::shared_ptr<BaseObject>> objects_;
+    // std::vector<std::shared_ptr<BaseObject>> objects_;
 };;
 
 #endif // OBJECTCOMPOSITE_H

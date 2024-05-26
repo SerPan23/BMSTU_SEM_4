@@ -8,7 +8,11 @@
 class LoadManager : public BaseManager
 {
 public:
-    LoadManager();
+    LoadManager() = default;
+    ~LoadManager() override = default;
+    LoadManager(const LoadManager &) = delete;
+
+    void loadMeshModel(const std::string &path);
 };
 
 #endif // LOADMANAGER_H

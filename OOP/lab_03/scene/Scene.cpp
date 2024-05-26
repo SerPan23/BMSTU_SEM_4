@@ -1,35 +1,39 @@
 #include "Scene.h"
 
-Scene::Scene() : visibleObjects_(new SceneGroup), inVisibleObjects_(new SceneGroup) { }
+Scene::Scene() : objects_(new SceneGroup) { }
 
-bool Scene::addObject(std::shared_ptr<BaseObject> &obj)
+int Scene::addObject(const std::shared_ptr<BaseObject> &obj)
 {
-    if (obj->isVisible())
-        return visibleObjects_.get()->add(obj);
-
-    return inVisibleObjects_.get()->add(obj);
+    return objects_->add(obj);
 }
 
 bool Scene::removeObject(const Iterator & iter)
 {
-    if (iter->get()->isVisible())
-        return visibleObjects_.get()->remove(iter);
-
-    return inVisibleObjects_.get()->remove(iter);
+    return objects_->remove(iter);
 }
-
-std::shared_ptr<SceneGroup> Scene::getVisibleObjects()
+bool Scene::removeObject(const int id)
 {
-    return visibleObjects_;
+    auto objectToDelete = objects_->getObject(id);
+
+    for (Iterator iter = objects_->begin(); iter < objects_->end(); iter++)
+        if (iter->get() == objectToDelete.get())
+            return removeObject(iter);
+
+    return false;
 }
 
-std::shared_ptr<SceneGroup> Scene::getInVisibleObjects()
+std::shared_ptr<BaseObject> Scene::getObject(int objectId)
 {
-    return inVisibleObjects_;
+    return objects_->getObject(objectId);
 }
+
+std::shared_ptr<SceneGroup> Scene::getObjects()
+{
+    return objects_;
+}
+
 
 void Scene::accept(BaseVisitor& v)
 {
-    visibleObjects_->accept(v);
-    inVisibleObjects_->accept(v);
+    objects_->accept(v);
 }

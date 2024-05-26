@@ -37,6 +37,8 @@ add_include_directories_recursive("${CMAKE_CURRENT_LIST_DIR}/objects_data")
 add_include_directories_recursive("${CMAKE_CURRENT_LIST_DIR}/visitor")
 add_include_directories_recursive("${CMAKE_CURRENT_LIST_DIR}/scene")
 add_include_directories_recursive("${CMAKE_CURRENT_LIST_DIR}/load")
+add_include_directories_recursive("${CMAKE_CURRENT_LIST_DIR}/exeption")
+
 
 set(PROJECT_SOURCES
         main.cpp
@@ -106,12 +108,17 @@ set(PROJECT_SOURCES
         load/sources/ModelSource.h load/sources/ModelSource.cpp
         load/sources/VertexEdgeSource.h load/sources/VertexEdgeSource.cpp
         load/sources/AdjacencyListSource.h load/sources/AdjacencyListSource.cpp
+        load/directors/ModelDirector.h load/directors/ModelDirector.cpp
+
+        exeption/BaseException.h
+        exeption/LoadException.h
 )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
     qt_add_executable(lab_03
         MANUAL_FINALIZATION
         ${PROJECT_SOURCES}
+        exeption/ArrayException.h
     )
 # Define target properties for Android with Qt 6 as:
 #    set_property(TARGET lab_03 APPEND PROPERTY QT_ANDROID_PACKAGE_SOURCE_DIR

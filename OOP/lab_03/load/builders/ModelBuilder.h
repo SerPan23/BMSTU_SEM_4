@@ -5,8 +5,7 @@
 
 #include "ModelSource.h"
 
-#include "Vertex.h"
-#include "Edge.h"
+#include "BaseModel.h"
 
 class ModelBuilder
 {
@@ -14,13 +13,17 @@ public:
     ModelBuilder() = default;
     ~ModelBuilder() = default;
 
-    virtual void build() = 0;
-    virtual void buildPoint(const Vertex &vertex)  = 0;
-    virtual void buildEdge(const Edge &edge) = 0;
-    virtual bool isBuild() const = 0;
+    virtual bool buildVertex()  = 0;
+    virtual bool buildEdge() = 0;
+
+    virtual std::shared_ptr<BaseModel> get() = 0;
 
 protected:
-    std::shared_ptr<ModelSource> source_;
+    virtual std::shared_ptr<BaseModel> create() = 0;
+
+    std::shared_ptr<BaseModel> model_{ nullptr };
+    std::shared_ptr<ModelSource> source_{ nullptr };
+    size_t part{ 0 };
 };
 
 #endif // MODELBUILDER_H

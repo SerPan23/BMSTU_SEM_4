@@ -1,5 +1,7 @@
 #include "ObjectComposite.h"
 
+#include "ArrayException.h"
+
 ObjectComposite::ObjectComposite(std::shared_ptr<BaseObject> &object)
 {
     objects_.push_back(object);
@@ -26,7 +28,7 @@ void ObjectComposite::updateCenter()
 
     for (const auto &obj : objects_)
     {
-        center_ += obj->getCenter();
+        center_ = center_ + obj->getCenter();
         count++;
     }
 
@@ -35,7 +37,7 @@ void ObjectComposite::updateCenter()
                     center_.getZ() / count);
 }
 
-bool ObjectComposite::add(const std::shared_ptr<BaseObject> &obj)
+int ObjectComposite::add(const std::shared_ptr<BaseObject> &obj)
 {
     objects_.push_back(obj);
     updateCenter();
@@ -53,8 +55,8 @@ bool ObjectComposite::remove(const Iterator &iter)
 
 std::shared_ptr<BaseObject> ObjectComposite::getObject(int id)
 {
-    // if (0 > id || id >= objects_.size())
-        // throw std::
+    if (0 > id || id >= objects_.size())
+        throw IndexException(__FILE__, __LINE__, "Wrong index");
 
     return objects_[id];
 }

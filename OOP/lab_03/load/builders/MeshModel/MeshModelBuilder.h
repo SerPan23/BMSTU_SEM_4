@@ -13,15 +13,13 @@ public:
     MeshModelBuilder() = default;
     ~MeshModelBuilder() = default;
 
-    virtual void build();
-    virtual void buildPoint(const Vertex &vertex);
-    virtual void buildEdge(const Edge &edge);
-    virtual bool isBuild() const;
+    virtual bool buildVertex()  = 0;
+    virtual bool buildEdge() = 0;
 
-    virtual std::shared_ptr<MeshModel> get();
+    virtual std::shared_ptr<BaseModel> get() = 0;
 
 protected:
-    std::shared_ptr<MeshModel> model_;
+    virtual std::shared_ptr<BaseModel> create() = 0;
 };
 
 #endif // MESHMODELBUILDER_H

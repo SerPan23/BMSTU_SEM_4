@@ -30,7 +30,7 @@ public:
     virtual bool isVisible() { return false; }
     virtual bool isComposite() { return  false; }
 
-    virtual bool add(const std::shared_ptr<BaseObject> &) { return false; }
+    virtual int add(const std::shared_ptr<BaseObject> &) { return false; }
     virtual bool remove(const Iterator &) { return false; }
     virtual std::shared_ptr<BaseObject> getObject(int objectId) = 0;
     virtual Iterator begin() { return Iterator(); }
