@@ -7,19 +7,9 @@ int Scene::addObject(const std::shared_ptr<BaseObject> &obj)
     return objects_->add(obj);
 }
 
-bool Scene::removeObject(const Iterator & iter)
+bool Scene::removeObject(int objectId)
 {
-    return objects_->remove(iter);
-}
-bool Scene::removeObject(const int id)
-{
-    auto objectToDelete = objects_->getObject(id);
-
-    for (Iterator iter = objects_->begin(); iter < objects_->end(); iter++)
-        if (iter->get() == objectToDelete.get())
-            return removeObject(iter);
-
-    return false;
+    return objects_->remove(objectId);
 }
 
 std::shared_ptr<BaseObject> Scene::getObject(int objectId)

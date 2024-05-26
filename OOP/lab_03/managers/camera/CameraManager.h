@@ -29,7 +29,6 @@ public:
 
 private:
     std::map<int, std::shared_ptr<BaseCamera>> cameras_;
-    std::map<int, Iterator> camearaIterators_;
 
     std::shared_ptr<BaseCamera> activeCamera_;
     int cameraCount_{};

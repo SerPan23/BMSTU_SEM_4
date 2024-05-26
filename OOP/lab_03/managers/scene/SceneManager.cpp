@@ -18,13 +18,9 @@ std::shared_ptr<BaseObject> SceneManager::getObject(int objId)
     return scene_->getObject(objId);
 }
 
-bool SceneManager::removeObject(int objId)
+bool SceneManager::removeObject(int objectId)
 {
-    return scene_->removeObject(objId);
-}
-bool SceneManager::removeObject(const Iterator & iter)
-{
-    return scene_->removeObject(iter);
+    return scene_->removeObject(objectId);
 }
 
 int SceneManager::addObject(const std::shared_ptr<BaseObject> &object)

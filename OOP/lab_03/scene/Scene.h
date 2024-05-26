@@ -13,7 +13,6 @@ public:
     ~Scene() = default;
 
     int addObject(const std::shared_ptr<BaseObject> &obj);
-    bool removeObject(const Iterator &);
     bool removeObject(const int id);
     std::shared_ptr<BaseObject> getObject(int objectId);
 

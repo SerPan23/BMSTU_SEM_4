@@ -21,7 +21,7 @@ AdjacencyList::Indexes AdjacencyList::getKeys() const
 
 AdjacencyList::Indexes AdjacencyList::get(int firstInd) const
 {
-    return data_[firstInd];
+    return data_.at(firstInd);
 }
 
 void AdjacencyList::add(int firstInd, int index)

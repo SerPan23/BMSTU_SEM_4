@@ -3,14 +3,15 @@
 
 #include "BaseCamera.h"
 
+#include "BaseVisitor.h"
+
 class FPSCamera : public BaseCamera
 {
 public:
-    FPSCamera() = default;
-    FPSCamera(const Vertex &pos, const Vertex &dir) : direction_(dir)
-    { position_ = pos; }
+    FPSCamera(const Vertex &pos, const Vertex &dir);
 
 protected:
+    Vertex position_;
     Vertex direction_;
 };
 

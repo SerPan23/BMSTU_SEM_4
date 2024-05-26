@@ -12,11 +12,12 @@ class VertexEdgeData : public MeshModelData
 {
 public:
     VertexEdgeData(std::vector<Vertex> vertices, std::vector<Edge> edges);
-    const std::vector<Vertex>& getVertices() const;
-    const std::vector<Edge>& getEdges() const;
 
-    void addVertex(const Vertex& vertex);
-    void addEdge(const Edge& edge);
+    virtual const std::vector<Vertex>& getVertices() const override;
+    virtual const std::vector<Edge>& getEdges() const override;
+
+    virtual void addVertex(const Vertex& vertex) override;
+    virtual void addEdge(const Edge& edge) override;
 
 private:
     std::vector<Vertex> vertices_;

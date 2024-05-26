@@ -4,14 +4,7 @@
 
 ObjectComposite::ObjectComposite(std::shared_ptr<BaseObject> &object)
 {
-    objects_.push_back(object);
-    updateCenter();
-}
-
-ObjectComposite::ObjectComposite(const std::vector<std::shared_ptr<BaseObject>> &objects)
-{
-    objects_ = objects;
-    updateCenter();
+    objects_[objCount++] = object;
 }
 
 void ObjectComposite::accept(BaseVisitor& v)
@@ -21,43 +14,29 @@ void ObjectComposite::accept(BaseVisitor& v)
 
 // + getTransformMatrix()
 // + setTransformMatrix()
-void ObjectComposite::updateCenter()
-{
-    center_ = Vertex(0, 0, 0);
-    size_t count = 0;
-
-    for (const auto &obj : objects_)
-    {
-        center_ = center_ + obj->getCenter();
-        count++;
-    }
-
-    center_ = Vertex(center_.getX() / count,
-                    center_.getY() / count,
-                    center_.getZ() / count);
-}
 
 int ObjectComposite::add(const std::shared_ptr<BaseObject> &obj)
 {
-    objects_.push_back(obj);
-    updateCenter();
+    objects_[objCount++] = obj;
 
-    return true;
+    return objCount - 1;
 }
 
-bool ObjectComposite::remove(const Iterator &iter)
+bool ObjectComposite::remove(int objectId)
 {
-    objects_.erase(iter);
-    updateCenter();
+    auto objectToDelete = objects_.find(objectId);
 
-    return true;
+    if (objectToDelete != objects_.end())
+    {
+        objects_.erase(objectToDelete);
+        return true;
+    }
+
+    return false;
 }
 
 std::shared_ptr<BaseObject> ObjectComposite::getObject(int id)
 {
-    if (0 > id || id >= objects_.size())
-        throw IndexException(__FILE__, __LINE__, "Wrong index");
-
     return objects_[id];
 }
 

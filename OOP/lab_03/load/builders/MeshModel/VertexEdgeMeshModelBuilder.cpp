@@ -51,7 +51,7 @@ std::shared_ptr<BaseModel> VertexEdgeMeshModelBuilder::create()
 {
     if (part == 2)
     {
-        auto modelData = std::make_shared<MeshModelData>(VertexEdgeData(vertices, edges));
+        auto modelData = std::make_shared<VertexEdgeData>(vertices, edges);
 
         model_ = std::make_shared<BaseModel>(MeshModel(modelData));
     }

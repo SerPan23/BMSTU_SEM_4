@@ -4,7 +4,7 @@
 
 #include "MeshModelBuilderFactory.h"
 
-std::shared_ptr<ModelBuilder> create(const std::string &path, std::shared_ptr<ModelSource> source)
+std::shared_ptr<ModelBuilder> BuilderSolution::create(const std::string &path, std::shared_ptr<ModelSource> source)
 {
     std::filesystem::path p(path);
     std::string ext = p.extension().string();

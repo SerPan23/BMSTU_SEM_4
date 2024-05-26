@@ -8,17 +8,17 @@
 class MeshModel : public BaseModel
 {
 public:
-    MeshModel() : data_(new MeshModelData) { }
+    MeshModel() = default;
     explicit MeshModel(const std::shared_ptr<MeshModelData> &data) :
         data_(data) { }
     MeshModel(const MeshModel &model);
 
     ~MeshModel() override = default;
 
-    virtual Vertex getCenter() override;
+    void accept(BaseVisitor& v) override { v.visit(*this); };
 
 protected:
-    std::shared_ptr<MeshModelData> data_;
+    std::shared_ptr<MeshModelData> data_{ nullptr };
 };
 
 #endif // MESHMODEL_H

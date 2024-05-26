@@ -33,7 +33,7 @@ bool AdjacencyListMeshModelBuilder::buildEdge()
     maybeEdge = source_->nextEdge();
     while (maybeEdge.has_value())
     {
-        adjacencyList.add(maybeEdge.value());
+        adjacencyList.add(maybeEdge.value().getFirstInd(), maybeEdge.value().getSecondInd());
         maybeEdge = source_->nextEdge();
     }
 
@@ -51,7 +51,7 @@ std::shared_ptr<BaseModel> AdjacencyListMeshModelBuilder::create()
 {
     if (part == 2)
     {
-        auto modelData = std::make_shared<MeshModelData>(AdjacencyListData(vertices, adjacencyList));
+        auto modelData = std::make_shared<AdjacencyListData>(vertices, adjacencyList);
 
         model_ = std::make_shared<BaseModel>(MeshModel(modelData));
     }

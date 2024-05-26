@@ -21,11 +21,11 @@ int CameraManager::newCamera()
 
     auto sceneManager = ManagerSolution::getSceneManager();
 
-    auto camera_id = sceneManager->addObject(camera);
+    auto cameraId = sceneManager->addObject(camera);
 
-    cameras_[camera_id] = camera;
+    cameras_[cameraId] = camera;
 
-    return camera_id;
+    return cameraId;
 }
 
 bool CameraManager::removeCamera(int cameraId)
@@ -41,7 +41,7 @@ bool CameraManager::removeCamera(int cameraId)
 
     cameras_.erase(cameraIt);
 
-    return sceneManager->removeObject(camearaIterators_[cameraId]);
+    return sceneManager->removeObject(cameraId);
 }
 
 std::shared_ptr<BaseCamera> CameraManager::getCamera(int cameraId)
