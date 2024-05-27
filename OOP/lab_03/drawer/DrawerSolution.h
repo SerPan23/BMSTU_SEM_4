@@ -3,29 +3,29 @@
 
 
 #include <memory>
-#include <map>
-#include <initializer_list>
 
 #include "AbstractFactory.h"
+#include "QtFactory.h"
+
+enum class DrawerType
+{
+    QtDrawer
+};
 
 class DrawerSolution
 {
-    using CreateFactory = std::unique_ptr<AbstractFactory>(*)();
-    using CallBackMap = std::map<size_t, CreateFactory>;
-
 public:
     DrawerSolution() = default;
-    DrawerSolution(std::initializer_list<std::pair<size_t, CreateFactory>> list);
+    template<typename... Args>
+    static std::unique_ptr<BaseDrawer> create(DrawerType type, Args &&... args)
+    {
+        std::unique_ptr<AbstractFactory> drawerFactory = nullptr;
 
-    bool registration(size_t id, CreateFactory createfun);
-    bool check(size_t id) { return callbacks.erase(id) == 1; }
+        if (type == DrawerType::QtDrawer)
+            drawerFactory = std::make_unique<QtFactory>(std::forward<Args>(args)...);
 
-    std::unique_ptr<AbstractFactory> create(size_t id);
-
-private:
-    CallBackMap callbacks;
+        return drawerFactory->create();
+    }
 };
-
-#include <DrawerSolution.hpp>
 
 #endif // DRAWERSOLUTION_H

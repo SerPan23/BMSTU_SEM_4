@@ -3,8 +3,8 @@
 Vertex::Vertex(const double x, const double y, const double z)
 {
     setX(x);
-    setY(x);
-    setZ(x);
+    setY(y);
+    setZ(z);
 }
 
 Vertex::Vertex(const Vertex &&vertex) noexcept

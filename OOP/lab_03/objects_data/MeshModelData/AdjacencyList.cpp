@@ -48,5 +48,5 @@ void AdjacencyList::remove(int firstInd, int delIndex)
 
 bool AdjacencyList::empty() const
 {
-    return data_.empty()
+    return data_.empty();
 }

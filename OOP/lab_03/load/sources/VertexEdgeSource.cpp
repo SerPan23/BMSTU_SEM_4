@@ -70,7 +70,7 @@ void VertexEdgeSource::fileLineIter()
     ss.str(buffer);
     ss >> prefix;
 
-    if (prefix == "l")
+    if (prefix == "e")
         readEdge(ss);
 
     if (prefix == "v")

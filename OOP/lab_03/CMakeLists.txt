@@ -38,6 +38,8 @@ add_include_directories_recursive("${CMAKE_CURRENT_LIST_DIR}/visitor")
 add_include_directories_recursive("${CMAKE_CURRENT_LIST_DIR}/scene")
 add_include_directories_recursive("${CMAKE_CURRENT_LIST_DIR}/load")
 add_include_directories_recursive("${CMAKE_CURRENT_LIST_DIR}/exeption")
+add_include_directories_recursive("${CMAKE_CURRENT_LIST_DIR}/math")
+add_include_directories_recursive("${CMAKE_CURRENT_LIST_DIR}/transform")
 
 
 set(PROJECT_SOURCES
@@ -88,7 +90,7 @@ set(PROJECT_SOURCES
         drawer/BaseDrawer.h
         drawer/Qt/QtFactory.h drawer/Qt/QtFactory.cpp
         drawer/Qt/QtDrawer.h drawer/Qt/QtDrawer.cpp
-        drawer/DrawerSolution.hpp
+
 
         visitor/BaseVisitor.h
         visitor/draw/DrawVisitor.h visitor/draw/DrawVisitor.cpp
@@ -113,6 +115,15 @@ set(PROJECT_SOURCES
         exeption/BaseException.h
         exeption/LoadException.h
         exeption/ArrayException.h
+
+        math/glm_wrapper.h math/glm_wrapper.cpp
+        math/Matrix4.h math/Matrix4.cpp
+        math/Vector3.h math/Vector3.cpp
+
+        transform/Transformer.h transform/Transformer.cpp
+        transform/move/MoveTransformer.h transform/move/MoveTransformer.cpp
+        transform/rotate/RotateTransformer.h transform/rotate/RotateTransformer.cpp
+        transform/scale/ScaleTransformer.h transform/scale/ScaleTransformer.cpp
 )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)

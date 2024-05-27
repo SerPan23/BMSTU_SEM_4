@@ -24,8 +24,8 @@ public:
     void visit(BaseCamera &camera) override;
 
 private:
-    std::shared_ptr<BaseDrawer> drawer;
-    std::shared_ptr<BaseCamera> camera;
+    std::shared_ptr<BaseDrawer> drawer_;
+    std::shared_ptr<BaseCamera> camera_;
 };
 
 #endif // DRAWVISITOR_H

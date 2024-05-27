@@ -15,9 +15,12 @@ public:
 
     ~MeshModel() override = default;
 
-    void accept(BaseVisitor& v) override { v.visit(*this); };
+    virtual void accept(BaseVisitor& v) override { v.visit(*this); };
+
+
 
 protected:
+    friend class DrawVisitor;
     std::shared_ptr<MeshModelData> data_{ nullptr };
 };
 

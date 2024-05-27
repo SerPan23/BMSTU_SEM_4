@@ -53,7 +53,7 @@ std::shared_ptr<BaseModel> VertexEdgeMeshModelBuilder::create()
     {
         auto modelData = std::make_shared<VertexEdgeData>(vertices, edges);
 
-        model_ = std::make_shared<BaseModel>(MeshModel(modelData));
+        model_ = std::make_shared<MeshModel>(modelData);
     }
 
     return model_;
