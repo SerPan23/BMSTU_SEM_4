@@ -8,7 +8,7 @@
 class Controller : public QObject {
 Q_OBJECT
 
-enum PanelState { FREE, MOVE, REACHED_TARGET, UPDATE_TARGET };
+enum PanelState { FREE, MOVE, REACHED_TARGET, UPDATE_TARGET, INTERMEDIATE_TARGET };
 
 public:
     explicit Controller(QObject *parent = nullptr);
@@ -36,9 +36,12 @@ public slots:
 
     void reachedTargetFloor();
 
+    void intermediateTarget();
+
 private:
     int currFloor = 1;
     int mainTarget = -1;
+    bool isIntermediateStop = false;
 
     std::vector<bool> needVisit;
 

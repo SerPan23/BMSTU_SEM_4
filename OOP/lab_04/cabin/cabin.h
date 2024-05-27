@@ -22,6 +22,8 @@ signals:
 
     void doorsToOpen();
 
+    void cabinFloorPassed();
+
 public slots:
 
     void cabinLock();
@@ -34,10 +36,10 @@ public slots:
 
     void cabinStop();
 
+    void floorTimerPassed();
+
 
 private:
-    friend class Elevator;
-
     QTimer floorTimerPass;
     Cabin::State state;
     Doors doors;

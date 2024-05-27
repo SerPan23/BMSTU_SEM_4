@@ -2,7 +2,7 @@
 
 Elevator::Elevator()
 {
-    QObject::connect(&cabin.floorTimerPass, SIGNAL(timeout()), &controller, SLOT(handleMove()));
+    QObject::connect(&cabin, SIGNAL(cabinFloorPassed()), &controller, SLOT(handleMove()));
     QObject::connect(&cabin, SIGNAL(cabinUnlocked()), &controller, SLOT(updateTarget()));
     QObject::connect(&controller, SIGNAL(cabinToGoOn()), &cabin, SLOT(cabinMove()));
     QObject::connect(&controller, SIGNAL(cabinToPrepare()), &cabin, SLOT(cabinPrepare()));
