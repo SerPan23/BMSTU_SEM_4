@@ -2,8 +2,9 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
-
 #include <QGraphicsScene>
+
+#include "Logic.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -21,7 +22,40 @@ public:
 
 private:
     Ui::MainWindow *ui;
-
     std::shared_ptr<QGraphicsScene> scene;
+
+    std::shared_ptr<Logic> logic;
+    std::shared_ptr<MetaData> meta;
+
+    void showError(QString str);
+
+    void btnMoveClicked();
+    void btnMoveAllClicked();
+
+    void btnRotateClicked();
+    void btnRotateAllClicked();
+
+    void btnScaleClicked();
+    void btnScaleAllClicked();
+
+    void btnNewCameraClicked();
+    void btnDeleteCameraClicked();
+    void choosedCamera();
+
+    void cameraMoveUp();
+    void cameraMoveDown();
+    void cameraMoveLeft();
+    void cameraMoveRight();
+
+    void cameraSpinUp();
+    void cameraSpinDown();
+    void cameraSpinLeft();
+    void cameraSpinRight();
+
+    void btnLoadModelClicked();
+    void btnDeleteModelClicked();
+    void btnDeleteAllModelClicked();
+    void choosedModel();
+
 };
 #endif // MAINWINDOW_H
