@@ -45,3 +45,8 @@ void AdjacencyList::remove(int firstInd, int delIndex)
 
     data_[firstInd].erase(iter);
 }
+
+bool AdjacencyList::empty() const
+{
+    return data_.empty()
+}

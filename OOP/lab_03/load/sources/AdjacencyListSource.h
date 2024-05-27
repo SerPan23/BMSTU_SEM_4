@@ -7,6 +7,8 @@
 #include <fstream>
 #include <sstream>
 
+#include "AdjacencyList.h"
+
 class AdjacencyListSource : public ModelSource
 {
 public:
@@ -18,6 +20,13 @@ public:
 private:
     std::ifstream sourceFile{};
     std::queue<Vertex> vertexQueue{};
+    std::queue<Edge> edgeQueue{};
+
+    void readVertex(std::stringstream &ss);
+    void readEdge(std::stringstream &ss);
+    bool vertexEnd = false;
+
+    void fileLineIter();
 };
 
 #endif // ADJACENCYLISTSOURCE_H

@@ -20,7 +20,6 @@ public:
 
     std::shared_ptr<BaseObject> getObject(int objId);
     bool removeObject(int objId);
-    bool removeObject(const Iterator & iter);
     int addObject(const std::shared_ptr<BaseObject> &object);
 
 private:

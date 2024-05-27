@@ -23,6 +23,8 @@ public:
     void remove(int firstInd);
     void remove(int firstInd, int delIndex);
 
+    bool empty() const;
+
 private:
     std::map<int, Indexes> data_;
 };
