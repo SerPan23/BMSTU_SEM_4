@@ -16,9 +16,6 @@ public:
     ~CameraManager() override = default;
     CameraManager(const CameraManager &) = delete;
 
-    // void offsetCamera(int cameraId, const Vertex &offset);
-    // void rotateCamera(int cameraId, float xOffset, float yOffset);
-
     void setActiveCamera(int cameraId);
     std::shared_ptr<BaseCamera> getActiveCamera();
 
@@ -26,6 +23,9 @@ public:
     bool removeCamera(int cameraId);
 
     std::shared_ptr<BaseCamera> getCamera(int cameraId);
+
+    void moveCamera(int cameraId, const Vector3 &offset);
+    void rotateCamera(int cameraId, float xOffset, float yOffset);
 
 private:
     std::map<int, std::shared_ptr<BaseCamera>> cameras_;

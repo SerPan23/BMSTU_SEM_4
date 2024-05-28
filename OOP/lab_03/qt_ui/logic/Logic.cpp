@@ -6,9 +6,16 @@
 #include <iostream>
 #include <sstream>
 
+#include "CameraCommand.h"
+#include "LoadCommand.h"
+#include "ObjectCommand.h"
+#include "SceneCommand.h"
+
+#include <QDebug>
+
 void Logic::draw()
 {
-    auto command = std::make_shared<RenderSceneCommand>();
+    auto command = std::make_shared<SceneRenderCommand>();
     facade.execute(command);
 }
 
@@ -20,6 +27,7 @@ int Logic::loadObject(const std::string &path)
 
     int result_id = command->getResult();
     meta->addObject(result_id, "Object loaded from: " + path);
+    meta->setObject(result_id);
 
     return result_id;
 }
@@ -29,6 +37,8 @@ void Logic::deleteObject(int objectId)
     auto command = std::make_shared<ObjectDeleteCommand>(objectId);
 
     facade.execute(command);
+
+    meta->removeObject(objectId);
 }
 
 void Logic::deleteAllObject()
@@ -156,27 +166,18 @@ int Logic::newCamera()
 
 void Logic::deleteCamera(int cameraId)
 {
-    auto command = std::make_shared<DeleteCameraSceneCommand>(cameraId);
+    auto command = std::make_shared<CameraDeleteCommand>(cameraId);
 
     facade.execute(command);
 
-    auto cameraIt = meta->getObjects().find(cameraId);
-
-    meta->getObjects().erase(cameraIt);
-
-    meta->getCameras().erase(cameraId);
-
-    if (cameraId - 1 >= 0)
-        meta->setCamera(cameraId - 1);
-    else
-        meta->setCamera(0);
+    meta->removeCamera(cameraId);
 
     draw();
 }
 
 void Logic::setActiveCamera(int cameraId)
 {
-    auto command = std::make_shared<SetActiveCameraSceneCommand>(cameraId);
+    auto command = std::make_shared<CameraSetActiveCommand>(cameraId);
 
     facade.execute(command);
 
@@ -185,7 +186,7 @@ void Logic::setActiveCamera(int cameraId)
 
 void Logic::moveCamera(int cameraId, float dx, float dy, float dz)
 {
-    auto offset = Vector3{dx, dy, dz};
+    auto offset = Vector3(dx, dy, dz);
 
 
     auto command = std::make_shared<CameraMoveCommand>(cameraId, offset);

@@ -9,7 +9,7 @@ class Vector3
 {
 public:
     Vector3() = default;
-    explicit Vector3(const Vector3 &mat);
+    Vector3(const Vector3 &mat);
     explicit Vector3(Vector3 &&mat);
     explicit Vector3(const glm::vec3 &data_);
     Vector3(const double x, const double y, const double z);

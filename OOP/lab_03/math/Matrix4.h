@@ -7,7 +7,7 @@ class Matrix4
 {
 public:
     Matrix4() = default;
-    explicit Matrix4(const Matrix4 &mat);
+    Matrix4(const Matrix4 &mat);
     explicit Matrix4(Matrix4 &&mat);
     explicit Matrix4(const glm::mat4 &data_);
     explicit Matrix4(const double num);

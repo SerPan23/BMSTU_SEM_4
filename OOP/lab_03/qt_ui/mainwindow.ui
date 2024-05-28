@@ -596,7 +596,7 @@
             <number>0</number>
            </property>
            <item>
-            <widget class="QComboBox" name="comboBox_2"/>
+            <widget class="QComboBox" name="cameraCB"/>
            </item>
            <item>
             <layout class="QHBoxLayout" name="horizontalLayout_6">
@@ -606,56 +606,56 @@
                 <number>0</number>
                </property>
                <item row="1" column="0">
-                <widget class="QPushButton" name="pushButton_4">
+                <widget class="QPushButton" name="btn_left">
                  <property name="text">
                   <string>L</string>
                  </property>
                 </widget>
                </item>
                <item row="0" column="1">
-                <widget class="QPushButton" name="pushButton_9">
+                <widget class="QPushButton" name="btn_up">
                  <property name="text">
                   <string>U</string>
                  </property>
                 </widget>
                </item>
                <item row="0" column="0">
-                <widget class="QPushButton" name="pushButton_3">
+                <widget class="QPushButton" name="btn_spin_left">
                  <property name="text">
                   <string>SL</string>
                  </property>
                 </widget>
                </item>
                <item row="2" column="0">
-                <widget class="QPushButton" name="pushButton_5">
+                <widget class="QPushButton" name="btn_spin_down">
                  <property name="text">
                   <string>SD</string>
                  </property>
                 </widget>
                </item>
                <item row="0" column="2">
-                <widget class="QPushButton" name="pushButton_10">
+                <widget class="QPushButton" name="btn_spin_right">
                  <property name="text">
                   <string>SR</string>
                  </property>
                 </widget>
                </item>
                <item row="2" column="1">
-                <widget class="QPushButton" name="pushButton_11">
+                <widget class="QPushButton" name="btn_down">
                  <property name="text">
                   <string>D</string>
                  </property>
                 </widget>
                </item>
                <item row="1" column="2">
-                <widget class="QPushButton" name="pushButton_12">
+                <widget class="QPushButton" name="btn_right">
                  <property name="text">
                   <string>R</string>
                  </property>
                 </widget>
                </item>
                <item row="2" column="2">
-                <widget class="QPushButton" name="pushButton_13">
+                <widget class="QPushButton" name="btn_spin_up">
                  <property name="text">
                   <string>SU</string>
                  </property>
@@ -666,14 +666,14 @@
              <item>
               <layout class="QVBoxLayout" name="verticalLayout_25">
                <item>
-                <widget class="QPushButton" name="pushButton">
+                <widget class="QPushButton" name="btn_delete_camera">
                  <property name="text">
                   <string>Удалить</string>
                  </property>
                 </widget>
                </item>
                <item>
-                <widget class="QPushButton" name="pushButton_2">
+                <widget class="QPushButton" name="btn_new_camera">
                  <property name="text">
                   <string>Создать</string>
                  </property>
@@ -717,19 +717,19 @@
             <number>0</number>
            </property>
            <item>
-            <widget class="QComboBox" name="comboBox"/>
+            <widget class="QComboBox" name="modelCB"/>
            </item>
            <item>
             <layout class="QHBoxLayout" name="horizontalLayout_8">
              <item>
-              <widget class="QPushButton" name="pushButton_7">
+              <widget class="QPushButton" name="btn_delete_model">
                <property name="text">
                 <string>Удалить</string>
                </property>
               </widget>
              </item>
              <item>
-              <widget class="QPushButton" name="pushButton_8">
+              <widget class="QPushButton" name="btn_delete_all_model">
                <property name="text">
                 <string>Удалить все</string>
                </property>
@@ -738,7 +738,7 @@
             </layout>
            </item>
            <item>
-            <widget class="QPushButton" name="pushButton_6">
+            <widget class="QPushButton" name="btn_load_model">
              <property name="text">
               <string>Загрузить</string>
              </property>

@@ -4,6 +4,9 @@
 #include <QMainWindow>
 #include <QGraphicsScene>
 
+#include <QFileDialog>
+#include <QMessageBox>
+
 #include "Logic.h"
 
 QT_BEGIN_NAMESPACE
@@ -27,6 +30,8 @@ private:
     std::shared_ptr<Logic> logic;
     std::shared_ptr<MetaData> meta;
 
+    void setupScene(QWidget *parent);
+    void connects();
     void showError(QString str);
 
     void btnMoveClicked();

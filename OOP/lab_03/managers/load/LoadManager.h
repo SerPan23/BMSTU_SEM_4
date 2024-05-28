@@ -12,7 +12,7 @@ public:
     ~LoadManager() override = default;
     LoadManager(const LoadManager &) = delete;
 
-    void loadMeshModel(const std::string &path);
+    int loadMeshModel(const std::string &path);
 };
 
 #endif // LOADMANAGER_H

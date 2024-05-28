@@ -48,3 +48,14 @@ std::shared_ptr<BaseCamera> CameraManager::getCamera(int cameraId)
 {
     return cameras_[cameraId];
 }
+
+void CameraManager::moveCamera(int cameraId, const Vector3 &offset)
+{
+    //TODO: impl
+}
+
+void CameraManager::rotateCamera(int cameraId, float xOffset, float yOffset)
+{
+    //TODO: impl
+}
+

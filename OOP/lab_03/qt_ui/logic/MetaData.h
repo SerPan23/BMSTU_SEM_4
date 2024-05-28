@@ -15,6 +15,7 @@ public:
 
     void setCamera(int camera);
     void addCamera(int camera);
+    void removeCamera(int camera);
 
     std::map<int, std::string> &getObjects();
     std::set<int> &getCameras();

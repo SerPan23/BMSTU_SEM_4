@@ -6,7 +6,7 @@
 
 #include "MeshModelDirector.h"
 
-void LoadManager::loadMeshModel(const std::string &path)
+int LoadManager::loadMeshModel(const std::string &path)
 {
     auto sceneManager = ManagerSolution::getSceneManager();
 
@@ -18,5 +18,5 @@ void LoadManager::loadMeshModel(const std::string &path)
 
     auto director = MeshModelDirector();
 
-    scene->addObject(director.create(builder));
+    return scene->addObject(director.create(builder));
 }
