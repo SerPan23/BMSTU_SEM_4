@@ -52,3 +52,13 @@ int Point::y() const
 {
     return this->_y;
 }
+
+
+void Point::setX(int x)
+{
+    _x = x;
+}
+void Point::setY(int y)
+{
+    _y = y;
+}

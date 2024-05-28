@@ -58,6 +58,7 @@ private:
     void mouse_add_line();
     void form_add_line();
 
+    void add_parallel_lines();
 
     void add_clip_vertex(int x, int y);
     void mouse_add_clip_vertex();

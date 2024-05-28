@@ -29,6 +29,8 @@ MainWindow::MainWindow(QWidget *parent):
     connect(drawer->scene(), &MyGraphicsScene::mouseLeftBtnClicked, this,
             &MainWindow::mouse_add_line);
 
+
+
     connect(ui->btn_add_line, &QPushButton::clicked, this,
             &MainWindow::form_add_line);
 
@@ -43,6 +45,11 @@ MainWindow::MainWindow(QWidget *parent):
 
     connect(ui->btn_cut, &QPushButton::clicked, this,
             &MainWindow::btn_cut_clicked);
+
+
+    connect(ui->add_parallels_lines, &QPushButton::clicked, this,
+            &MainWindow::add_parallel_lines);
+
 
 
 
@@ -132,14 +139,17 @@ void MainWindow::add_line(int x_s, int y_s, int x_e, int y_e)
 
     update_view();
 }
+
 void MainWindow::mouse_add_line()
 {
     MyGraphicsScene *scene = (MyGraphicsScene *)ui->graphicsView->scene();
     QPointF point = scene->get_mouse_pos();
 
+    Point p(round(point.x()), round(point.y()));
+
     if (cur_line_start)
     {
-        cur_line.end = Point(round(point.x()), round(point.y()));
+        cur_line.end = p;
         lines.push_back(cur_line);
         ui->input_x_e_line->setText(QString::number(cur_line.end.x()));
         ui->input_y_e_line->setText(QString::number(cur_line.end.y()));
@@ -147,7 +157,7 @@ void MainWindow::mouse_add_line()
     }
     else
     {
-        cur_line.start = Point(round(point.x()), round(point.y()));
+        cur_line.start = p;
         ui->input_x_s_line->setText(QString::number(cur_line.start.x()));
         ui->input_y_s_line->setText(QString::number(cur_line.start.y()));
     }
@@ -260,6 +270,53 @@ void MainWindow::mouse_close_clip()
 void MainWindow::btn_close_clip_clicked()
 {
     close_clip();
+}
+
+
+static double find_paralel(double k, int x1, int y1, int x2)
+{
+    return y1 + k * (x2 - x1);
+}
+
+void MainWindow::add_parallel_lines()
+{
+    if (clip.points.size() == 0)
+    {
+        show_err_msg("Не введен отсекатель");
+        return;
+    }
+
+    if (!clip.is_closed)
+    {
+        show_err_msg("Не закончен ввод отсекателя");
+        return;
+    }
+
+    if (!check_convex(clip) || check_cross(clip))
+    {
+        show_err_msg("Введен не корректный отсекатель");
+        return;
+    }
+
+    for (int i = 0; i < clip.points.size() - 1; i++)
+    {
+        double x1 = clip.points[i].x();
+        double y1 = clip.points[i].y();
+
+        double x2 = clip.points[i + 1].x();
+        double y2 = clip.points[i + 1].y();
+
+        double dx = x2 - x1;
+        double dy = y2 - y1;
+
+        double k = dy * 1.0 / dx;
+
+        if (dx > dy)
+        {
+            add_line(x1, y1 + 0.5 * dy, x2, find_paralel(k, x1, y1 + 0.5 * dy, x2));
+            add_line(x1, y1 - 0.5 * dy, x2, find_paralel(k, x1, y1 - 0.5 * dy, x2));
+        }
+    }
 }
 
 void MainWindow::btn_cut_clicked()
