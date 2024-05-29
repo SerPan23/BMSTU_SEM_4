@@ -118,6 +118,24 @@ void MainWindow::connects()
             &MainWindow::btnUndoAllClicked);
     connect(ui->btn_undo, &QPushButton::clicked, this,
             &MainWindow::btnUndoClicked);
+
+    QLocale locale(QLocale::C);
+    locale.setNumberOptions(QLocale::RejectGroupSeparator);
+
+    auto doubleValidator = new QDoubleValidator;
+    doubleValidator->setLocale(locale);
+
+    ui->input_dx->setValidator(doubleValidator);
+    ui->input_dy->setValidator(doubleValidator);
+    ui->input_dz->setValidator(doubleValidator);
+
+    ui->input_angle_x->setValidator(doubleValidator);
+    ui->input_angle_y->setValidator(doubleValidator);
+    ui->input_angle_z->setValidator(doubleValidator);
+
+    ui->input_kx->setValidator(doubleValidator);
+    ui->input_ky->setValidator(doubleValidator);
+    ui->input_kz->setValidator(doubleValidator);
 }
 
 void MainWindow::showError(QString str)
@@ -310,7 +328,10 @@ void MainWindow::cameraSpinRight()
 
 void MainWindow::btnLoadModelClicked()
 {
-    auto path = QFileDialog::getOpenFileName(nullptr, "Загрузка модели", "../../../../data");
+    auto path = QFileDialog::getOpenFileName(nullptr,
+                                             "Загрузка модели",
+                                             "../../../../data",
+                                             "Text files (*.ves *.adls)");
 
     if (path.isNull())
         return;
