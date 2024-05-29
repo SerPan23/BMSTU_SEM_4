@@ -9,22 +9,22 @@ class Vector3
 {
 public:
     Vector3() = default;
-    Vector3(const Vector3 &mat);
-    explicit Vector3(Vector3 &&mat);
+    Vector3(const Vector3 &vec);
+    explicit Vector3(Vector3 &&vec);
     explicit Vector3(const glm::vec3 &data_);
     Vector3(const double x, const double y, const double z);
 
-    Vector3& operator=(const Vector3 &mat);
-    Vector3& operator=(Vector3 &&mat) noexcept;
+    Vector3& operator=(const Vector3 &vec);
+    Vector3& operator=(Vector3 &&vec) noexcept;
 
-    Vector3 operator+(const Vector3 &matrix) const;
-    Vector3 &operator+=(const Vector3 &matrix);
+    Vector3 operator+(const Vector3 &vec) const;
+    Vector3 &operator+=(const Vector3 &vec);
 
-    Vector3 operator-(const Vector3 &matrix) const;
-    Vector3 &operator-=(const Vector3 &matrix);
+    Vector3 operator-(const Vector3 &vec) const;
+    Vector3 &operator-=(const Vector3 &vec);
 
-    Vector3 operator*(const Vector3 &matrix) const;
-    Vector3 &operator*=(const Vector3 &matrix);
+    Vector3 operator*(const Vector3 &vec) const;
+    Vector3 &operator*=(const Vector3 &vec);
 
     double operator[](int i);
     double operator[](int i) const;

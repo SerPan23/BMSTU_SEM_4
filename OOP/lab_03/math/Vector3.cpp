@@ -1,13 +1,13 @@
 #include "Vector3.h"
 
-Vector3::Vector3(const Vector3 &mat)
+Vector3::Vector3(const Vector3 &vec)
 {
-    data_ = mat.data_;
+    data_ = vec.data_;
 }
 
-Vector3::Vector3(Vector3 &&mat)
+Vector3::Vector3(Vector3 &&vec)
 {
-    data_ = mat.data_;
+    data_ = vec.data_;
 }
 
 Vector3::Vector3(const glm::vec3 &data)
@@ -20,49 +20,49 @@ Vector3::Vector3(const double x, const double y, const double z)
     data_ = {x, y, z};
 }
 
-Vector3& Vector3::operator=(const Vector3 &mat)
+Vector3& Vector3::operator=(const Vector3 &vec)
 {
-    data_ = mat.data_;
+    data_ = vec.data_;
 
     return *this;
 }
 
-Vector3& Vector3::operator=(Vector3 &&mat) noexcept
+Vector3& Vector3::operator=(Vector3 &&vec) noexcept
 {
-    data_ = mat.data_;
+    data_ = vec.data_;
 
     return *this;
 }
 
-Vector3 Vector3::operator+(const Vector3 &matrix) const
+Vector3 Vector3::operator+(const Vector3 &vec) const
 {
-    return Vector3(this->data_ + matrix.data_);
+    return Vector3(this->data_ + vec.data_);
 }
-Vector3& Vector3::operator+=(const Vector3 &matrix)
+Vector3& Vector3::operator+=(const Vector3 &vec)
 {
-    data_ += matrix.data_;
+    data_ += vec.data_;
 
     return *this;
 }
 
-Vector3 Vector3::operator-(const Vector3 &matrix) const
+Vector3 Vector3::operator-(const Vector3 &vec) const
 {
-    return Vector3(this->data_ - matrix.data_);
+    return Vector3(this->data_ - vec.data_);
 }
-Vector3& Vector3::operator-=(const Vector3 &matrix)
+Vector3& Vector3::operator-=(const Vector3 &vec)
 {
-    data_ -= matrix.data_;
+    data_ -= vec.data_;
 
     return *this;
 }
 
-Vector3 Vector3::operator*(const Vector3 &matrix) const
+Vector3 Vector3::operator*(const Vector3 &vec) const
 {
-    return Vector3(this->data_ * matrix.data_);
+    return Vector3(this->data_ * vec.data_);
 }
-Vector3& Vector3::operator*=(const Vector3 &matrix)
+Vector3& Vector3::operator*=(const Vector3 &vec)
 {
-    data_ *= matrix.data_;
+    data_ *= vec.data_;
 
     return *this;
 }

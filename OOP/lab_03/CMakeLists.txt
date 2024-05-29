@@ -139,6 +139,7 @@ set(PROJECT_SOURCES
 
         strategy/draw/DrawStrategy.h strategy/draw/DrawStrategy.cpp
         strategy/draw/SimpleDrawStrategy.h strategy/draw/SimpleDrawStrategy.cpp
+        strategy/draw/ClipDrawStrategy.h strategy/draw/ClipDrawStrategy.cpp
 )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)

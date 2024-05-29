@@ -4,6 +4,8 @@
 
 #include "draw/DrawVisitor.h"
 
+#include "ClipDrawStrategy.h"
+
 void DrawManager::drawScene()
 {
     if (not drawer)
@@ -17,6 +19,7 @@ void DrawManager::drawScene()
     auto camera = camera_manager->getActiveCamera();
 
     DrawVisitor visitor(drawer, camera);
+    // DrawVisitor visitor(drawer, camera, std::make_shared<ClipDrawStrategy>());
     visitor.visit(*scene);
 }
 
