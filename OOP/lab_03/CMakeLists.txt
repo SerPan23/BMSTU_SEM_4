@@ -40,6 +40,7 @@ add_include_directories_recursive("${CMAKE_CURRENT_LIST_DIR}/load")
 add_include_directories_recursive("${CMAKE_CURRENT_LIST_DIR}/exeption")
 add_include_directories_recursive("${CMAKE_CURRENT_LIST_DIR}/math")
 add_include_directories_recursive("${CMAKE_CURRENT_LIST_DIR}/transform")
+add_include_directories_recursive("${CMAKE_CURRENT_LIST_DIR}/history")
 
 
 set(PROJECT_SOURCES
@@ -47,12 +48,15 @@ set(PROJECT_SOURCES
         qt_ui/mainwindow.cpp
         qt_ui/mainwindow.h
         qt_ui/mainwindow.ui
+        qt_ui/logic/Logic.h qt_ui/logic/Logic.cpp
+        qt_ui/logic/MetaData.h qt_ui/logic/MetaData.cpp
 
         commands/Facade.h
         commands/Command.h
         commands/Camera/CameraCommand.h commands/Camera/CameraCommand.cpp
         commands/Scene/SceneCommand.h commands/Scene/SceneCommand.cpp
         commands/Object/ObjectCommand.h commands/Object/ObjectCommand.cpp
+        commands/Load/LoadCommand.h commands/Load/LoadCommand.cpp
 
         managers/ManagerSolution.h managers/ManagerSolution.cpp
         managers/BaseManager.h
@@ -66,6 +70,8 @@ set(PROJECT_SOURCES
         managers/transform/TransformManagerCreator.h managers/transform/TransformManagerCreator.cpp
         managers/load/LoadManager.h managers/load/LoadManager.cpp
         managers/load/LoadManagerCreator.h managers/load/LoadManagerCreator.cpp
+        managers/history/HistoryManager.h managers/history/HistoryManager.cpp
+        managers/history/HistoryManagerCreator.h managers/history/HistoryManagerCreator.cpp
 
         objects/BaseObject.h objects/BaseObject.cpp
         objects/ObjectComposite.h objects/ObjectComposite.cpp
@@ -124,15 +130,15 @@ set(PROJECT_SOURCES
         transform/move/MoveTransformer.h transform/move/MoveTransformer.cpp
         transform/rotate/RotateTransformer.h transform/rotate/RotateTransformer.cpp
         transform/scale/ScaleTransformer.h transform/scale/ScaleTransformer.cpp
+
+        history/CareTaker.h history/CareTaker.cpp
+        history/Memento.h history/Memento.cpp
 )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
     qt_add_executable(lab_03
         MANUAL_FINALIZATION
         ${PROJECT_SOURCES}
-        qt_ui/logic/Logic.h qt_ui/logic/Logic.cpp
-        qt_ui/logic/MetaData.h qt_ui/logic/MetaData.cpp
-        commands/Load/LoadCommand.h commands/Load/LoadCommand.cpp
     )
 # Define target properties for Android with Qt 6 as:
 #    set_property(TARGET lab_03 APPEND PROPERTY QT_ANDROID_PACKAGE_SOURCE_DIR

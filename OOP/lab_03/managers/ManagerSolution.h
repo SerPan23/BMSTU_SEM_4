@@ -8,6 +8,7 @@
 #include "camera/CameraManager.h"
 #include "transform/TransformManager.h"
 #include "load/LoadManager.h"
+#include "history/HistoryManager.h"
 
 
 class ManagerSolution
@@ -24,7 +25,7 @@ public:
     static std::shared_ptr<TransformManager> getTransformManager();
     static std::shared_ptr<LoadManager> getLoadManager();
 
-    // static std::shared_ptr<HistoryManager> getHistoryManager();
+    static std::shared_ptr<HistoryManager> getHistoryManager();
 };
 
 #endif // MANAGERSOLUTION_H

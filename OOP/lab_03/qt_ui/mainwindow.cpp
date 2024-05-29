@@ -22,6 +22,8 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent),
     meta = std::make_shared<MetaData>();
 
     logic = std::make_shared<Logic>(meta);
+
+    btnNewCameraClicked();
 }
 
 MainWindow::~MainWindow()
@@ -111,6 +113,9 @@ void MainWindow::connects()
             &MainWindow::choosedCamera);
     connect(ui->modelCB, &QComboBox::currentIndexChanged, this,
             &MainWindow::choosedModel);
+
+    connect(ui->btn_undo, &QPushButton::clicked, this,
+            &MainWindow::btnUndoClicked);
 }
 
 void MainWindow::showError(QString str)
@@ -293,12 +298,12 @@ void MainWindow::cameraSpinDown()
 
 void MainWindow::cameraSpinLeft()
 {
-    logic->rotateCamera(meta->getActiveCamera(), -10, 0);
+    logic->rotateCamera(meta->getActiveCamera(), 10, 0);
 }
 
 void MainWindow::cameraSpinRight()
 {
-    logic->rotateCamera(meta->getActiveCamera(), 10, 0);
+    logic->rotateCamera(meta->getActiveCamera(), -10, 0);
 }
 
 void MainWindow::btnLoadModelClicked()
@@ -362,4 +367,9 @@ void MainWindow::choosedModel()
     objectId = ui->modelCB->currentData().toInt();
 
     meta->setObject(objectId);
+}
+
+void MainWindow::btnUndoClicked()
+{
+
 }

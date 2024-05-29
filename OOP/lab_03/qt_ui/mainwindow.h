@@ -62,5 +62,7 @@ private:
     void btnDeleteAllModelClicked();
     void choosedModel();
 
+    void btnUndoClicked();
+
 };
 #endif // MAINWINDOW_H
