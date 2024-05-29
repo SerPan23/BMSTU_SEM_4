@@ -15,7 +15,7 @@ FPSCamera::FPSCamera(const Vector3& position, const Vector3& up, double yaw, dou
 
 Matrix4 FPSCamera::getViewMatrix() const
 {
-    auto Position = transformMat * position_;
+    auto Position = getTransformMatrix() * position_;
     return lookAt(Position, Position + Front, Up);
 }
 

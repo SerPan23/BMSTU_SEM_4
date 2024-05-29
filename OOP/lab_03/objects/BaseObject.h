@@ -11,6 +11,8 @@
 #include "Matrix4.h"
 #include "Transformer.h"
 
+#include "Transformation.h"
+
 class BaseObject;
 
 // using Iterator = std::vector<std::shared_ptr<BaseObject>>::iterator;
@@ -24,7 +26,7 @@ public:
     virtual ~BaseObject() = default;
 
     virtual void accept(BaseVisitor& v) {};
-    Matrix4 getTransformMatrix();
+    Matrix4 getTransformMatrix() const;
     void transform(std::shared_ptr<Transformer> transformer);
 
     virtual bool isVisible() { return false; }
@@ -40,7 +42,8 @@ public:
     // + createMemento()
     // + restoreMem(Memento)
 protected:
-    Matrix4 transformMat{1.0};
+    // Matrix4 transformMat{1.0};
+    Transformation transformation;
     Vertex center_;
 };
 

@@ -206,7 +206,7 @@
              <item>
               <widget class="QPushButton" name="btn_move_all">
                <property name="text">
-                <string>Переместить все</string>
+                <string>Переместить все видимые объекты</string>
                </property>
               </widget>
              </item>
@@ -381,7 +381,7 @@
              <item>
               <widget class="QPushButton" name="btn_rotate_all">
                <property name="text">
-                <string>Повернуть все</string>
+                <string>Повернуть все видимые объекты</string>
                </property>
               </widget>
              </item>
@@ -556,7 +556,7 @@
              <item>
               <widget class="QPushButton" name="btn_scale_all">
                <property name="text">
-                <string>Промасштабировать все</string>
+                <string>Промасштабировать все видимые объекты</string>
                </property>
               </widget>
              </item>

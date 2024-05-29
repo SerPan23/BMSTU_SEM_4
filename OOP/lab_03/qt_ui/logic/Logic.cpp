@@ -44,11 +44,17 @@ void Logic::deleteObject(int objectId)
 void Logic::deleteAllObject()
 {
 
-    for (auto [id, _] : meta->getObjects())
+    auto objects = meta->getObjects();
+    for (auto [id, _] : objects)
     {
+        if (hasCameraId(id))
+            continue;
+
         auto command = std::make_shared<ObjectDeleteCommand>(id);
 
         facade.execute(command);
+
+        meta->removeObject(id);
     }
 }
 
@@ -91,6 +97,9 @@ void Logic::moveAllObject(float dx, float dy, float dz)
 
     for (auto [id, _] : meta->getObjects())
     {
+        if (hasCameraId(id))
+            continue;
+
         auto command = std::make_shared<ObjectMoveCommand>(id, offset);
 
         facade.execute(command);
@@ -105,6 +114,9 @@ void Logic::rotateAllObject(float dx, float dy, float dz)
 
     for (auto [id, _] : meta->getObjects())
     {
+        if (hasCameraId(id))
+            continue;
+
         auto command = std::make_shared<ObjectRotateCommand>(id, offset);
 
         facade.execute(command);
@@ -120,6 +132,9 @@ void Logic::scaleAllObject(float dx, float dy, float dz)
 
     for (auto [id, _] : meta->getObjects())
     {
+        if (hasCameraId(id))
+            continue;
+
         auto command = std::make_shared<ObjectScaleCommand>(id, offset);
 
         facade.execute(command);
@@ -189,7 +204,6 @@ void Logic::setActiveCamera(int cameraId)
 void Logic::moveCamera(int cameraId, float dx, float dy, float dz)
 {
     auto offset = Vector3(dx, dy, dz);
-
 
     auto command = std::make_shared<CameraMoveCommand>(cameraId, offset);
 
