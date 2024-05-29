@@ -57,6 +57,7 @@ set(PROJECT_SOURCES
         commands/Scene/SceneCommand.h commands/Scene/SceneCommand.cpp
         commands/Object/ObjectCommand.h commands/Object/ObjectCommand.cpp
         commands/Load/LoadCommand.h commands/Load/LoadCommand.cpp
+        commands/History/HistoryCommand.h commands/History/HistoryCommand.cpp
 
         managers/ManagerSolution.h managers/ManagerSolution.cpp
         managers/BaseManager.h
@@ -130,16 +131,16 @@ set(PROJECT_SOURCES
         transform/move/MoveTransformer.h transform/move/MoveTransformer.cpp
         transform/rotate/RotateTransformer.h transform/rotate/RotateTransformer.cpp
         transform/scale/ScaleTransformer.h transform/scale/ScaleTransformer.cpp
+        transform/Transformation.h transform/Transformation.cpp
 
         history/CareTaker.h history/CareTaker.cpp
-        history/Memento.h history/Memento.cpp
+        history/Memento.h
 )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
     qt_add_executable(lab_03
         MANUAL_FINALIZATION
         ${PROJECT_SOURCES}
-        transform/Transformation.h transform/Transformation.cpp
     )
 # Define target properties for Android with Qt 6 as:
 #    set_property(TARGET lab_03 APPEND PROPERTY QT_ANDROID_PACKAGE_SOURCE_DIR

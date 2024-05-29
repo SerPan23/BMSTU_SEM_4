@@ -114,6 +114,8 @@ void MainWindow::connects()
     connect(ui->modelCB, &QComboBox::currentIndexChanged, this,
             &MainWindow::choosedModel);
 
+    connect(ui->btn_undo_all, &QPushButton::clicked, this,
+            &MainWindow::btnUndoAllClicked);
     connect(ui->btn_undo, &QPushButton::clicked, this,
             &MainWindow::btnUndoClicked);
 }
@@ -126,11 +128,11 @@ void MainWindow::showError(QString str)
 void MainWindow::btnMoveClicked()
 {
     bool dx_ok, dy_ok, dz_ok;
-    int dx, dy, dz;
+    float dx, dy, dz;
 
-    dx = ui->input_dx->text().toInt(&dx_ok);
-    dy = ui->input_dy->text().toInt(&dy_ok);
-    dz = ui->input_dz->text().toInt(&dz_ok);
+    dx = ui->input_dx->text().toDouble(&dx_ok);
+    dy = ui->input_dy->text().toDouble(&dy_ok);
+    dz = ui->input_dz->text().toDouble(&dz_ok);
 
     if (!dx_ok || !dy_ok || !dz_ok)
     {
@@ -144,11 +146,11 @@ void MainWindow::btnMoveClicked()
 void MainWindow::btnMoveAllClicked()
 {
     bool dx_ok, dy_ok, dz_ok;
-    int dx, dy, dz;
+    float dx, dy, dz;
 
-    dx = ui->input_dx->text().toInt(&dx_ok);
-    dy = ui->input_dy->text().toInt(&dy_ok);
-    dz = ui->input_dz->text().toInt(&dz_ok);
+    dx = ui->input_dx->text().toDouble(&dx_ok);
+    dy = ui->input_dy->text().toDouble(&dy_ok);
+    dz = ui->input_dz->text().toDouble(&dz_ok);
 
     if (!dx_ok || !dy_ok || !dz_ok)
     {
@@ -162,11 +164,11 @@ void MainWindow::btnMoveAllClicked()
 void MainWindow::btnRotateClicked()
 {
     bool ax_ok, ay_ok, az_ok;
-    int ax, ay, az;
+    float ax, ay, az;
 
-    ax = ui->input_angle_x->text().toInt(&ax_ok);
-    ay = ui->input_angle_y->text().toInt(&ay_ok);
-    az = ui->input_angle_z->text().toInt(&az_ok);
+    ax = ui->input_angle_x->text().toDouble(&ax_ok);
+    ay = ui->input_angle_y->text().toDouble(&ay_ok);
+    az = ui->input_angle_z->text().toDouble(&az_ok);
 
     if (!ax_ok || !ay_ok || !az_ok)
     {
@@ -180,11 +182,11 @@ void MainWindow::btnRotateClicked()
 void MainWindow::btnRotateAllClicked()
 {
     bool ax_ok, ay_ok, az_ok;
-    int ax, ay, az;
+    float ax, ay, az;
 
-    ax = ui->input_angle_x->text().toInt(&ax_ok);
-    ay = ui->input_angle_y->text().toInt(&ay_ok);
-    az = ui->input_angle_z->text().toInt(&az_ok);
+    ax = ui->input_angle_x->text().toDouble(&ax_ok);
+    ay = ui->input_angle_y->text().toDouble(&ay_ok);
+    az = ui->input_angle_z->text().toDouble(&az_ok);
 
     if (!ax_ok || !ay_ok || !az_ok)
     {
@@ -198,11 +200,11 @@ void MainWindow::btnRotateAllClicked()
 void MainWindow::btnScaleClicked()
 {
     bool kx_ok, ky_ok, kz_ok;
-    int kx, ky, kz;
+    float kx, ky, kz;
 
-    kx = ui->input_kx->text().toInt(&kx_ok);
-    ky = ui->input_ky->text().toInt(&ky_ok);
-    kz = ui->input_kz->text().toInt(&kz_ok);
+    kx = ui->input_kx->text().toDouble(&kx_ok);
+    ky = ui->input_ky->text().toDouble(&ky_ok);
+    kz = ui->input_kz->text().toDouble(&kz_ok);
 
     if (!kx_ok || !ky_ok || !kz_ok)
     {
@@ -216,11 +218,11 @@ void MainWindow::btnScaleClicked()
 void MainWindow::btnScaleAllClicked()
 {
     bool kx_ok, ky_ok, kz_ok;
-    int kx, ky, kz;
+    float kx, ky, kz;
 
-    kx = ui->input_kx->text().toInt(&kx_ok);
-    ky = ui->input_ky->text().toInt(&ky_ok);
-    kz = ui->input_kz->text().toInt(&kz_ok);
+    kx = ui->input_kx->text().toDouble(&kx_ok);
+    ky = ui->input_ky->text().toDouble(&ky_ok);
+    kz = ui->input_kz->text().toDouble(&kz_ok);
 
     if (!kx_ok || !ky_ok || !kz_ok)
     {
@@ -369,7 +371,12 @@ void MainWindow::choosedModel()
     meta->setObject(objectId);
 }
 
+void MainWindow::btnUndoAllClicked()
+{
+    logic->restoreAllState();
+}
+
 void MainWindow::btnUndoClicked()
 {
-
+    logic->restoreState(ui->modelCB->currentData().toInt());
 }

@@ -10,6 +10,7 @@
 #include "LoadCommand.h"
 #include "ObjectCommand.h"
 #include "SceneCommand.h"
+#include "HistoryCommand.h"
 
 #include <QDebug>
 
@@ -60,6 +61,8 @@ void Logic::deleteAllObject()
 
 void Logic::moveObject(int objectId, float dx, float dy, float dz)
 {
+    saveState(objectId);
+
     auto offset = Vector3{dx, dy, dz};
 
     auto command = std::make_shared<ObjectMoveCommand>(objectId, offset);
@@ -71,6 +74,8 @@ void Logic::moveObject(int objectId, float dx, float dy, float dz)
 
 void Logic::rotateObject(int objectId, float dx, float dy, float dz)
 {
+    saveState(objectId);
+
     auto offset = Vector3{dx, dy, dz};
 
     auto command = std::make_shared<ObjectRotateCommand>(objectId, offset);
@@ -82,6 +87,8 @@ void Logic::rotateObject(int objectId, float dx, float dy, float dz)
 
 void Logic::scaleObject(int objectId, float dx, float dy, float dz)
 {
+    saveState(objectId);
+
     auto offset = Vector3{dx, dy, dz};
 
     auto command = std::make_shared<ObjectScaleCommand>(objectId, offset);
@@ -100,6 +107,7 @@ void Logic::moveAllObject(float dx, float dy, float dz)
         if (hasCameraId(id))
             continue;
 
+        saveState(id);
         auto command = std::make_shared<ObjectMoveCommand>(id, offset);
 
         facade.execute(command);
@@ -117,6 +125,7 @@ void Logic::rotateAllObject(float dx, float dy, float dz)
         if (hasCameraId(id))
             continue;
 
+        saveState(id);
         auto command = std::make_shared<ObjectRotateCommand>(id, offset);
 
         facade.execute(command);
@@ -135,6 +144,7 @@ void Logic::scaleAllObject(float dx, float dy, float dz)
         if (hasCameraId(id))
             continue;
 
+        saveState(id);
         auto command = std::make_shared<ObjectScaleCommand>(id, offset);
 
         facade.execute(command);
@@ -217,6 +227,37 @@ void Logic::rotateCamera(int cameraId, float xOffset, float yOffset)
     auto command = std::make_shared<CameraRotateCommand>(cameraId, xOffset, yOffset);
 
     facade.execute(command);
+
+    draw();
+}
+
+void Logic::saveState(int objectId)
+{
+    auto command = std::make_shared<SaveStateCommand>(objectId);
+
+    facade.execute(command);
+}
+
+void Logic::restoreState(int objectId)
+{
+    auto command = std::make_shared<RestoreStateCommand>(objectId);
+
+    facade.execute(command);
+
+    draw();
+}
+void Logic::restoreAllState()
+{
+    for (auto [id, _] : meta->getObjects())
+    {
+        if (hasCameraId(id))
+            continue;
+
+        auto command = std::make_shared<RestoreStateCommand>(id);
+
+        facade.execute(command);
+    }
+
 
     draw();
 }

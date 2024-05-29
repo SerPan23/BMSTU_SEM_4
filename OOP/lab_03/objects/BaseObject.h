@@ -13,6 +13,8 @@
 
 #include "Transformation.h"
 
+#include "Memento.h"
+
 class BaseObject;
 
 // using Iterator = std::vector<std::shared_ptr<BaseObject>>::iterator;
@@ -39,8 +41,9 @@ public:
 
     virtual Iterator begin() { return Iterator(); }
     virtual Iterator end() { return Iterator(); }
-    // + createMemento()
-    // + restoreMem(Memento)
+
+    std::unique_ptr<Memento> createMemento();
+    void restoreMemento(std::shared_ptr<Memento> memento);
 protected:
     // Matrix4 transformMat{1.0};
     Transformation transformation;

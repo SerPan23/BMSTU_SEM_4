@@ -35,6 +35,10 @@ public:
     void moveCamera(int cameraId, float dx, float dy, float dz);
     void rotateCamera(int cameraId, float xOffset, float yOffset);
 
+    void saveState(int objectId);
+    void restoreState(int objectId);
+    void restoreAllState();
+
 private:
     Facade facade;
     std::shared_ptr<MetaData> meta;

@@ -62,6 +62,7 @@ private:
     void btnDeleteAllModelClicked();
     void choosedModel();
 
+    void btnUndoAllClicked();
     void btnUndoClicked();
 
 };
