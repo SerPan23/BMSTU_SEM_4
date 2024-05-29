@@ -41,6 +41,7 @@ add_include_directories_recursive("${CMAKE_CURRENT_LIST_DIR}/exeption")
 add_include_directories_recursive("${CMAKE_CURRENT_LIST_DIR}/math")
 add_include_directories_recursive("${CMAKE_CURRENT_LIST_DIR}/transform")
 add_include_directories_recursive("${CMAKE_CURRENT_LIST_DIR}/history")
+add_include_directories_recursive("${CMAKE_CURRENT_LIST_DIR}/strategy")
 
 
 set(PROJECT_SOURCES
@@ -135,6 +136,9 @@ set(PROJECT_SOURCES
 
         history/CareTaker.h history/CareTaker.cpp
         history/Memento.h
+
+        strategy/draw/DrawStrategy.h strategy/draw/DrawStrategy.cpp
+        strategy/draw/SimpleDrawStrategy.h strategy/draw/SimpleDrawStrategy.cpp
 )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
