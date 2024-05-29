@@ -19,9 +19,11 @@ void Doors::doorsOpening() {
     if (this->state != CLOSING && this->state != CLOSED)
         return;
 
+    auto prevState = this->state;
+
     this->state = OPENING;
 
-    if (this->state == CLOSED)
+    if (prevState == CLOSED)
     {
         this->openTimer.start(DOORS_DEFAULT_DELAY);
     }
