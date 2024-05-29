@@ -67,7 +67,7 @@ set(PROJECT_SOURCES
         managers/load/LoadManager.h managers/load/LoadManager.cpp
         managers/load/LoadManagerCreator.h managers/load/LoadManagerCreator.cpp
 
-        objects/BaseObject.h
+        objects/BaseObject.h objects/BaseObject.cpp
         objects/ObjectComposite.h objects/ObjectComposite.cpp
         objects/VisibleObjects/VisibleObject.h
         objects/InvisibleObjects/InVisibleObject.h

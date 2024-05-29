@@ -27,6 +27,7 @@ public:
     Vector3 &operator*=(const Vector3 &matrix);
 
     double operator[](int i);
+    double operator[](int i) const;
 
     glm::vec3 getData() const;
 

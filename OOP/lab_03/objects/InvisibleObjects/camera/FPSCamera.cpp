@@ -15,7 +15,8 @@ FPSCamera::FPSCamera(const Vector3& position, const Vector3& up, double yaw, dou
 
 Matrix4 FPSCamera::getViewMatrix() const
 {
-    return lookAt(position_, position_ + Front, Up);
+    auto Position = transformMat * position_;
+    return lookAt(Position, Position + Front, Up);
 }
 
 Matrix4 FPSCamera::getProjectionMatrix()  const
@@ -30,6 +31,20 @@ void FPSCamera::updateCameraVectors()
                   sin(radians(Yaw)) * cos(radians(Pitch)));
 
     Front = normalize(front);
-    Right = normalize(cross(Front, WorldUp));  // normalize the vectors, because their length gets closer to 0 the more you look up or down which results in slower movement.
-    Up    = normalize(cross(Right, Front));
+    Right = normalize(cross(Front, WorldUp));
+    Up = normalize(cross(Right, Front));
+}
+
+void FPSCamera::rotate(float x_offset, float y_offset)
+{
+    Yaw   += x_offset;
+    Pitch += y_offset;
+
+    if (Pitch > 89.0f)
+        Pitch = 89.0f;
+
+    if (Pitch < -89.0f)
+        Pitch = -89.0f;
+
+    updateCameraVectors();
 }

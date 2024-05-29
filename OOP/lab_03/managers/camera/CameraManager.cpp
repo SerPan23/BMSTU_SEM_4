@@ -51,11 +51,13 @@ std::shared_ptr<BaseCamera> CameraManager::getCamera(int cameraId)
 
 void CameraManager::moveCamera(int cameraId, const Vector3 &offset)
 {
-    //TODO: impl
+    auto transformManager = ManagerSolution::getTransformManager();
+    transformManager->move(cameraId, offset);
 }
 
 void CameraManager::rotateCamera(int cameraId, float xOffset, float yOffset)
 {
-    //TODO: impl
+    auto camera = cameras_[cameraId];
+    camera->rotate(xOffset, yOffset);
 }
 

@@ -181,6 +181,8 @@ void Logic::setActiveCamera(int cameraId)
 
     facade.execute(command);
 
+    meta->setCamera(cameraId);
+
     draw();
 }
 

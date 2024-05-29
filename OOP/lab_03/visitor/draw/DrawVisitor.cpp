@@ -26,8 +26,7 @@ void DrawVisitor::visit(SceneGroup &group)
 void DrawVisitor::visit(MeshModel &model)
 {
     const auto modelData = model.data_;
-    // const auto model_matrix = model.getTransformMatrix(); //TODO: FIX
-    const auto model_matrix(model.transformMat);
+    const auto model_matrix = model.getTransformMatrix();
     const auto& vertices = modelData->getVertices();
 
     Matrix4 view_matrix = camera_->getViewMatrix();

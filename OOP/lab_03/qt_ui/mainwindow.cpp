@@ -159,9 +159,9 @@ void MainWindow::btnRotateClicked()
     bool ax_ok, ay_ok, az_ok;
     int ax, ay, az;
 
-    ax = ui->input_kx->text().toInt(&ax_ok);
-    ay = ui->input_ky->text().toInt(&ay_ok);
-    az = ui->input_kz->text().toInt(&az_ok);
+    ax = ui->input_angle_x->text().toInt(&ax_ok);
+    ay = ui->input_angle_y->text().toInt(&ay_ok);
+    az = ui->input_angle_z->text().toInt(&az_ok);
 
     if (!ax_ok || !ay_ok || !az_ok)
     {
@@ -177,9 +177,9 @@ void MainWindow::btnRotateAllClicked()
     bool ax_ok, ay_ok, az_ok;
     int ax, ay, az;
 
-    ax = ui->input_kx->text().toInt(&ax_ok);
-    ay = ui->input_ky->text().toInt(&ay_ok);
-    az = ui->input_kz->text().toInt(&az_ok);
+    ax = ui->input_angle_x->text().toInt(&ax_ok);
+    ay = ui->input_angle_y->text().toInt(&ay_ok);
+    az = ui->input_angle_z->text().toInt(&az_ok);
 
     if (!ax_ok || !ay_ok || !az_ok)
     {
@@ -258,17 +258,17 @@ void MainWindow::choosedCamera()
     int cameraId = 0;
     cameraId = ui->cameraCB->currentData().toInt();
 
-    meta->setCamera(cameraId);
+    logic->setActiveCamera(cameraId);
 }
 
 void MainWindow::cameraMoveUp()
 {
-    logic->moveCamera(meta->getActiveCamera(), 0, 10, 0);
+    logic->moveCamera(meta->getActiveCamera(), 0, -10, 0);
 }
 
 void MainWindow::cameraMoveDown()
 {
-    logic->moveCamera(meta->getActiveCamera(), 0, -10, 0);
+    logic->moveCamera(meta->getActiveCamera(), 0, 10, 0);
 }
 
 void MainWindow::cameraMoveLeft()

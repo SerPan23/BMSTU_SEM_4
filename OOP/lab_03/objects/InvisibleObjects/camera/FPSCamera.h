@@ -15,6 +15,7 @@ public:
 
     virtual Matrix4 getViewMatrix() const override;
     virtual Matrix4 getProjectionMatrix()  const override;
+    virtual void rotate(float x_offset, float y_offset) override;
 
 protected:
     Vector3 position_{};

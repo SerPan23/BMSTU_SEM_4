@@ -72,6 +72,11 @@ double Vector3::operator[](int i)
     return data_[i];
 }
 
+double Vector3::operator[](int i) const
+{
+    return data_[i];
+}
+
 glm::vec3 Vector3::getData() const
 {
     return data_;
