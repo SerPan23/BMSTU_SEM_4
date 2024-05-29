@@ -12,8 +12,6 @@ Cabin::Cabin(QObject *parent) : QObject(parent),
 
     QObject::connect(this, SIGNAL(doorsToOpen()), &this->doors, SLOT(doorsOpening()));
     QObject::connect(&this->doors, SIGNAL(closed()), this, SLOT(cabinUnlock()));
-
-    QObject::connect(&floorTimerPass, SIGNAL(timeout()), this, SLOT(floorTimerPassed()));
 }
 
 void Cabin::cabinMove()
@@ -70,12 +68,4 @@ void Cabin::cabinUnlock()
     qDebug() << "Кабина разблокировала движение";
 
     emit cabinUnlocked();
-}
-
-void Cabin::floorTimerPassed()
-{
-    if (this->state != State::MOVE)
-        return;
-
-    emit cabinFloorPassed();
 }

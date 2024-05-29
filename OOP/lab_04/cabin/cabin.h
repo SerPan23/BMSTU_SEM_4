@@ -36,10 +36,9 @@ public slots:
 
     void cabinStop();
 
-    void floorTimerPassed();
-
-
 private:
+    friend class Elevator;
+
     QTimer floorTimerPass;
     Cabin::State state;
     Doors doors;

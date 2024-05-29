@@ -19,15 +19,14 @@ void Doors::doorsOpening() {
     if (this->state != CLOSING && this->state != CLOSED)
         return;
 
+    this->state = OPENING;
+
     if (this->state == CLOSED)
     {
-        this->state = OPENING;
         this->openTimer.start(DOORS_DEFAULT_DELAY);
     }
     else
     {
-        this->state = OPENING;
-
         qDebug() << "Прерываю закрытие дверей...";
 
         int remainingTime = this->closeTimer.remainingTime();

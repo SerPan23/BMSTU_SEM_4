@@ -58,9 +58,7 @@ void Controller::handleMove()
     state = MOVE;
 
     this->currFloor += this->direction;
-
     qDebug() << "Этаж №" << this->currFloor << "| Лифт приехал";
-
 
     if (this->currFloor != this->mainTarget)
     {
