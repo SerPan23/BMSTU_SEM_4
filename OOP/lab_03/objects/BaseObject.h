@@ -47,7 +47,6 @@ public:
 protected:
     // Matrix4 transformMat{1.0};
     Transformation transformation;
-    Vertex center_;
 };
 
 #endif // BASEOBJECT_H
