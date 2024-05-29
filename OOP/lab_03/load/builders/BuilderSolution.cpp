@@ -4,13 +4,14 @@
 
 #include "MeshModelBuilderFactory.h"
 
+#include <QDebug>
 
 std::shared_ptr<ModelBuilder> BuilderSolution::create(const std::string &path, std::shared_ptr<ModelSource> source)
 {
     std::filesystem::path p(path);
     std::string ext = p.extension().string();
 
-    if (ext == "adjl")
+    if (ext == ".adls")
         return MeshModelBuilderFactory::create(BuilderType::MeshAdjacencyList, source);
 
     return MeshModelBuilderFactory::create(BuilderType::MeshVertexEdge, source);
