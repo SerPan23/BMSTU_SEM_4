@@ -2,11 +2,8 @@
 #include "./ui_mainwindow.h"
 
 #include "BaseException.h"
-#include "DrawManager.h"
 #include "DrawManagerCreator.h"
 #include "DrawerSolution.h"
-
-#include "ManagerSolution.h"
 
 #include <filesystem>
 
@@ -35,9 +32,13 @@ void MainWindow::setupScene(QWidget *parent)
 {
     qDebug() << "Current path is " << std::filesystem::current_path().c_str() << '\n'; // (1)
 
+    ui->graphicsView->setFrameShape(QFrame::NoFrame);
+
+
     int screenWidth = ui->graphicsView->width();
     int screenHeight = ui->graphicsView->height();
     scene = std::make_shared<QGraphicsScene>(0, 0, screenWidth, screenHeight, parent);
+
     scene->addRect(scene->sceneRect());
 
     ui->graphicsView->setScene(scene.get());
