@@ -5,13 +5,15 @@
 
 #include "Matrix4.h"
 
+using Vector3Data = glm::vec3;
+
 class Vector3
 {
 public:
     Vector3() = default;
     Vector3(const Vector3 &vec);
     explicit Vector3(Vector3 &&vec);
-    explicit Vector3(const glm::vec3 &data_);
+    explicit Vector3(const Vector3Data &data_);
     Vector3(const double x, const double y, const double z);
 
     Vector3& operator=(const Vector3 &vec);
@@ -29,10 +31,10 @@ public:
     double operator[](int i);
     double operator[](int i) const;
 
-    glm::vec3 getData() const;
+    Vector3Data getData() const;
 
 private:
-    glm::vec3 data_;
+    Vector3Data data_;
 };
 
 Vector3 operator*(const Matrix4 &lhs, const Vector3 &rhs);

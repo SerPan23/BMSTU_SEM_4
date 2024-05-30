@@ -1,5 +1,7 @@
 #include "Vector3.h"
 
+#include <glm/vec4.hpp>
+
 Vector3::Vector3(const Vector3 &vec)
 {
     data_ = vec.data_;
@@ -10,7 +12,7 @@ Vector3::Vector3(Vector3 &&vec)
     data_ = vec.data_;
 }
 
-Vector3::Vector3(const glm::vec3 &data)
+Vector3::Vector3(const Vector3Data &data)
 {
     data_ = data;
 }
@@ -77,12 +79,10 @@ double Vector3::operator[](int i) const
     return data_[i];
 }
 
-glm::vec3 Vector3::getData() const
+Vector3Data Vector3::getData() const
 {
     return data_;
 }
-
-#include <glm/vec4.hpp>
 
 Vector3 operator*(const Matrix4 &lhs, const Vector3 &rhs)
 {

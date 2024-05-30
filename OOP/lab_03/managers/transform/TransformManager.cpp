@@ -12,7 +12,6 @@ void TransformManager::move(int objectId, const Vector3 &param) const
     auto scene = sceneManager->getScene();
     auto object = scene->getObject(objectId);
 
-    //TODO: move object
     object->transform(std::make_shared<MoveTransformer>(param[0], param[1], param[2]));
 }
 
@@ -22,7 +21,6 @@ void TransformManager::rotate(int objectId, const Vector3 &param) const
     auto scene = sceneManager->getScene();
     auto object = scene->getObject(objectId);
 
-    //TODO: rotate object
     object->transform(std::make_shared<RotateTransformer>(param[0], param[1], param[2]));
 }
 
@@ -32,6 +30,5 @@ void TransformManager::scale(int objectId, const Vector3 &param) const
     auto scene = sceneManager->getScene();
     auto object = scene->getObject(objectId);
 
-    //TODO: scale object
     object->transform(std::make_shared<ScaleTransformer>(param[0], param[1], param[2]));
 }

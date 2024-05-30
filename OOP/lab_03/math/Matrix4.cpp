@@ -10,7 +10,7 @@ Matrix4::Matrix4(Matrix4 &&mat)
     data_ = mat.data_;
 }
 
-Matrix4::Matrix4(const glm::mat4 &data)
+Matrix4::Matrix4(const Matrix4Data &data)
 {
     data_ = data;
 }
@@ -67,7 +67,7 @@ Matrix4& Matrix4::operator*=(const Matrix4 &matrix)
     return *this;
 }
 
-glm::mat4 Matrix4::getData() const
+Matrix4Data Matrix4::getData() const
 {
     return data_;
 }

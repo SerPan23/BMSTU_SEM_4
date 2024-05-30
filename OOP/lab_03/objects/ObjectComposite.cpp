@@ -9,11 +9,8 @@ ObjectComposite::ObjectComposite(std::shared_ptr<BaseObject> &object)
 
 void ObjectComposite::accept(BaseVisitor& v)
 {
-    // v.visit(*this);
-}
 
-// + getTransformMatrix()
-// + setTransformMatrix()
+}
 
 int ObjectComposite::add(const std::shared_ptr<BaseObject> &obj)
 {

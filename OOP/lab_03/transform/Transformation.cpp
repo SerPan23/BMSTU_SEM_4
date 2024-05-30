@@ -4,13 +4,15 @@
 
 void Transformation::operator+=(std::shared_ptr<Transformer> transformer)
 {
-    if (typeid(MoveTransformer) == typeid(*transformer.get()))
+    auto transformerPointer = transformer.get();
+
+    if (typeid(MoveTransformer) == typeid(*transformerPointer))
         moveMatrix_ = transformer->transform(moveMatrix_);
 
-    if (typeid(RotateTransformer) == typeid(*transformer.get()))
+    if (typeid(RotateTransformer) == typeid(*transformerPointer))
         RotationMatrix_ = transformer->transform(RotationMatrix_);
 
-    if (typeid(ScaleTransformer) == typeid(*transformer.get()))
+    if (typeid(ScaleTransformer) == typeid(*transformerPointer))
         ScaleMatrix_ = transformer->transform(ScaleMatrix_);
 
 }

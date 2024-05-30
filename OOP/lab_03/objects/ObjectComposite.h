@@ -10,8 +10,6 @@ public:
     explicit ObjectComposite(std::shared_ptr<BaseObject> &object);
 
     virtual void accept(BaseVisitor& v) override;
-    // + getTransformMatrix()
-    // + setTransformMatrix()
 
 
     virtual int add(const std::shared_ptr<BaseObject> &) override;
@@ -20,8 +18,6 @@ public:
     virtual std::shared_ptr<BaseObject> getObject(int id) override;
     virtual Iterator begin() override;
     virtual Iterator end() override;
-    // + createMemento()
-    // + restoreMem(Memento)
 
 private:
     // std::vector<std::shared_ptr<BaseObject>> objects_;

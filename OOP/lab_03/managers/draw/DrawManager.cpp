@@ -13,10 +13,10 @@ void DrawManager::drawScene()
 
     drawer->clear();
 
-    auto scene_manager = ManagerSolution::getSceneManager();
-    auto camera_manager = ManagerSolution::getCameraManager();
-    auto scene = scene_manager->getScene();
-    auto camera = camera_manager->getActiveCamera();
+    auto sceneManager = ManagerSolution::getSceneManager();
+    auto cameraManager = ManagerSolution::getCameraManager();
+    auto scene = sceneManager->getScene();
+    auto camera = cameraManager->getActiveCamera();
 
     DrawVisitor visitor(drawer, camera);
     // DrawVisitor visitor(drawer, camera, std::make_shared<ClipDrawStrategy>());
