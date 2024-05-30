@@ -13,11 +13,12 @@ class FPSCamera : public BaseCamera
 public:
     FPSCamera(const Vector3 &position, const Vector3&up=Vector3{0, 1, 0}, double yaw=YAW, double pitch=PITCH);
 
-    virtual Matrix4 getViewMatrix() const override;
-    virtual Matrix4 getProjectionMatrix()  const override;
     virtual void rotate(float x_offset, float y_offset) override;
 
 protected:
+    virtual Matrix4 getViewMatrix() const override;
+    virtual Matrix4 getProjectionMatrix()  const override;
+
     Vector3 position_{};
     Vector3 Front{};
     Vector3 Up{};

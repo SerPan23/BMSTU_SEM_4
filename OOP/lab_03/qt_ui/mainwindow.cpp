@@ -15,7 +15,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent),
 {
     ui->setupUi(this);
 
-    setupScene(parent);
+    setupScene(this);
 
     connects();
 
@@ -35,12 +35,15 @@ void MainWindow::setupScene(QWidget *parent)
 {
     qDebug() << "Current path is " << std::filesystem::current_path().c_str() << '\n'; // (1)
 
-    int screen_width = ui->graphicsView->width();
-    int screen_height = ui->graphicsView->height();
-    scene = std::make_shared<QGraphicsScene>(0, 0, screen_width - 2, screen_height - 2, parent);
+    int screenWidth = ui->graphicsView->width();
+    int screenHeight = ui->graphicsView->height();
+    scene = std::make_shared<QGraphicsScene>(0, 0, screenWidth, screenHeight, parent);
     scene->addRect(scene->sceneRect());
+
     ui->graphicsView->setScene(scene.get());
     ui->graphicsView->setStyleSheet("QGraphicsView {background-color: white}");
+
+
 
     std::shared_ptr<BaseDrawer> drawer = DrawerSolution::create(DrawerType::QtDrawer, scene);
 
