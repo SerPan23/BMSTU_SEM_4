@@ -367,6 +367,12 @@ void MainWindow::btnLoadModelClicked()
 
 void MainWindow::btnDeleteModelClicked()
 {
+    if (ui->modelCB->count() == 0)
+    {
+        showError("Список объектов пуст, удалять нечего!");
+        return;
+    }
+
     logic->deleteObject(ui->modelCB->currentData().toInt());
 
     ui->modelCB->removeItem(ui->modelCB->currentIndex());
@@ -378,6 +384,12 @@ void MainWindow::btnDeleteModelClicked()
 
 void MainWindow::btnDeleteAllModelClicked()
 {
+    if (ui->modelCB->count() == 0)
+    {
+        showError("Список объектов пуст, удалять нечего!");
+        return;
+    }
+
     logic->deleteAllObject();
 
     ui->modelCB->clear();
@@ -397,10 +409,22 @@ void MainWindow::choosedModel()
 
 void MainWindow::btnUndoAllClicked()
 {
+    if (ui->modelCB->count() == 0)
+    {
+        showError("Список объектов пуст!");
+        return;
+    }
+
     logic->restoreAllState();
 }
 
 void MainWindow::btnUndoClicked()
 {
+    if (ui->modelCB->count() == 0)
+    {
+        showError("Список объектов пуст!");
+        return;
+    }
+
     logic->restoreState(ui->modelCB->currentData().toInt());
 }
