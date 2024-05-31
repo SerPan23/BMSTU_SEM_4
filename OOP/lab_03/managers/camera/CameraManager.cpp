@@ -4,6 +4,8 @@
 #include "CameraFactory.h"
 #include "ManagerSolution.h"
 
+#include "TraceFPSCameraAdapter.h"
+
 void CameraManager::setActiveCamera(int cameraId)
 {
     auto camera = cameras_[cameraId];
@@ -57,7 +59,24 @@ void CameraManager::moveCamera(int cameraId, const Vector3 &offset)
 
 void CameraManager::rotateCamera(int cameraId, float xOffset, float yOffset)
 {
-    auto camera = cameras_[cameraId];
-    camera->rotate(xOffset, yOffset);
+    // auto camera = cameras_[cameraId];
+
+    auto sceneManager = ManagerSolution::getSceneManager();
+
+    auto camera = sceneManager->getObject(cameraId);
+    if (!camera)
+    {
+        // throw BadId(__FILE__, __LINE__, "Bad id");
+    }
+    auto cam = dynamic_pointer_cast<FPSCamera>(camera);
+    if (!cam)
+    {
+        // throw BadType(__FILE__, __LINE__, "Object is not a camera");
+    }
+
+
+    auto adapter = TraceFPSCameraAdapter(cam);
+    adapter.changeTrace(xOffset, yOffset);
+
 }
 

@@ -5,17 +5,11 @@
 
 #include "ModelBuilder.h"
 
-
-enum class BuilderType
-{
-    MeshVertexEdge,
-    MeshAdjacencyList
-};
-
 class MeshModelBuilderFactory
 {
 public:
-    static std::shared_ptr<ModelBuilder> create(BuilderType type, std::shared_ptr<ModelSource> source);
+    virtual ~MeshModelBuilderFactory() = default;
+    virtual std::shared_ptr<ModelBuilder> create(std::shared_ptr<ModelSource> source) = 0;
 };
 
 #endif // MESHMODELBUILDERFACTORY_H

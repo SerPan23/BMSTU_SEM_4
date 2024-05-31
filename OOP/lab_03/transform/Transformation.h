@@ -15,13 +15,17 @@ class Transformation
 public:
     Transformation() = default;
 
-    void operator+=(std::shared_ptr<Transformer> transformer);
+    explicit Transformation(std::shared_ptr<Transformation> transformation);
 
-    // void operator+=(std::shared_ptr<MoveTransformer> transformer);
-    // void operator+=(std::shared_ptr<RotateTransformer> transformer);
-    // void operator+=(std::shared_ptr<ScaleTransformer> transformer);
+    void operator+=(std::shared_ptr<MoveTransformer> transformer);
+    void operator+=(std::shared_ptr<RotateTransformer> transformer);
+    void operator+=(std::shared_ptr<ScaleTransformer> transformer);
 
-    Matrix4 getMatrix() const;
+    Matrix4 getResultMatrix() const;
+
+    Matrix4 getMoveMatrix() const;
+    Matrix4 getRotationMatrix() const;
+    Matrix4 getScaleMatrix() const;
 
 private:
     Matrix4 moveMatrix_{1.0};

@@ -2,17 +2,26 @@
 
 #include <filesystem>
 
-#include "ModelSourceFactory.h"
+
+#include "AdjacencyListSourceFactory.h"
+#include "VertexEdgeSourceFactory.h"
 
 std::shared_ptr<ModelSource> SourceSolution::create(const std::string &path)
 {
     std::filesystem::path p(path);
     std::string ext = p.extension().string();
 
+
     if (ext == ".ves")
-        return ModelSourceFactory::create(SourceType::VertexEdge, path);
+    {
+        auto sourceFactory = std::make_unique<VertexEdgeSourceFactory>();
+        return sourceFactory->create(path);
+    }
     else if (ext == ".adls")
-        return ModelSourceFactory::create(SourceType::AdjacencyList, path);
+    {
+        auto sourceFactory = std::make_unique<AdjacencyListSourceFactory>();
+        return sourceFactory->create(path);
+    }
 
     return nullptr;
 }

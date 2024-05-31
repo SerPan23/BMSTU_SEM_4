@@ -17,19 +17,21 @@
 
 class BaseObject;
 
-// using Iterator = std::vector<std::shared_ptr<BaseObject>>::iterator;
 using ObjectMap = std::map<int, std::shared_ptr<BaseObject>>;
 using Iterator = ObjectMap::iterator;
 
 class BaseObject
 {
 public:
-    BaseObject() = default;
+    BaseObject();
     virtual ~BaseObject() = default;
 
     virtual void accept(BaseVisitor& v) {};
     Matrix4 getTransformMatrix() const;
-    void transform(std::shared_ptr<Transformer> transformer);
+    // void transform(std::shared_ptr<Transformer> transformer);
+    std::shared_ptr<Transformation> getTransformation();
+    void setTransformation(std::shared_ptr<Transformation> transf);
+
 
     virtual bool isVisible() { return false; }
     virtual bool isComposite() { return  false; }
@@ -46,7 +48,7 @@ public:
     void restoreMemento(std::shared_ptr<Memento> memento);
 protected:
     // Matrix4 transformMat{1.0};
-    Transformation transformation;
+    std::shared_ptr<Transformation> transformation;
 };
 
 #endif // BASEOBJECT_H

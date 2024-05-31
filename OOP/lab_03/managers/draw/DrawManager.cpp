@@ -4,7 +4,8 @@
 
 #include "draw/DrawVisitor.h"
 
-#include "ClipDrawStrategy.h"
+#include <QDebug>
+
 
 void DrawManager::drawScene()
 {
@@ -19,7 +20,6 @@ void DrawManager::drawScene()
     auto camera = cameraManager->getActiveCamera();
 
     DrawVisitor visitor(drawer, camera);
-    // DrawVisitor visitor(drawer, camera, std::make_shared<ClipDrawStrategy>());
     visitor.visit(*scene);
 }
 

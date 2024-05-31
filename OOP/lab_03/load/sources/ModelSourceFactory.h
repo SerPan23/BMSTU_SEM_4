@@ -6,17 +6,11 @@
 
 #include "ModelSource.h"
 
-
-enum class SourceType
-{
-    VertexEdge,
-    AdjacencyList
-};
-
 class ModelSourceFactory
 {
 public:
-    static std::shared_ptr<ModelSource> create(SourceType type, const std::string &path);
+    virtual ~ModelSourceFactory() = default;
+    virtual std::shared_ptr<ModelSource> create(const std::string &path) = 0;
 };
 
 #endif // MODELSOURCEFACTORY_H

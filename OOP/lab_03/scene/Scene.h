@@ -3,25 +3,27 @@
 
 #include <memory>
 
-#include "SceneGroup.h"
 #include "BaseObject.h"
 
 class Scene
 {
 public:
-    Scene();
+    Scene() = default;
     ~Scene() = default;
 
     int addObject(const std::shared_ptr<BaseObject> &obj);
     bool removeObject(const int id);
     std::shared_ptr<BaseObject> getObject(int objectId);
 
-    std::shared_ptr<SceneGroup> getObjects();
+    Iterator begin();
+    Iterator end();
 
     void accept(BaseVisitor& v);
 
 private:
-    std::shared_ptr<SceneGroup> objects_;
+    // std::shared_ptr<SceneGroup> objects_;
+    ObjectMap objects_;
+    int objCount = 0;
 };
 
 #endif // SCENE_H

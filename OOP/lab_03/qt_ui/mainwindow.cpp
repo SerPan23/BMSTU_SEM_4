@@ -4,6 +4,7 @@
 #include "BaseException.h"
 #include "DrawManagerCreator.h"
 #include "DrawerSolution.h"
+#include "QtFactory.h"
 
 #include <filesystem>
 
@@ -44,9 +45,7 @@ void MainWindow::setupScene(QWidget *parent)
     ui->graphicsView->setScene(scene.get());
     ui->graphicsView->setStyleSheet("QGraphicsView {background-color: white}");
 
-
-
-    std::shared_ptr<BaseDrawer> drawer = DrawerSolution::create(DrawerType::QtDrawer, scene);
+    std::shared_ptr<BaseDrawer> drawer = DrawerSolution::create<QtFactory>(scene);
 
     auto drawManager = DrawManagerCreator().get();
     drawManager->setDrawer(drawer);

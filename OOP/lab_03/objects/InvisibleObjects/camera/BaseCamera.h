@@ -6,7 +6,7 @@
 class BaseCamera : public InVisibleObject
 {
 public:
-    virtual void rotate(float x_offset, float y_offset) = 0;
+    BaseCamera() = default;
 
 protected:
     friend class DrawVisitor;

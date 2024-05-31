@@ -2,10 +2,10 @@
 
 #include "LoadException.h"
 #include "ManagerSolution.h"
+#include "ModelDirectorSolution.h"
 #include "SourceSolution.h"
 #include "BuilderSolution.h"
 
-#include "MeshModelDirector.h"
 
 int LoadManager::loadMeshModel(const std::string &path)
 {
@@ -20,7 +20,7 @@ int LoadManager::loadMeshModel(const std::string &path)
 
     auto builder = BuilderSolution::create(path, source);
 
-    auto director = MeshModelDirector();
+    auto director = ModelDirectorSolution::create(ModelType::MeshModel);
 
-    return scene->addObject(director.create(builder));
+    return scene->addObject(director->create(builder));
 }

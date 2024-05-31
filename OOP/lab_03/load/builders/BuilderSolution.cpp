@@ -2,7 +2,8 @@
 
 #include <filesystem>
 
-#include "MeshModelBuilderFactory.h"
+#include "AdjacencyListMeshModelBuilderFactory.h"
+#include "VertexEdgeMeshModelBuilderFactory.h"
 
 #include <QDebug>
 
@@ -12,7 +13,11 @@ std::shared_ptr<ModelBuilder> BuilderSolution::create(const std::string &path, s
     std::string ext = p.extension().string();
 
     if (ext == ".adls")
-        return MeshModelBuilderFactory::create(BuilderType::MeshAdjacencyList, source);
+    {
+        auto builderFactory = std::make_unique<AdjacencyListMeshModelBuilderFactory>();
+        return builderFactory->create(source);
+    }
 
-    return MeshModelBuilderFactory::create(BuilderType::MeshVertexEdge, source);
+    auto builderFactory = std::make_unique<VertexEdgeMeshModelBuilderFactory>();
+    return builderFactory->create(source);
 }

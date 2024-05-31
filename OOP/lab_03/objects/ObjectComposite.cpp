@@ -21,20 +21,12 @@ int ObjectComposite::add(const std::shared_ptr<BaseObject> &obj)
 
 bool ObjectComposite::remove(int objectId)
 {
-    auto objectToDelete = objects_.find(objectId);
-
-    if (objectToDelete != objects_.end())
-    {
-        objects_.erase(objectToDelete);
-        return true;
-    }
-
-    return false;
+    return objects_.erase(objectId) > 0;
 }
 
 std::shared_ptr<BaseObject> ObjectComposite::getObject(int id)
 {
-    return objects_[id];
+    return objects_.at(id);
 }
 
 Iterator ObjectComposite::begin()

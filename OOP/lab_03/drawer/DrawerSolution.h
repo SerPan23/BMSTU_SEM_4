@@ -1,30 +1,19 @@
 #ifndef DRAWERSOLUTION_H
 #define DRAWERSOLUTION_H
 
-
 #include <memory>
 
 #include "AbstractFactory.h"
-#include "QtFactory.h"
-
-enum class DrawerType
-{
-    QtDrawer
-};
 
 class DrawerSolution
 {
 public:
-    DrawerSolution() = default;
-    template<typename... Args>
-    static std::unique_ptr<BaseDrawer> create(DrawerType type, Args &&... args)
+    template<class Tfactory, class ...Args>
+    static std::unique_ptr<BaseDrawer> create(Args &&...args)
     {
-        std::unique_ptr<AbstractFactory> drawerFactory = nullptr;
-
-        if (type == DrawerType::QtDrawer)
-            drawerFactory = std::make_unique<QtFactory>(std::forward<Args>(args)...);
-
-        return drawerFactory->create();
+        static_assert(std::is_base_of<AbstractFactory, Tfactory>::value, "Tfactory must be derived from AbstractFactory");
+        std::shared_ptr<AbstractFactory> factory = std::make_shared<Tfactory>(std::forward<Args>(args)...);
+        return factory->create();
     }
 };
 

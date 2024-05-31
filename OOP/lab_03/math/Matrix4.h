@@ -26,6 +26,10 @@ public:
     Matrix4 operator*(const Matrix4 &matrix) const;
     Matrix4 &operator*=(const Matrix4 &matrix);
 
+    Matrix4 operator/(const Matrix4 &matrix) const;
+    Matrix4 &operator/=(const Matrix4 &matrix);
+
+
     Matrix4Data getData() const;
 
 private:

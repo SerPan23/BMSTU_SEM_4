@@ -67,6 +67,17 @@ Matrix4& Matrix4::operator*=(const Matrix4 &matrix)
     return *this;
 }
 
+Matrix4 Matrix4::operator/(const Matrix4 &matrix) const
+{
+    return Matrix4(this->data_ / matrix.data_);
+}
+Matrix4 &Matrix4::operator/=(const Matrix4 &matrix)
+{
+    data_ /= matrix.data_;
+
+    return *this;
+}
+
 Matrix4Data Matrix4::getData() const
 {
     return data_;

@@ -20,7 +20,6 @@ public:
     virtual Iterator end() override;
 
 private:
-    // std::vector<std::shared_ptr<BaseObject>> objects_;
     ObjectMap objects_{};
     int objCount = 0;
 };;

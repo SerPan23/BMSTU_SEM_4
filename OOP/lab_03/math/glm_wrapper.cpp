@@ -25,6 +25,11 @@ Matrix4 lookAt(const Vector3& pos, const Vector3& eye, const Vector3& dir)
     return Matrix4(glm::lookAt(pos.getData(), eye.getData(), dir.getData()));
 }
 
+Matrix4 inverse(Matrix4 mat)
+{
+    return Matrix4(glm::inverse(mat.getData()));
+}
+
 Vector3 normalize(const Vector3& vec)
 {
     return Vector3(glm::normalize(vec.getData()));

@@ -41,7 +41,6 @@ add_include_directories_recursive("${CMAKE_CURRENT_LIST_DIR}/exeption")
 add_include_directories_recursive("${CMAKE_CURRENT_LIST_DIR}/math")
 add_include_directories_recursive("${CMAKE_CURRENT_LIST_DIR}/transform")
 add_include_directories_recursive("${CMAKE_CURRENT_LIST_DIR}/history")
-add_include_directories_recursive("${CMAKE_CURRENT_LIST_DIR}/strategy")
 
 
 set(PROJECT_SOURCES
@@ -104,7 +103,6 @@ set(PROJECT_SOURCES
         visitor/draw/DrawVisitor.h visitor/draw/DrawVisitor.cpp
 
         scene/Scene.h scene/Scene.cpp
-        scene/SceneGroup.h scene/SceneGroup.cpp
 
         load/directors/MeshModelDirector.h load/directors/MeshModelDirector.cpp
         load/builders/ModelBuilder.h
@@ -118,7 +116,11 @@ set(PROJECT_SOURCES
         load/sources/ModelSource.h load/sources/ModelSource.cpp
         load/sources/VertexEdgeSource.h load/sources/VertexEdgeSource.cpp
         load/sources/AdjacencyListSource.h load/sources/AdjacencyListSource.cpp
+
         load/directors/ModelDirector.h load/directors/ModelDirector.cpp
+        load/directors/ModelDirectorSolution.h load/directors/ModelDirectorSolution.cpp
+        load/directors/ModelDirectorFactory.h load/directors/ModelDirectorFactory.cpp
+        load/directors/MeshModelDirectorFactory.h load/directors/MeshModelDirectorFactory.cpp
 
         exeption/BaseException.h
         exeption/LoadException.h
@@ -137,15 +139,18 @@ set(PROJECT_SOURCES
         history/CareTaker.h history/CareTaker.cpp
         history/Memento.h
 
-        strategy/draw/DrawStrategy.h strategy/draw/DrawStrategy.cpp
-        strategy/draw/SimpleDrawStrategy.h strategy/draw/SimpleDrawStrategy.cpp
-        strategy/draw/ClipDrawStrategy.h strategy/draw/ClipDrawStrategy.cpp
+        objects/InvisibleObjects/camera/adapters/TraceFPSCameraAdapter.h
+        objects/InvisibleObjects/camera/adapters/TraceFPSCameraAdapter.cpp
 )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
     qt_add_executable(lab_03
         MANUAL_FINALIZATION
         ${PROJECT_SOURCES}
+        load/sources/VertexEdgeSourceFactory.h load/sources/VertexEdgeSourceFactory.cpp
+        load/sources/AdjacencyListSourceFactory.h load/sources/AdjacencyListSourceFactory.cpp
+        load/builders/MeshModel/VertexEdgeMeshModelBuilderFactory.h load/builders/MeshModel/VertexEdgeMeshModelBuilderFactory.cpp
+        load/builders/MeshModel/AdjacencyListMeshModelBuilderFactory.h load/builders/MeshModel/AdjacencyListMeshModelBuilderFactory.cpp
     )
 # Define target properties for Android with Qt 6 as:
 #    set_property(TARGET lab_03 APPEND PROPERTY QT_ANDROID_PACKAGE_SOURCE_DIR

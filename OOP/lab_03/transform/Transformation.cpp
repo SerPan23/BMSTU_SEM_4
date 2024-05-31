@@ -2,37 +2,45 @@
 
 #include <QDebug>
 
-void Transformation::operator+=(std::shared_ptr<Transformer> transformer)
+Transformation::Transformation(std::shared_ptr<Transformation> transformation)
 {
-    auto transformerPointer = transformer.get();
-
-    if (typeid(MoveTransformer) == typeid(*transformerPointer))
-        moveMatrix_ = transformer->transform(moveMatrix_);
-
-    if (typeid(RotateTransformer) == typeid(*transformerPointer))
-        RotationMatrix_ = transformer->transform(RotationMatrix_);
-
-    if (typeid(ScaleTransformer) == typeid(*transformerPointer))
-        ScaleMatrix_ = transformer->transform(ScaleMatrix_);
-
+    moveMatrix_ = transformation->moveMatrix_;
+    RotationMatrix_ = transformation->RotationMatrix_;
+    ScaleMatrix_ = transformation->ScaleMatrix_;
 }
 
-// void Transformation::operator+=(std::shared_ptr<MoveTransformer> transformer)
-// {
-//     moveMatrix_ = transformer->transform(moveMatrix_);
-// }
+void Transformation::operator+=(std::shared_ptr<MoveTransformer> transformer)
+{
+    moveMatrix_ = transformer->transform(moveMatrix_);
+}
 
-// void Transformation::operator+=(std::shared_ptr<RotateTransformer> transformer)
-// {
-//     RotationMatrix_ = transformer->transform(RotationMatrix_);
-// }
+void Transformation::operator+=(std::shared_ptr<RotateTransformer> transformer)
+{
+    RotationMatrix_ = transformer->transform(RotationMatrix_);
+}
 
-// void Transformation::operator+=(std::shared_ptr<ScaleTransformer> transformer)
-// {
-//     ScaleMatrix_ = transformer->transform(ScaleMatrix_);
-// }
+void Transformation::operator+=(std::shared_ptr<ScaleTransformer> transformer)
+{
+    ScaleMatrix_ = transformer->transform(ScaleMatrix_);
+}
 
-Matrix4 Transformation::getMatrix() const
+Matrix4 Transformation::getResultMatrix() const
 {
     return moveMatrix_ * RotationMatrix_ * ScaleMatrix_;
+}
+
+
+Matrix4 Transformation::getMoveMatrix() const
+{
+    return moveMatrix_;
+}
+
+Matrix4 Transformation::getRotationMatrix() const
+{
+    return RotationMatrix_;
+}
+
+Matrix4 Transformation::getScaleMatrix() const
+{
+    return ScaleMatrix_;
 }

@@ -10,10 +10,11 @@ const double PITCH =  0.0;
 
 class FPSCamera : public BaseCamera
 {
+    friend class TraceFPSCameraAdapter;
+
 public:
     FPSCamera(const Vector3 &position, const Vector3&up=Vector3{0, 1, 0}, double yaw=YAW, double pitch=PITCH);
 
-    virtual void rotate(float x_offset, float y_offset) override;
 
 protected:
     virtual Matrix4 getViewMatrix() const override;

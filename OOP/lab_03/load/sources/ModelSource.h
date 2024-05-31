@@ -11,6 +11,8 @@
 class ModelSource
 {
 public:
+    virtual ~ModelSource() = default;
+
     virtual std::optional<Vertex> nextVertex() = 0;
     virtual std::optional<Edge> nextEdge() = 0;
 };
