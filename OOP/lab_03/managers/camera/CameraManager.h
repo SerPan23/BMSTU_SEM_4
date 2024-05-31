@@ -28,10 +28,7 @@ public:
     void rotateCamera(int cameraId, float xOffset, float yOffset);
 
 private:
-    std::map<int, std::shared_ptr<BaseCamera>> cameras_;
-
     std::shared_ptr<BaseCamera> activeCamera_;
-    int cameraCount_{};
 };
 
 #endif // CAMERAMANAGER_H

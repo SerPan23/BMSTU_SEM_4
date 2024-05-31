@@ -117,6 +117,11 @@ set(PROJECT_SOURCES
         load/sources/VertexEdgeSource.h load/sources/VertexEdgeSource.cpp
         load/sources/AdjacencyListSource.h load/sources/AdjacencyListSource.cpp
 
+        load/sources/VertexEdgeSourceFactory.h load/sources/VertexEdgeSourceFactory.cpp
+        load/sources/AdjacencyListSourceFactory.h load/sources/AdjacencyListSourceFactory.cpp
+        load/builders/MeshModel/VertexEdgeMeshModelBuilderFactory.h load/builders/MeshModel/VertexEdgeMeshModelBuilderFactory.cpp
+        load/builders/MeshModel/AdjacencyListMeshModelBuilderFactory.h load/builders/MeshModel/AdjacencyListMeshModelBuilderFactory.cpp
+
         load/directors/ModelDirector.h load/directors/ModelDirector.cpp
         load/directors/ModelDirectorSolution.h load/directors/ModelDirectorSolution.cpp
         load/directors/ModelDirectorFactory.h load/directors/ModelDirectorFactory.cpp
@@ -125,6 +130,7 @@ set(PROJECT_SOURCES
         exeption/BaseException.h
         exeption/LoadException.h
         exeption/ArrayException.h
+        exeption/CastException.h
 
         math/glm_wrapper.h math/glm_wrapper.cpp
         math/Matrix4.h math/Matrix4.cpp
@@ -147,10 +153,6 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
     qt_add_executable(lab_03
         MANUAL_FINALIZATION
         ${PROJECT_SOURCES}
-        load/sources/VertexEdgeSourceFactory.h load/sources/VertexEdgeSourceFactory.cpp
-        load/sources/AdjacencyListSourceFactory.h load/sources/AdjacencyListSourceFactory.cpp
-        load/builders/MeshModel/VertexEdgeMeshModelBuilderFactory.h load/builders/MeshModel/VertexEdgeMeshModelBuilderFactory.cpp
-        load/builders/MeshModel/AdjacencyListMeshModelBuilderFactory.h load/builders/MeshModel/AdjacencyListMeshModelBuilderFactory.cpp
     )
 # Define target properties for Android with Qt 6 as:
 #    set_property(TARGET lab_03 APPEND PROPERTY QT_ANDROID_PACKAGE_SOURCE_DIR

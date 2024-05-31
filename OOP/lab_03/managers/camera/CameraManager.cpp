@@ -2,13 +2,27 @@
 
 #include "ArrayException.h"
 #include "CameraFactory.h"
+#include "CastException.h"
 #include "ManagerSolution.h"
 
 #include "TraceFPSCameraAdapter.h"
 
 void CameraManager::setActiveCamera(int cameraId)
 {
-    auto camera = cameras_[cameraId];
+    auto sceneManager = ManagerSolution::getSceneManager();
+    auto cameraObj = sceneManager->getObject(cameraId);
+
+    if (!cameraObj)
+    {
+        throw IndexException(__FILE__, __LINE__, "Wrong object id");
+    }
+
+    auto camera = dynamic_pointer_cast<BaseCamera>(cameraObj);
+    if (!camera)
+    {
+        throw WrongTypeException(__FILE__, __LINE__, "Object is not a camera");
+    }
+
     activeCamera_ = camera;
 }
 
@@ -25,30 +39,28 @@ int CameraManager::newCamera()
 
     auto cameraId = sceneManager->addObject(camera);
 
-    cameras_[cameraId] = camera;
-
     return cameraId;
 }
 
 bool CameraManager::removeCamera(int cameraId)
 {
     auto sceneManager = ManagerSolution::getSceneManager();
-    auto cameraIt = cameras_.find(cameraId);
-
-    if (cameraIt == cameras_.end())
-        return false;
-
-    if (cameras_.size() == 1)
-        throw DeleteException(__FILE__, __LINE__, "Cannot remove the last camera");
-
-    cameras_.erase(cameraIt);
 
     return sceneManager->removeObject(cameraId);
+
 }
 
 std::shared_ptr<BaseCamera> CameraManager::getCamera(int cameraId)
 {
-    return cameras_[cameraId];
+    auto sceneManager = ManagerSolution::getSceneManager();
+    auto camera = sceneManager->getObject(cameraId);
+
+    if (!camera)
+    {
+        throw IndexException(__FILE__, __LINE__, "Wrong object id");
+    }
+
+    return dynamic_pointer_cast<BaseCamera>(camera);
 }
 
 void CameraManager::moveCamera(int cameraId, const Vector3 &offset)
@@ -66,12 +78,13 @@ void CameraManager::rotateCamera(int cameraId, float xOffset, float yOffset)
     auto camera = sceneManager->getObject(cameraId);
     if (!camera)
     {
-        // throw BadId(__FILE__, __LINE__, "Bad id");
+        throw IndexException(__FILE__, __LINE__, "Wrong object id");
     }
+
     auto cam = dynamic_pointer_cast<FPSCamera>(camera);
     if (!cam)
     {
-        // throw BadType(__FILE__, __LINE__, "Object is not a camera");
+        throw WrongTypeException(__FILE__, __LINE__, "Object is not a camera");
     }
 
 

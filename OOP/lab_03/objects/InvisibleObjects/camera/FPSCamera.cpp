@@ -23,8 +23,8 @@ Matrix4 FPSCamera::getViewMatrix() const
     // auto Front_ = transformation->getRotationMatrix() * Front;
     auto Front_ = getTransformMatrix() * Front;
 
-    qDebug() << Position[0] << Position[1] << Position[2];
-    qDebug() << Front_[0] << Front_[1] << Front_[2];
+    // qDebug() << Position[0] << Position[1] << Position[2];
+    // qDebug() << Front_[0] << Front_[1] << Front_[2];
 
     return lookAt(Position, Front_, Up);
 }
