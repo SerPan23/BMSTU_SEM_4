@@ -183,9 +183,9 @@
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>200</y>
+      <y>190</y>
       <width>381</width>
-      <height>171</height>
+      <height>147</height>
      </rect>
     </property>
     <layout class="QVBoxLayout" name="verticalLayout">
@@ -264,9 +264,9 @@
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>380</y>
+      <y>340</y>
       <width>381</width>
-      <height>181</height>
+      <height>141</height>
      </rect>
     </property>
     <layout class="QVBoxLayout" name="verticalLayout_2">
@@ -327,7 +327,20 @@
      </rect>
     </property>
     <property name="text">
-     <string>Добавить параллельные отсекателю линии</string>
+     <string>Добавить пример параллельных отсекателю линии</string>
+    </property>
+   </widget>
+   <widget class="QPlainTextEdit" name="clip_points">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>480</y>
+      <width>379</width>
+      <height>91</height>
+     </rect>
+    </property>
+    <property name="readOnly">
+     <bool>true</bool>
     </property>
    </widget>
   </widget>

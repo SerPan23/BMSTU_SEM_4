@@ -41,6 +41,13 @@ MainWindow::MainWindow(QWidget *parent):
     connect(drawer->scene(), &MyGraphicsScene::mouseRightBtnClickedWithShift, this,
             &MainWindow::mouse_close_clip);
 
+    connect(ui->btn_add_vertex, &QPushButton::clicked, this,
+            &MainWindow::form_add_clip_vertex);
+    connect(ui->btn_close_clip, &QPushButton::clicked, this,
+            &MainWindow::mouse_close_clip);
+
+
+
 
 
     connect(ui->btn_cut, &QPushButton::clicked, this,
@@ -106,6 +113,7 @@ void MainWindow::btn_result_color_change_clicked()
 
 void MainWindow::clear_clicked()
 {
+    ui->clip_points->clear();
     drawer->clear();
 
     lines.clear();
@@ -203,6 +211,7 @@ void MainWindow::add_clip_vertex(int x, int y)
 {
     if (clip.is_closed)
     {
+        ui->clip_points->clear();
         clip.is_closed = false;
         clip.points.clear();
         clip.lines.clear();
@@ -215,6 +224,7 @@ void MainWindow::add_clip_vertex(int x, int y)
 
     clip.update_lines(p);
 
+    write_clip_points(clip);
     update_view();
 }
 void MainWindow::mouse_add_clip_vertex()
@@ -261,6 +271,7 @@ void MainWindow::close_clip()
     clip.is_closed = true;
     clip.update_lines(clip.points[0]);
 
+    write_clip_points(clip);
     update_view();
 }
 void MainWindow::mouse_close_clip()
@@ -316,6 +327,27 @@ void MainWindow::add_parallel_lines()
             add_line(x1, y1 + 0.5 * dy, x2, find_paralel(k, x1, y1 + 0.5 * dy, x2));
             add_line(x1, y1 - 0.5 * dy, x2, find_paralel(k, x1, y1 - 0.5 * dy, x2));
         }
+    }
+}
+
+void MainWindow::add_text_line(QString str)
+{
+    ui->clip_points->appendPlainText(str);
+}
+
+void MainWindow::write_clip_points(clip_t& clip)
+{
+    ui->clip_points->clear();
+    for (int i = 0; i < clip.points.size(); i++)
+    {
+        QString str = QString::number(i + 1) + ") ";
+        Point& tmp = clip.points[i];
+        str += QString::number(tmp.x()) + " " + QString::number(tmp.y());
+        add_text_line(str);
+    }
+    if (clip.is_closed)
+    {
+        add_text_line("--Closed--\n");
     }
 }
 

@@ -67,6 +67,9 @@ private:
     void mouse_close_clip();
     void btn_close_clip_clicked();
 
+    void add_text_line(QString str);
+    void write_clip_points(clip_t& clip);
+
 
     void btn_cut_clicked();
 };
