@@ -7,7 +7,7 @@ int vector_product(const Point &v1, const Point &v2)
     return v1.x() * v2.y() - v1.y() * v2.x();
 }
 
-int scalar_mul(const Point &v1, const Point &v2)
+int scalar_product(const Point &v1, const Point &v2)
 {
     return v1.x() * v2.x() + v1.y() * v2.y();
 }
@@ -33,7 +33,7 @@ Point get_normal(Point &d1, Point &d2, Point &d3)
     else
         normal = Point(0, 1);
 
-    if (scalar_mul(get_vector(d2, d3), normal) < 0)
+    if (scalar_product(get_vector(d2, d3), normal) < 0)
         normal = Point(-normal.x(), -normal.y());
 
     return normal;
@@ -72,7 +72,6 @@ int sign(int num)
     return (num >= 0) ? 1 : -1;
 }
 
-
 int check_convex(polygon_t &polygon)
 {
     size_t size = polygon.points.size();
@@ -100,4 +99,84 @@ int check_convex(polygon_t &polygon)
     }
 
     return prev;
+}
+
+//----------------ALGO----------------
+
+bool is_visivble(const line_t& src, const Point& p, int norm)
+{
+    Point v1 = src.end - src.start;
+    Point v2 = p - src.end;
+
+    int pr = vector_product(v1, v2);
+
+    if (pr * norm >= 0)
+        return true;
+
+    return false;
+}
+
+bool find_inter(Point& p, line_t src, line_t sec, int norm)
+{
+    bool vis1 = is_visivble(src, sec.start, norm);
+    bool vis2 = is_visivble(src, sec.end, norm);
+    bool is_inter = (vis1 || vis2) && (!(vis1 && vis2));
+
+    if (is_inter) {
+        Point cut_vec = src.end - src.start;
+        Point pol_vec = sec.end - sec.start;
+
+        long nominator = cut_vec.y() * (sec.start.x() - src.start.x())
+                         - cut_vec.x() * (sec.start.y() - src.start.y());
+        long denomanator = pol_vec.y() * cut_vec.x() - pol_vec.x() * cut_vec.y();
+
+        if (denomanator == 0)
+            p = sec.end;
+        else {
+            double t = (double)nominator / denomanator;
+            Point tmp = sec.end - sec.start;
+            tmp = { int(tmp.x() * t), int(tmp.y() * t) };
+            p = sec.start + tmp;
+        }
+    }
+
+    return is_inter;
+}
+
+void sutherlandHodgman(Drawer *drawer, polygon_t clip, polygon_t figure, QColor visible_color)
+{
+    int normal = check_convex(clip);
+    polygon_t visible_figure = figure;
+    for (auto cut_line : clip.lines)
+    {
+        polygon new_pol;
+        for (auto vis_line : visible_figure.lines) {
+            Point inter;
+
+            bool is_inter = find_inter(inter, cut_line, vis_line, normal);
+            if (is_inter) {
+                new_pol.points.push_back(inter);
+                if (new_pol.points.size() > 1)
+                    new_pol.lines.push_back({ new_pol.points[new_pol.points.size() - 2],
+                                             new_pol.points[new_pol.points.size() - 1] });
+            }
+
+            bool is_vis = is_visivble(cut_line, vis_line.end, normal);
+            if (is_vis) {
+                new_pol.points.push_back(vis_line.end);
+                if (new_pol.points.size() > 1)
+                    new_pol.lines.push_back({ new_pol.points[new_pol.points.size() - 2],
+                                             new_pol.points[new_pol.points.size() - 1] });
+            }
+        }
+        new_pol.is_closed = false;
+        if (new_pol.points.size() > 2) {
+            new_pol.is_closed = true;
+            new_pol.lines.push_back({ new_pol.points[new_pol.points.size() - 1],
+                                     new_pol.points[0] });
+        }
+        visible_figure = new_pol;
+    }
+
+    drawer->draw_polygon(visible_figure, visible_color);
 }

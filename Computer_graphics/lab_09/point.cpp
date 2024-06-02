@@ -34,9 +34,18 @@ Point &Point::operator=(const Point &&point)
     return *this;
 }
 
+Point Point::operator+(const Point &point) const
+{
+    return Point(this->_x + point._x, this->_y + point._y);
+}
 Point Point::operator+(Point &point)
 {
     return Point(this->_x + point._x, this->_y + point._y);
+}
+
+Point Point::operator-(const Point &point) const
+{
+    return Point(this->_x - point._x, this->_y - point._y);
 }
 Point Point::operator-(Point &point)
 {

@@ -11,7 +11,10 @@ public:
     Point &operator=(const Point &point);
     Point &operator=(const Point &&point);
 
+    Point operator+(const Point &point) const;
     Point operator+(Point &point);
+
+    Point operator-(const Point &point) const;
     Point operator-(Point &point);
 
     bool is_null() { return !(_x > 0 && _y > 0); };

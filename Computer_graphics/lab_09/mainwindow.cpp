@@ -340,7 +340,6 @@ void MainWindow::btn_cut_clicked()
         return;
     }
 
-
-    // cyrus_beck_cut(drawer, clip, lines, result_color);
+    sutherlandHodgman(drawer, clip, figure, result_color);
     drawer->render();
 }
