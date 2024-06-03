@@ -1,4 +1,4 @@
-<mxfile host="Electron" modified="2024-06-03T11:55:02.395Z" agent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/24.2.5 Chrome/120.0.6099.109 Electron/28.1.0 Safari/537.36" etag="DFMMJYKSwE-S2nBEIqy7" version="24.2.5" type="device" pages="5">
+<mxfile host="Electron" modified="2024-06-03T19:27:32.648Z" agent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/24.2.5 Chrome/120.0.6099.109 Electron/28.1.0 Safari/537.36" etag="Nt1JgD45BONY6HP8iHI4" version="24.2.5" type="device" pages="5">
   <diagram name="Информационная модель" id="f5wSdu2jUoF2RzTR7eCz">
     <mxGraphModel dx="1191" dy="916" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1169" pageHeight="827" math="0" shadow="0">
       <root>
@@ -1697,7 +1697,7 @@
     </mxGraphModel>
   </diagram>
   <diagram id="O9z1bTO7NYa5DLI5JXKU" name="ДПДД">
-    <mxGraphModel dx="1557" dy="1198" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1654" pageHeight="1169" math="0" shadow="0">
+    <mxGraphModel dx="1124" dy="866" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1654" pageHeight="1169" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
@@ -1810,24 +1810,24 @@
           </mxGeometry>
         </mxCell>
         <mxCell id="QvrWO1qjtzoZ8CSBvOvd-30" value="Регулятор температуры" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
-          <mxGeometry x="285" y="745" width="120" height="30" as="geometry" />
+          <mxGeometry x="415" y="745" width="120" height="30" as="geometry" />
         </mxCell>
         <mxCell id="QvrWO1qjtzoZ8CSBvOvd-31" value="А9. Считать состояние регулятора" style="ellipse;whiteSpace=wrap;html=1;" vertex="1" parent="1">
-          <mxGeometry x="460" y="730" width="110" height="60" as="geometry" />
+          <mxGeometry x="590" y="730" width="110" height="60" as="geometry" />
         </mxCell>
         <mxCell id="QvrWO1qjtzoZ8CSBvOvd-32" value="" style="endArrow=classic;html=1;rounded=0;fontSize=12;startSize=8;endSize=8;curved=1;" edge="1" parent="1" source="QvrWO1qjtzoZ8CSBvOvd-30" target="QvrWO1qjtzoZ8CSBvOvd-31">
           <mxGeometry width="50" height="50" relative="1" as="geometry">
-            <mxPoint x="460" y="955" as="sourcePoint" />
-            <mxPoint x="510" y="905" as="targetPoint" />
+            <mxPoint x="590" y="955" as="sourcePoint" />
+            <mxPoint x="640" y="905" as="targetPoint" />
           </mxGeometry>
         </mxCell>
         <mxCell id="QvrWO1qjtzoZ8CSBvOvd-33" value="А10. Проверить состояние регулятора" style="ellipse;whiteSpace=wrap;html=1;" vertex="1" parent="1">
-          <mxGeometry x="460" y="825" width="110" height="65" as="geometry" />
+          <mxGeometry x="590" y="825" width="110" height="65" as="geometry" />
         </mxCell>
         <mxCell id="QvrWO1qjtzoZ8CSBvOvd-34" value="" style="endArrow=classic;html=1;rounded=0;fontSize=12;startSize=8;endSize=8;curved=1;" edge="1" parent="1" source="QvrWO1qjtzoZ8CSBvOvd-31" target="QvrWO1qjtzoZ8CSBvOvd-33">
           <mxGeometry width="50" height="50" relative="1" as="geometry">
-            <mxPoint x="460" y="955" as="sourcePoint" />
-            <mxPoint x="510" y="905" as="targetPoint" />
+            <mxPoint x="590" y="955" as="sourcePoint" />
+            <mxPoint x="640" y="905" as="targetPoint" />
           </mxGeometry>
         </mxCell>
         <mxCell id="QvrWO1qjtzoZ8CSBvOvd-35" value="Состояние" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=12;" vertex="1" connectable="0" parent="QvrWO1qjtzoZ8CSBvOvd-34">
@@ -1837,25 +1837,25 @@
         </mxCell>
         <mxCell id="QvrWO1qjtzoZ8CSBvOvd-36" value="" style="endArrow=classic;html=1;rounded=0;fontSize=12;startSize=8;endSize=8;curved=1;dashed=1;" edge="1" parent="1" source="QvrWO1qjtzoZ8CSBvOvd-33" target="QvrWO1qjtzoZ8CSBvOvd-38">
           <mxGeometry width="50" height="50" relative="1" as="geometry">
-            <mxPoint x="298" y="875" as="sourcePoint" />
-            <mxPoint x="475" y="933" as="targetPoint" />
+            <mxPoint x="428" y="875" as="sourcePoint" />
+            <mxPoint x="605" y="933" as="targetPoint" />
           </mxGeometry>
         </mxCell>
         <mxCell id="QvrWO1qjtzoZ8CSBvOvd-37" value="Состояние = уменьшается или&lt;br&gt;&lt;div&gt;Состояние = увеличивается&amp;nbsp;&amp;nbsp;&lt;/div&gt;" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=12;" vertex="1" connectable="0" parent="QvrWO1qjtzoZ8CSBvOvd-36">
           <mxGeometry x="-0.0594" y="1" relative="1" as="geometry">
-            <mxPoint x="-38" y="2" as="offset" />
+            <mxPoint x="-73" y="-10" as="offset" />
           </mxGeometry>
         </mxCell>
         <mxCell id="QvrWO1qjtzoZ8CSBvOvd-38" value="А11. Породить событие ЭО7" style="ellipse;whiteSpace=wrap;html=1;" vertex="1" parent="1">
-          <mxGeometry x="385" y="931.88" width="110" height="60" as="geometry" />
+          <mxGeometry x="515" y="931.88" width="110" height="60" as="geometry" />
         </mxCell>
         <mxCell id="QvrWO1qjtzoZ8CSBvOvd-39" value="А12. Породить событие ЭО8" style="ellipse;whiteSpace=wrap;html=1;" vertex="1" parent="1">
-          <mxGeometry x="560" y="931.88" width="110" height="60" as="geometry" />
+          <mxGeometry x="690" y="931.88" width="110" height="60" as="geometry" />
         </mxCell>
         <mxCell id="QvrWO1qjtzoZ8CSBvOvd-40" value="" style="endArrow=classic;html=1;rounded=0;fontSize=12;startSize=8;endSize=8;curved=1;dashed=1;" edge="1" parent="1" source="QvrWO1qjtzoZ8CSBvOvd-33" target="QvrWO1qjtzoZ8CSBvOvd-39">
           <mxGeometry width="50" height="50" relative="1" as="geometry">
-            <mxPoint x="508" y="898.88" as="sourcePoint" />
-            <mxPoint x="485" y="942.88" as="targetPoint" />
+            <mxPoint x="638" y="898.88" as="sourcePoint" />
+            <mxPoint x="615" y="942.88" as="targetPoint" />
           </mxGeometry>
         </mxCell>
         <mxCell id="QvrWO1qjtzoZ8CSBvOvd-41" value="Состояние = ожидание&amp;nbsp;" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=12;" vertex="1" connectable="0" parent="QvrWO1qjtzoZ8CSBvOvd-40">
@@ -1949,24 +1949,24 @@
           </mxGeometry>
         </mxCell>
         <mxCell id="UoR553t4ZOJQhgp_xzEA-1" value="Термостат" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
-          <mxGeometry x="980" y="585" width="120" height="30" as="geometry" />
+          <mxGeometry x="1110" y="585" width="120" height="30" as="geometry" />
         </mxCell>
         <mxCell id="UoR553t4ZOJQhgp_xzEA-2" value="А21. Считать состояние термостата" style="ellipse;whiteSpace=wrap;html=1;" vertex="1" parent="1">
-          <mxGeometry x="830" y="540" width="110" height="60" as="geometry" />
+          <mxGeometry x="960" y="540" width="110" height="60" as="geometry" />
         </mxCell>
         <mxCell id="UoR553t4ZOJQhgp_xzEA-3" value="" style="endArrow=classic;html=1;rounded=0;fontSize=12;startSize=8;endSize=8;curved=1;" edge="1" source="UoR553t4ZOJQhgp_xzEA-1" target="UoR553t4ZOJQhgp_xzEA-2" parent="1">
           <mxGeometry width="50" height="50" relative="1" as="geometry">
-            <mxPoint x="830" y="765" as="sourcePoint" />
-            <mxPoint x="880" y="715" as="targetPoint" />
+            <mxPoint x="960" y="765" as="sourcePoint" />
+            <mxPoint x="1010" y="715" as="targetPoint" />
           </mxGeometry>
         </mxCell>
         <mxCell id="UoR553t4ZOJQhgp_xzEA-4" value="А22. Проверить состояние термостата" style="ellipse;whiteSpace=wrap;html=1;" vertex="1" parent="1">
-          <mxGeometry x="830" y="635" width="110" height="65" as="geometry" />
+          <mxGeometry x="960" y="635" width="110" height="65" as="geometry" />
         </mxCell>
         <mxCell id="UoR553t4ZOJQhgp_xzEA-5" value="" style="endArrow=classic;html=1;rounded=0;fontSize=12;startSize=8;endSize=8;curved=1;" edge="1" source="UoR553t4ZOJQhgp_xzEA-2" target="UoR553t4ZOJQhgp_xzEA-4" parent="1">
           <mxGeometry width="50" height="50" relative="1" as="geometry">
-            <mxPoint x="830" y="765" as="sourcePoint" />
-            <mxPoint x="880" y="715" as="targetPoint" />
+            <mxPoint x="960" y="765" as="sourcePoint" />
+            <mxPoint x="1010" y="715" as="targetPoint" />
           </mxGeometry>
         </mxCell>
         <mxCell id="UoR553t4ZOJQhgp_xzEA-6" value="Состояние" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=12;" vertex="1" connectable="0" parent="UoR553t4ZOJQhgp_xzEA-5">
@@ -1976,8 +1976,8 @@
         </mxCell>
         <mxCell id="UoR553t4ZOJQhgp_xzEA-7" value="" style="endArrow=classic;html=1;rounded=0;fontSize=12;startSize=8;endSize=8;curved=1;dashed=1;" edge="1" source="UoR553t4ZOJQhgp_xzEA-4" target="UoR553t4ZOJQhgp_xzEA-9" parent="1">
           <mxGeometry width="50" height="50" relative="1" as="geometry">
-            <mxPoint x="668" y="685" as="sourcePoint" />
-            <mxPoint x="845" y="742.88" as="targetPoint" />
+            <mxPoint x="798" y="685" as="sourcePoint" />
+            <mxPoint x="975" y="742.88" as="targetPoint" />
           </mxGeometry>
         </mxCell>
         <mxCell id="UoR553t4ZOJQhgp_xzEA-8" value="Состояние =&amp;nbsp;&lt;div&gt;&lt;span style=&quot;text-wrap: wrap; background-color: rgb(251, 251, 251);&quot;&gt;Отклонение от заданной температуры И ЭО Ожидание&lt;/span&gt;&lt;/div&gt;" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=12;" vertex="1" connectable="0" parent="UoR553t4ZOJQhgp_xzEA-7">
@@ -1986,15 +1986,15 @@
           </mxGeometry>
         </mxCell>
         <mxCell id="UoR553t4ZOJQhgp_xzEA-9" value="А24. Породить событие ЭО5" style="ellipse;whiteSpace=wrap;html=1;" vertex="1" parent="1">
-          <mxGeometry x="930" y="780" width="110" height="60" as="geometry" />
+          <mxGeometry x="1060" y="780" width="110" height="60" as="geometry" />
         </mxCell>
         <mxCell id="UoR553t4ZOJQhgp_xzEA-10" value="А23. Породить событи ЭО6" style="ellipse;whiteSpace=wrap;html=1;" vertex="1" parent="1">
-          <mxGeometry x="760" y="780" width="110" height="60" as="geometry" />
+          <mxGeometry x="890" y="780" width="110" height="60" as="geometry" />
         </mxCell>
         <mxCell id="UoR553t4ZOJQhgp_xzEA-11" value="" style="endArrow=classic;html=1;rounded=0;fontSize=12;startSize=8;endSize=8;curved=1;dashed=1;" edge="1" source="UoR553t4ZOJQhgp_xzEA-4" target="UoR553t4ZOJQhgp_xzEA-10" parent="1">
           <mxGeometry width="50" height="50" relative="1" as="geometry">
-            <mxPoint x="878" y="708.88" as="sourcePoint" />
-            <mxPoint x="855" y="752.88" as="targetPoint" />
+            <mxPoint x="1008" y="708.88" as="sourcePoint" />
+            <mxPoint x="985" y="752.88" as="targetPoint" />
           </mxGeometry>
         </mxCell>
         <mxCell id="UoR553t4ZOJQhgp_xzEA-12" value="Состояние =&amp;nbsp;&lt;div&gt;н&lt;span style=&quot;text-wrap: wrap; background-color: rgb(251, 251, 251);&quot;&gt;ужная температура&lt;/span&gt;&amp;nbsp; и ЭО Греет&lt;/div&gt;" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=12;" vertex="1" connectable="0" parent="UoR553t4ZOJQhgp_xzEA-11">
@@ -2003,24 +2003,24 @@
           </mxGeometry>
         </mxCell>
         <mxCell id="6WX6Wtxe1L5g-9UE6vNI-1" value="Электрообогреватель (ЭО)" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
-          <mxGeometry x="260" y="484" width="140" height="30" as="geometry" />
+          <mxGeometry x="390" y="484" width="140" height="30" as="geometry" />
         </mxCell>
         <mxCell id="6WX6Wtxe1L5g-9UE6vNI-2" value="А18. Считать состояние ЭО" style="ellipse;whiteSpace=wrap;html=1;" vertex="1" parent="1">
-          <mxGeometry x="460" y="469" width="110" height="60" as="geometry" />
+          <mxGeometry x="590" y="469" width="110" height="60" as="geometry" />
         </mxCell>
         <mxCell id="6WX6Wtxe1L5g-9UE6vNI-3" value="" style="endArrow=classic;html=1;rounded=0;fontSize=12;startSize=8;endSize=8;curved=1;" edge="1" parent="1" source="6WX6Wtxe1L5g-9UE6vNI-1" target="6WX6Wtxe1L5g-9UE6vNI-2">
           <mxGeometry width="50" height="50" relative="1" as="geometry">
-            <mxPoint x="500" y="694" as="sourcePoint" />
-            <mxPoint x="550" y="644" as="targetPoint" />
+            <mxPoint x="630" y="694" as="sourcePoint" />
+            <mxPoint x="680" y="644" as="targetPoint" />
           </mxGeometry>
         </mxCell>
         <mxCell id="6WX6Wtxe1L5g-9UE6vNI-4" value="А19. Проверить состояние ЭО" style="ellipse;whiteSpace=wrap;html=1;" vertex="1" parent="1">
-          <mxGeometry x="460" y="564" width="110" height="60" as="geometry" />
+          <mxGeometry x="590" y="564" width="110" height="60" as="geometry" />
         </mxCell>
         <mxCell id="6WX6Wtxe1L5g-9UE6vNI-5" value="" style="endArrow=classic;html=1;rounded=0;fontSize=12;startSize=8;endSize=8;curved=1;" edge="1" parent="1" source="6WX6Wtxe1L5g-9UE6vNI-2" target="6WX6Wtxe1L5g-9UE6vNI-4">
           <mxGeometry width="50" height="50" relative="1" as="geometry">
-            <mxPoint x="500" y="694" as="sourcePoint" />
-            <mxPoint x="550" y="644" as="targetPoint" />
+            <mxPoint x="630" y="694" as="sourcePoint" />
+            <mxPoint x="680" y="644" as="targetPoint" />
           </mxGeometry>
         </mxCell>
         <mxCell id="6WX6Wtxe1L5g-9UE6vNI-6" value="Состояние" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=12;" vertex="1" connectable="0" parent="6WX6Wtxe1L5g-9UE6vNI-5">
@@ -2030,8 +2030,8 @@
         </mxCell>
         <mxCell id="6WX6Wtxe1L5g-9UE6vNI-9" value="" style="endArrow=classic;html=1;rounded=0;fontSize=12;startSize=8;endSize=8;curved=1;dashed=1;" edge="1" parent="1" source="6WX6Wtxe1L5g-9UE6vNI-4" target="6WX6Wtxe1L5g-9UE6vNI-12">
           <mxGeometry width="50" height="50" relative="1" as="geometry">
-            <mxPoint x="491" y="631" as="sourcePoint" />
-            <mxPoint x="405.1348898352594" y="670.8833595793269" as="targetPoint" />
+            <mxPoint x="621" y="631" as="sourcePoint" />
+            <mxPoint x="535.1348898352594" y="670.8833595793269" as="targetPoint" />
           </mxGeometry>
         </mxCell>
         <mxCell id="6WX6Wtxe1L5g-9UE6vNI-10" value="Состояние = Ожидание" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=12;" vertex="1" connectable="0" parent="6WX6Wtxe1L5g-9UE6vNI-9">
@@ -2040,12 +2040,12 @@
           </mxGeometry>
         </mxCell>
         <mxCell id="6WX6Wtxe1L5g-9UE6vNI-12" value="А20. Проверка термостата" style="ellipse;whiteSpace=wrap;html=1;" vertex="1" parent="1">
-          <mxGeometry x="650" y="530" width="110" height="60" as="geometry" />
+          <mxGeometry x="780" y="530" width="110" height="60" as="geometry" />
         </mxCell>
         <mxCell id="iKMLPC1S6oyUXBPOzRPO-1" value="" style="endArrow=classic;html=1;rounded=0;fontSize=12;startSize=8;endSize=8;curved=1;dashed=1;" edge="1" parent="1" source="6WX6Wtxe1L5g-9UE6vNI-12" target="UoR553t4ZOJQhgp_xzEA-2">
           <mxGeometry width="50" height="50" relative="1" as="geometry">
-            <mxPoint x="625.5659601865043" y="580.1404051734112" as="sourcePoint" />
-            <mxPoint x="579.5659601865043" y="629.1404051734112" as="targetPoint" />
+            <mxPoint x="755.5659601865043" y="580.1404051734112" as="sourcePoint" />
+            <mxPoint x="709.5659601865043" y="629.1404051734112" as="targetPoint" />
           </mxGeometry>
         </mxCell>
         <mxCell id="xgMBUMs3AQsMuYxerW_z-1" value="Нагревательный элемент (НЭ)" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
@@ -2145,13 +2145,61 @@
         </mxCell>
         <mxCell id="CFzUekfJb_v_wAruoNBb-22" value="" style="endArrow=classic;html=1;rounded=0;fontSize=12;startSize=8;endSize=8;curved=1;dashed=1;" edge="1" parent="1" source="6WX6Wtxe1L5g-9UE6vNI-4" target="QvrWO1qjtzoZ8CSBvOvd-31">
           <mxGeometry width="50" height="50" relative="1" as="geometry">
-            <mxPoint x="550" y="666" as="sourcePoint" />
-            <mxPoint x="636" y="650" as="targetPoint" />
+            <mxPoint x="680" y="666" as="sourcePoint" />
+            <mxPoint x="766" y="650" as="targetPoint" />
           </mxGeometry>
         </mxCell>
         <mxCell id="CFzUekfJb_v_wAruoNBb-23" value="Состояние = Ожидание" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=12;" vertex="1" connectable="0" parent="CFzUekfJb_v_wAruoNBb-22">
           <mxGeometry x="-0.0594" y="1" relative="1" as="geometry">
             <mxPoint x="24" y="-4" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="q5SsEViDHS_LXDzOD0P9-1" value="А25. Принять событие" style="ellipse;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="140" y="504" width="110" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="q5SsEViDHS_LXDzOD0P9-2" value="А26. Изменить состояние" style="ellipse;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="140" y="600" width="110" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="q5SsEViDHS_LXDzOD0P9-3" value="А27. Записать состояние" style="ellipse;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="360" y="600" width="110" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="q5SsEViDHS_LXDzOD0P9-5" value="" style="endArrow=classic;html=1;rounded=0;fontSize=12;startSize=8;endSize=8;curved=1;" edge="1" parent="1" source="q5SsEViDHS_LXDzOD0P9-2" target="q5SsEViDHS_LXDzOD0P9-3">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="470" y="610" as="sourcePoint" />
+            <mxPoint x="520" y="560" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="q5SsEViDHS_LXDzOD0P9-8" value="Состояние" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=12;" vertex="1" connectable="0" parent="q5SsEViDHS_LXDzOD0P9-5">
+          <mxGeometry x="-0.1919" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="q5SsEViDHS_LXDzOD0P9-6" value="" style="endArrow=classic;html=1;rounded=0;fontSize=12;startSize=8;endSize=8;curved=1;" edge="1" parent="1" source="q5SsEViDHS_LXDzOD0P9-3" target="6WX6Wtxe1L5g-9UE6vNI-1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="470" y="610" as="sourcePoint" />
+            <mxPoint x="520" y="560" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="q5SsEViDHS_LXDzOD0P9-7" value="Состояние" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=12;" vertex="1" connectable="0" parent="q5SsEViDHS_LXDzOD0P9-6">
+          <mxGeometry x="-0.0462" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="q5SsEViDHS_LXDzOD0P9-9" value="" style="endArrow=classic;html=1;rounded=0;fontSize=12;startSize=8;endSize=8;curved=1;dashed=1;" edge="1" parent="1" source="q5SsEViDHS_LXDzOD0P9-1" target="q5SsEViDHS_LXDzOD0P9-2">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="555.5659601865043" y="430.1404051734112" as="sourcePoint" />
+            <mxPoint x="509.5659601865043" y="479.1404051734112" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="q5SsEViDHS_LXDzOD0P9-10" value="" style="endArrow=classic;html=1;rounded=0;fontSize=12;startSize=8;endSize=8;curved=1;" edge="1" parent="1" target="q5SsEViDHS_LXDzOD0P9-1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="195" y="460" as="sourcePoint" />
+            <mxPoint x="540" y="530" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="q5SsEViDHS_LXDzOD0P9-11" value="Внешнее событие" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=12;" vertex="1" connectable="0" parent="q5SsEViDHS_LXDzOD0P9-10">
+          <mxGeometry x="-0.3306" relative="1" as="geometry">
+            <mxPoint as="offset" />
           </mxGeometry>
         </mxCell>
       </root>
