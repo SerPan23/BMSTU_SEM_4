@@ -286,7 +286,15 @@ void MainWindow::choosedCamera()
     int cameraId = 0;
     cameraId = ui->cameraCB->currentData().toInt();
 
-    logic->setActiveCamera(cameraId);
+    try
+    {
+        logic->setActiveCamera(cameraId);
+    }
+    catch (const BaseException &error)
+    {
+        showError("Ошибка камеры не существует!");
+        return;
+    }
 }
 
 void MainWindow::cameraMoveUp()
@@ -373,7 +381,15 @@ void MainWindow::btnDeleteModelClicked()
         return;
     }
 
-    logic->deleteObject(ui->modelCB->currentData().toInt());
+    try
+    {
+        logic->deleteObject(ui->modelCB->currentData().toInt());
+    }
+    catch (const BaseException &error)
+    {
+        showError("Ошибка при удалении объекта!");
+        return;
+    }
 
     ui->modelCB->removeItem(ui->modelCB->currentIndex());
 
@@ -390,7 +406,15 @@ void MainWindow::btnDeleteAllModelClicked()
         return;
     }
 
-    logic->deleteAllObject();
+    try
+    {
+        logic->deleteAllObject();
+    }
+    catch (const BaseException &error)
+    {
+        showError("Ошибка при удалении объектов!");
+        return;
+    }
 
     ui->modelCB->clear();
 
