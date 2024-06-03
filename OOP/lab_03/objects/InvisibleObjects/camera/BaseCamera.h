@@ -10,7 +10,7 @@ public:
 
 protected:
     friend class DrawVisitor;
-    virtual Matrix4 getViewMatrix() const = 0;
+    virtual Matrix4 getViewMatrix() = 0;
     virtual Matrix4 getProjectionMatrix()  const = 0;
 };
 

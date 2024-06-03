@@ -9,7 +9,6 @@
 #include "Vertex.h"
 
 #include "Matrix4.h"
-#include "Transformer.h"
 
 #include "Transformation.h"
 
@@ -30,7 +29,6 @@ public:
     Matrix4 getTransformMatrix() const;
     // void transform(std::shared_ptr<Transformer> transformer);
     std::shared_ptr<Transformation> getTransformation();
-    void setTransformation(std::shared_ptr<Transformation> transf);
 
 
     virtual bool isVisible() { return false; }

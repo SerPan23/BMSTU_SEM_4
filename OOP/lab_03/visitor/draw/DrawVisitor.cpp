@@ -1,5 +1,7 @@
 #include "DrawVisitor.h"
 
+#include "glm_wrapper.h"
+
 DrawVisitor::DrawVisitor(std::shared_ptr<BaseDrawer> drawer, std::shared_ptr<BaseCamera> camera)
 {
     drawer_ = std::move(drawer);

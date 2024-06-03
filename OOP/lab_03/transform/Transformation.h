@@ -4,11 +4,9 @@
 #include <memory>
 
 #include "Matrix4.h"
+#include "Vector3.h"
 
-#include "MoveTransformer.h"
-#include "RotateTransformer.h"
-#include "ScaleTransformer.h"
-
+#include "TransformationData.h"
 
 class Transformation
 {
@@ -17,9 +15,18 @@ public:
 
     explicit Transformation(std::shared_ptr<Transformation> transformation);
 
-    void operator+=(std::shared_ptr<MoveTransformer> transformer);
-    void operator+=(std::shared_ptr<RotateTransformer> transformer);
-    void operator+=(std::shared_ptr<ScaleTransformer> transformer);
+    Transformation(const MoveData &move, const ScaleData &scale, const RotationData &rotation);
+
+    Transformation operator+(const MoveData& other) const;
+    Transformation operator+(const ScaleData& other) const;
+    Transformation operator+(const RotationData& other) const;
+
+    Transformation& operator+=(const MoveData& other);
+    Transformation& operator+=(const ScaleData& other);
+    Transformation& operator+=(const RotationData& other);
+
+    Transformation operator+(const Transformation& other) const;
+    Transformation& operator+=(const Transformation& other);
 
     Matrix4 getResultMatrix() const;
 
@@ -27,10 +34,14 @@ public:
     Matrix4 getRotationMatrix() const;
     Matrix4 getScaleMatrix() const;
 
+    Vector3 getMoveData() const;
+    Vector3 getScaleData() const;
+    Vector3 getRotateData() const;
+
 private:
-    Matrix4 moveMatrix_{1.0};
-    Matrix4 RotationMatrix_{1.0};
-    Matrix4 ScaleMatrix_{1.0};
+    MoveData move_{};
+    ScaleData scale_{};
+    RotationData rotation_{};
 };
 
 #endif // TRANSFORMATION_H

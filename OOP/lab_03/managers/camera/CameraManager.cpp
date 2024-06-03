@@ -5,8 +5,6 @@
 #include "CastException.h"
 #include "ManagerSolution.h"
 
-#include "TraceFPSCameraAdapter.h"
-
 void CameraManager::setActiveCamera(int cameraId)
 {
     auto sceneManager = ManagerSolution::getSceneManager();
@@ -65,31 +63,29 @@ std::shared_ptr<BaseCamera> CameraManager::getCamera(int cameraId)
 
 void CameraManager::moveCamera(int cameraId, const Vector3 &offset)
 {
+    auto sceneManager = ManagerSolution::getSceneManager();
+    auto cameraObj = sceneManager->getObject(cameraId);
+
+    if (!cameraObj)
+    {
+        throw IndexException(__FILE__, __LINE__, "Wrong object id");
+    }
+
     auto transformManager = ManagerSolution::getTransformManager();
     transformManager->move(cameraId, offset);
 }
 
 void CameraManager::rotateCamera(int cameraId, float xOffset, float yOffset)
 {
-    // auto camera = cameras_[cameraId];
-
     auto sceneManager = ManagerSolution::getSceneManager();
+    auto cameraObj = sceneManager->getObject(cameraId);
 
-    auto camera = sceneManager->getObject(cameraId);
-    if (!camera)
+    if (!cameraObj)
     {
         throw IndexException(__FILE__, __LINE__, "Wrong object id");
     }
 
-    auto cam = dynamic_pointer_cast<FPSCamera>(camera);
-    if (!cam)
-    {
-        throw WrongTypeException(__FILE__, __LINE__, "Object is not a camera");
-    }
-
-
-    auto adapter = TraceFPSCameraAdapter(cam);
-    adapter.changeTrace(xOffset, yOffset);
-
+    auto transformManager = ManagerSolution::getTransformManager();
+    transformManager->rotate(cameraId, Vector3(xOffset, yOffset, 0));
 }
 

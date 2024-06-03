@@ -32,8 +32,3 @@ std::shared_ptr<Transformation> BaseObject::getTransformation()
 {
     return transformation;
 }
-
-void BaseObject::setTransformation(std::shared_ptr<Transformation> transf)
-{
-    transformation = transf;
-}

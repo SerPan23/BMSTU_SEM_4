@@ -2,9 +2,7 @@
 
 #include "ManagerSolution.h"
 
-#include "MoveTransformer.h"
-#include "RotateTransformer.h"
-#include "ScaleTransformer.h"
+#include "TransformationData.h"
 
 void TransformManager::move(int objectId, const Vector3 &param) const
 {
@@ -12,7 +10,7 @@ void TransformManager::move(int objectId, const Vector3 &param) const
     auto scene = sceneManager->getScene();
     auto object = scene->getObject(objectId);
 
-    *object->getTransformation() += std::make_shared<MoveTransformer>(param[0], param[1], param[2]);
+    *object->getTransformation() += MoveData(param);
 }
 
 void TransformManager::rotate(int objectId, const Vector3 &param) const
@@ -21,7 +19,7 @@ void TransformManager::rotate(int objectId, const Vector3 &param) const
     auto scene = sceneManager->getScene();
     auto object = scene->getObject(objectId);
 
-    *object->getTransformation() += std::make_shared<RotateTransformer>(param[0], param[1], param[2]);
+    *object->getTransformation() += RotationData(param);
 }
 
 void TransformManager::scale(int objectId, const Vector3 &param) const
@@ -30,5 +28,5 @@ void TransformManager::scale(int objectId, const Vector3 &param) const
     auto scene = sceneManager->getScene();
     auto object = scene->getObject(objectId);
 
-    *object->getTransformation() += std::make_shared<ScaleTransformer>(param[0], param[1], param[2]);
+    *object->getTransformation() += ScaleData(param);
 }

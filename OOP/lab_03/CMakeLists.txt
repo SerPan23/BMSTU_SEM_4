@@ -136,17 +136,11 @@ set(PROJECT_SOURCES
         math/Matrix4.h math/Matrix4.cpp
         math/Vector3.h math/Vector3.cpp
 
-        transform/Transformer.h transform/Transformer.cpp
-        transform/move/MoveTransformer.h transform/move/MoveTransformer.cpp
-        transform/rotate/RotateTransformer.h transform/rotate/RotateTransformer.cpp
-        transform/scale/ScaleTransformer.h transform/scale/ScaleTransformer.cpp
         transform/Transformation.h transform/Transformation.cpp
+        transform/TransformationData.h transform/TransformationData.cpp
 
         history/CareTaker.h history/CareTaker.cpp
         history/Memento.h
-
-        objects/InvisibleObjects/camera/adapters/TraceFPSCameraAdapter.h
-        objects/InvisibleObjects/camera/adapters/TraceFPSCameraAdapter.cpp
 )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
