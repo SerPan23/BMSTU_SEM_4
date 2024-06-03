@@ -34,7 +34,7 @@ Matrix4 FPSCamera::getViewMatrix()
 
 Matrix4 FPSCamera::getProjectionMatrix()  const
 {
-    return perspective(radians(90.0), aspect, zNear, zFar);
+    return perspective(radians(75.0), aspect, zNear, zFar);
 }
 
 void FPSCamera::updateCameraVectors()

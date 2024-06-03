@@ -35,7 +35,7 @@ void DrawVisitor::visit(MeshModel &model)
     Matrix4 view_matrix = camera_->getViewMatrix();
     Matrix4 projection_matrix = camera_->getProjectionMatrix();
 
-    Matrix4 matr = projection_matrix * (view_matrix * context * model_matrix);
+    Matrix4 matr = projection_matrix * view_matrix * context * model_matrix;
 
     const auto& vertices = modelData->getVertices();
 
