@@ -21,7 +21,6 @@ public:
     void accept(BaseVisitor& v);
 
 private:
-    // std::shared_ptr<SceneGroup> objects_;
     ObjectMap objects_;
     int objCount = 0;
 };
