@@ -8,8 +8,8 @@ FPSCamera::FPSCamera(const Vector3& position, const Vector3& up, double yaw, dou
 {
     position_ = position;
 
-    // Front = Vector3{0.0f, 0.0f, -1.0f};
-    Front = Vector3{0.0f, 0.0f, 0.0f};
+    Front = Vector3{0.0f, 0.0f, -1.0f};
+    // Front = Vector3{0.0f, 0.0f, 0.0f};
     WorldUp = up;
     Yaw = yaw;
     Pitch = pitch;
@@ -18,15 +18,13 @@ FPSCamera::FPSCamera(const Vector3& position, const Vector3& up, double yaw, dou
 
 Matrix4 FPSCamera::getViewMatrix() const
 {
-
-    auto Position = getTransformMatrix() * position_;
-    // auto Front_ = transformation->getRotationMatrix() * Front;
-    auto Front_ = getTransformMatrix() * Front;
+    auto Position = transformation->getMoveMatrix() * position_;
+    // auto Front_ = transformation->getMoveMatrix() * Front;
 
     // qDebug() << Position[0] << Position[1] << Position[2];
     // qDebug() << Front_[0] << Front_[1] << Front_[2];
 
-    return lookAt(Position, Front_, Up);
+    return lookAt(Position, Position + Front, Up);
 }
 
 Matrix4 FPSCamera::getProjectionMatrix()  const

@@ -4,16 +4,23 @@
 
 void TraceFPSCameraAdapter::changeTrace(float xOffset, float yOffset)
 {
-    auto newTransformation = Transformation();
+    adaptee->Yaw += xOffset;
+    adaptee->Pitch += yOffset;
 
-    newTransformation += std::make_shared<RotateTransformer>(xOffset, yOffset, 1);
+    if(adaptee->Pitch > 89.0f)
+        adaptee->Pitch = 89.0f;
+    if(adaptee->Pitch < -89.0f)
+        adaptee->Pitch = -89.0f;
 
-    auto tmp =  newTransformation.getRotationMatrix() * adaptee->Front;
+    // Vector3 front(
+    //     cos(radians(adaptee->Yaw)) * cos(radians(adaptee->Pitch)),
+    //     sin(radians(adaptee->Pitch)),
+    //     sin(radians(adaptee->Yaw)) * cos(radians(adaptee->Pitch)));
 
+    Vector3 front(
+        cos(radians(adaptee->Yaw)) * cos(radians(adaptee->Pitch)),
+        sin(radians(adaptee->Pitch)),
+        sin(radians(adaptee->Yaw)) * cos(radians(adaptee->Pitch)));
 
-    qDebug() << "Params" << xOffset << yOffset;
-    qDebug() << "SF" << adaptee->Front[0] << adaptee->Front[1] << adaptee->Front[2];
-    qDebug() << "NF" << tmp[0] << tmp[1] << tmp[2] << "\n";
-
-    adaptee->Front = newTransformation.getRotationMatrix() * adaptee->Front;
+    adaptee->Front = normalize(front);
 }
