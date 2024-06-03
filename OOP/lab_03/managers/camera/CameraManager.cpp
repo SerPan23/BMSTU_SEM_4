@@ -15,7 +15,7 @@ void CameraManager::setActiveCamera(int cameraId)
         throw IndexException(__FILE__, __LINE__, "Wrong object id");
     }
 
-    auto camera = dynamic_pointer_cast<BaseCamera>(cameraObj);
+    auto camera = std::dynamic_pointer_cast<BaseCamera>(cameraObj);
     if (!camera)
     {
         throw WrongTypeException(__FILE__, __LINE__, "Object is not a camera");
@@ -58,7 +58,7 @@ std::shared_ptr<BaseCamera> CameraManager::getCamera(int cameraId)
         throw IndexException(__FILE__, __LINE__, "Wrong object id");
     }
 
-    return dynamic_pointer_cast<BaseCamera>(camera);
+    return std::dynamic_pointer_cast<BaseCamera>(camera);
 }
 
 void CameraManager::moveCamera(int cameraId, const Vector3 &offset)
