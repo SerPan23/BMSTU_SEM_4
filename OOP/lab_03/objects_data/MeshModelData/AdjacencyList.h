@@ -8,6 +8,7 @@ class AdjacencyList
 {
 public:
     using Indexes = std::vector<int>;
+    using Iterator = std::map<int, Indexes>::iterator;
 
     AdjacencyList() = default;
     AdjacencyList(int firstInd, int secondInd);
@@ -24,6 +25,9 @@ public:
     void remove(int firstInd, int delIndex);
 
     bool empty() const;
+
+    Iterator begin();
+    Iterator end();
 
 private:
     std::map<int, Indexes> data_;

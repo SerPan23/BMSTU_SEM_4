@@ -1,4 +1,4 @@
-<mxfile host="Electron" modified="2024-06-03T19:27:32.648Z" agent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/24.2.5 Chrome/120.0.6099.109 Electron/28.1.0 Safari/537.36" etag="Nt1JgD45BONY6HP8iHI4" version="24.2.5" type="device" pages="5">
+<mxfile host="Electron" modified="2024-06-03T19:49:54.655Z" agent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/24.2.5 Chrome/120.0.6099.109 Electron/28.1.0 Safari/537.36" etag="bTy7gFyILoytkThni4hT" version="24.2.5" type="device" pages="5">
   <diagram name="Информационная модель" id="f5wSdu2jUoF2RzTR7eCz">
     <mxGraphModel dx="1191" dy="916" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1169" pageHeight="827" math="0" shadow="0">
       <root>
@@ -1697,7 +1697,7 @@
     </mxGraphModel>
   </diagram>
   <diagram id="O9z1bTO7NYa5DLI5JXKU" name="ДПДД">
-    <mxGraphModel dx="1124" dy="866" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1654" pageHeight="1169" math="0" shadow="0">
+    <mxGraphModel dx="1446" dy="1113" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1654" pageHeight="1169" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
@@ -2157,8 +2157,8 @@
         <mxCell id="q5SsEViDHS_LXDzOD0P9-1" value="А25. Принять событие" style="ellipse;whiteSpace=wrap;html=1;" vertex="1" parent="1">
           <mxGeometry x="140" y="504" width="110" height="60" as="geometry" />
         </mxCell>
-        <mxCell id="q5SsEViDHS_LXDzOD0P9-2" value="А26. Изменить состояние" style="ellipse;whiteSpace=wrap;html=1;" vertex="1" parent="1">
-          <mxGeometry x="140" y="600" width="110" height="60" as="geometry" />
+        <mxCell id="q5SsEViDHS_LXDzOD0P9-2" value="А26. Изменить состояние на соответсвующие" style="ellipse;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="140" y="600" width="120" height="70" as="geometry" />
         </mxCell>
         <mxCell id="q5SsEViDHS_LXDzOD0P9-3" value="А27. Записать состояние" style="ellipse;whiteSpace=wrap;html=1;" vertex="1" parent="1">
           <mxGeometry x="360" y="600" width="110" height="60" as="geometry" />

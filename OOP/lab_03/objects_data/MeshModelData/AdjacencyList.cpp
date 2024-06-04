@@ -50,3 +50,12 @@ bool AdjacencyList::empty() const
 {
     return data_.empty();
 }
+
+AdjacencyList::Iterator AdjacencyList::begin()
+{
+    return data_.begin();
+}
+AdjacencyList::Iterator AdjacencyList::end()
+{
+    return data_.end();
+}
