@@ -90,7 +90,7 @@ int check_convex(polygon_t &polygon)
 bool is_visivble(const line_t& src, const Point& p, int norm)
 {
     Point v1 = src.end - src.start;
-    Point v2 = p - src.end;
+    Point v2 = p - src.start;
 
     int pr = vector_product(v1, v2);
 
