@@ -23,22 +23,6 @@ Point get_vector(Point &d1, Point &d2)
     return get_vector(line_t{d1, d2});
 }
 
-Point get_normal(Point &d1, Point &d2, Point &d3)
-{
-    Point vec = get_vector(d1, d2);
-    Point normal;
-
-    if (vec.y())
-        normal = Point(1, - vec.x() / vec.y());
-    else
-        normal = Point(0, 1);
-
-    if (scalar_product(get_vector(d2, d3), normal) < 0)
-        normal = Point(-normal.x(), -normal.y());
-
-    return normal;
-}
-
 bool check_cross(polygon_t &polygon)
 {
     for (size_t i = 0; i < polygon.lines.size() - 1; i++)
@@ -132,7 +116,8 @@ bool find_inter(Point& p, line_t src, line_t sec, int norm)
 
         if (denomanator == 0)
             p = sec.end;
-        else {
+        else
+        {
             double t = (double)nominator / denomanator;
             Point tmp = sec.end - sec.start;
             tmp = { int(tmp.x() * t), int(tmp.y() * t) };
@@ -150,11 +135,13 @@ void sutherlandHodgman(Drawer *drawer, polygon_t clip, polygon_t figure, QColor 
     for (auto cut_line : clip.lines)
     {
         polygon new_pol;
-        for (auto vis_line : visible_figure.lines) {
+        for (auto vis_line : visible_figure.lines)
+        {
             Point inter;
 
             bool is_inter = find_inter(inter, cut_line, vis_line, normal);
-            if (is_inter) {
+            if (is_inter)
+            {
                 new_pol.points.push_back(inter);
                 if (new_pol.points.size() > 1)
                     new_pol.lines.push_back({ new_pol.points[new_pol.points.size() - 2],
@@ -162,19 +149,26 @@ void sutherlandHodgman(Drawer *drawer, polygon_t clip, polygon_t figure, QColor 
             }
 
             bool is_vis = is_visivble(cut_line, vis_line.end, normal);
-            if (is_vis) {
+            if (is_vis)
+            {
                 new_pol.points.push_back(vis_line.end);
                 if (new_pol.points.size() > 1)
                     new_pol.lines.push_back({ new_pol.points[new_pol.points.size() - 2],
                                              new_pol.points[new_pol.points.size() - 1] });
             }
         }
+
+        if (new_pol.points.size() == 0)
+            return;
+
         new_pol.is_closed = false;
-        if (new_pol.points.size() > 2) {
+        if (new_pol.points.size() > 2)
+        {
             new_pol.is_closed = true;
             new_pol.lines.push_back({ new_pol.points[new_pol.points.size() - 1],
                                      new_pol.points[0] });
         }
+
         visible_figure = new_pol;
     }
 
