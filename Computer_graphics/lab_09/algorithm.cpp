@@ -106,7 +106,8 @@ bool find_inter(Point& p, line_t src, line_t sec, int norm)
     bool vis2 = is_visivble(src, sec.end, norm);
     bool is_inter = (vis1 || vis2) && (!(vis1 && vis2));
 
-    if (is_inter) {
+    if (is_inter)
+    {
         Point cut_vec = src.end - src.start;
         Point pol_vec = sec.end - sec.start;
 
