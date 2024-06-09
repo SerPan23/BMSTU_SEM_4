@@ -44,6 +44,14 @@ void Drawer::draw_line(Point &start, Point &end, QColor& color)
     painter.drawLine(start.x(), start.y(), end.x(), end.y());
 }
 
+void Drawer::draw_line(int x1, int y1, int x2, int y2, QColor& color)
+{
+    Point p1(x1, y1);
+    Point p2(x2, y2);
+
+    draw_line(p1, p2, color);
+}
+
 void Drawer::clear()
 {
     this->_pxp = QPixmap(_scene->width(), _scene->height());

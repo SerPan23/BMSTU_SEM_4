@@ -2,8 +2,6 @@
 
 #include <cmath>
 
-using horizontData = std::vector<double>;
-
 double to_rad(double teta_grad)
 {
     // int tmp = (teta_grad / 360);
@@ -92,9 +90,6 @@ bool draw_point(std::shared_ptr<Drawer> drawer, int x, double y,
 void draw_horizon_part(std::shared_ptr<Drawer> drawer, Point& p1, Point& p2,
                        horizontData& hh, horizontData& lh, QColor color)
 {
-    if (p1.x() > p2.x()) // хочу, чтобы x2 > x1
-        std::swap(p1, p2);
-
     double dx = p2.x() - p1.x();
     double dy = p2.y() - p1.y();
 
@@ -118,7 +113,7 @@ void draw_horizon(std::shared_ptr<Drawer> drawer, SurfaceData surface, std::shar
 {
     Point prev;
     bool is_first = true;
-    for (double x = surface.x_start; x < surface.x_end + surface.x_step; x += surface.x_step)
+    for (double x = surface.x_start; x <= surface.x_end; x += surface.x_step)
     {
         Point3d tmp = trans_point(transformData, x, surface.func(x, z), z,
                                   drawer->width(), drawer->height());
@@ -141,10 +136,10 @@ void draw_surface(std::shared_ptr<Drawer> drawer, SurfaceData surface, std::shar
     std::vector<double> high_horizon(drawer->width(), 0);
     std::vector<double> low_horizon(drawer->width(), drawer->height());
 
-    for (double z = surface.z_start; z < surface.z_end + surface.z_step; z += surface.z_step)
+    for (double z = surface.z_end; z >= surface.z_start; z -= surface.z_step)
         draw_horizon(drawer, surface, transformData, high_horizon, low_horizon, z);
 
-    for (double z = surface.z_start; z < surface.z_end; z += surface.z_step)
+    for (double z = surface.z_end; z >= surface.z_start; z -= surface.z_step)
     {
         Point3d p1_3d = trans_point(transformData, surface.x_start,
                                  surface.func(surface.x_start, z), z, drawer->width(), drawer->height());

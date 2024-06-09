@@ -46,6 +46,8 @@ struct Point3d
     double x, y, z;
 };
 
+using horizontData = std::vector<double>;
+
 void draw_surface(std::shared_ptr<Drawer> drawer, SurfaceData surface, std::shared_ptr<TransformData> transformData);
 
 #endif // ALGORITHM_H
