@@ -102,6 +102,7 @@ void MainWindow::clear_clicked()
 {
     drawer->clear();
     transformData = std::make_shared<TransformData>();
+    smt_draw = false;
 }
 
 void MainWindow::draw()
@@ -136,6 +137,17 @@ void MainWindow::draw_clicked()
         return;
     }
 
+    if (x_start > x_end)
+    {
+        show_err_msg("Начало x не может быть дальше конца x!");
+        return;
+    }
+    if (x_step <= 0)
+    {
+        show_err_msg("Шаг по x не может быть меньше или равен 0!");
+        return;
+    }
+
     bool z_start_ok, z_end_ok, z_step_ok;
     double z_start, z_end, z_step;
 
@@ -158,6 +170,16 @@ void MainWindow::draw_clicked()
         show_err_msg("Шаг по z не задан!");
         return;
     }
+    if (z_start > z_end)
+    {
+        show_err_msg("Начало z не может быть дальше конца z!");
+        return;
+    }
+    if (z_step <= 0)
+    {
+        show_err_msg("Шаг по z не может быть меньше или равен 0!");
+        return;
+    }
 
     current_surface =
     {
@@ -168,10 +190,17 @@ void MainWindow::draw_clicked()
     };
 
     draw();
+    smt_draw = true;
 }
 
 void MainWindow::x_rotate_clicked()
 {
+    if (!smt_draw)
+    {
+        show_err_msg("Экран пуст!");
+        return;
+    }
+
     bool ax_ok;
     int ax;
 
@@ -190,6 +219,12 @@ void MainWindow::x_rotate_clicked()
 
 void MainWindow::y_rotate_clicked()
 {
+    if (!smt_draw)
+    {
+        show_err_msg("Экран пуст!");
+        return;
+    }
+
     bool ay_ok;
     int ay;
 
@@ -208,6 +243,12 @@ void MainWindow::y_rotate_clicked()
 
 void MainWindow::z_rotate_clicked()
 {
+    if (!smt_draw)
+    {
+        show_err_msg("Экран пуст!");
+        return;
+    }
+
     bool az_ok;
     int az;
 
@@ -226,6 +267,12 @@ void MainWindow::z_rotate_clicked()
 
 void MainWindow::scale_change_clicked()
 {
+    if (!smt_draw)
+    {
+        show_err_msg("Экран пуст!");
+        return;
+    }
+
     bool scale_ok;
     int scale;
 

@@ -36,8 +36,9 @@ private:
 
     std::shared_ptr<Drawer> drawer;
     std::shared_ptr<Funcs> funcs;
-    Funcs::func_ptr current_func;
-    SurfaceData current_surface;
+    Funcs::func_ptr current_func{nullptr};
+    SurfaceData current_surface{};
+    bool smt_draw = false;
 
     std::shared_ptr<TransformData> transformData = std::make_shared<TransformData>();
 

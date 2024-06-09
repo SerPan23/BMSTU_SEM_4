@@ -35,9 +35,9 @@ struct TransformData
 
 struct SurfaceData
 {
-    double x_start, x_end, x_step;
-    double z_start, z_end, z_step;
-    Funcs::func_ptr func;
+    double x_start = 0, x_end = 0, x_step = 0;
+    double z_start = 0, z_end = 0, z_step = 0;
+    Funcs::func_ptr func{nullptr};
     QColor color;
 };
 
