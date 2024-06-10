@@ -150,8 +150,8 @@ void draw_surface(std::shared_ptr<Drawer> drawer, SurfaceData surface, std::shar
 
     while (z >= surface.z_start)
     {
-        int x_last = surface.x_start;
-        int y_last = surface.func(surface.x_start, z);
+        double x_last = surface.x_start;
+        double y_last = surface.func(surface.x_start, z);
         double z_buf = z;
         Point3d trans = transform(transformData, x_last, y_last, z, drawer->width(), drawer->height());
         x_last = trans.x; y_last = trans.y; z_buf = trans.z;
@@ -172,7 +172,7 @@ void draw_surface(std::shared_ptr<Drawer> drawer, SurfaceData surface, std::shar
         int prev_visibility = is_visible(x_last, y_last, min_horizon, max_horizon, drawer->width());
         double x = surface.x_start;
 
-        int x_curr, y_curr;
+        double x_curr, y_curr;
         while(x < surface.x_end)
         {
             double y = surface.func(x, z);
