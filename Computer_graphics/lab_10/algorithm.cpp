@@ -65,7 +65,8 @@ Point3d trans_point(std::shared_ptr<TransformData> transformData, double x, doub
 
 bool is_visible(std::shared_ptr<Drawer> drawer, Point& point)
 {
-    return (0 <= point.x() < drawer->width()) and (0 <= point.y() < drawer->height());
+    return (0 <= point.x() && point.x() < drawer->width())
+           and (0 <= point.y() && point.y() < drawer->height());
 }
 
 bool draw_point(std::shared_ptr<Drawer> drawer, int x, double y,
@@ -95,7 +96,7 @@ void draw_horizon_part(std::shared_ptr<Drawer> drawer, Point p1, Point p2,
     double dx = p2.x() - p1.x();
     double dy = p2.y() - p1.y();
 
-    double l = dx >= dy ? dx : dy;
+    double l = (dx >= dy) ? dx : dy;
     dx /= l;
     dy /= l;
 
