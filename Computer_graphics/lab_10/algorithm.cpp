@@ -37,7 +37,7 @@ Point3d rotateZ(double x, double y, double z, int teta_grad)
     return {x, y, z};
 }
 
-Point3d trans_point(std::shared_ptr<TransformData> transformData, double x, double y, double z, int w, int h)
+Point3d transform_point(std::shared_ptr<TransformData> transformData, double x, double y, double z, int w, int h)
 {
     Point3d p;
 
@@ -58,8 +58,8 @@ Point3d trans_point(std::shared_ptr<TransformData> transformData, double x, doub
 
     x = x * transformData->scale_coef + w / 2;
     y = y * transformData->scale_coef + h / 2;
-    // x = x * transformData.scale_coef;
-    // y = y * transformData.scale_coef;
+    // x = x * transformData->scale_coef;
+    // y = y * transformData->scale_coef;
     return {x, y, z};
 }
 
@@ -90,7 +90,7 @@ bool draw_point(std::shared_ptr<Drawer> drawer, int x, double y,
 void draw_horizon_part(std::shared_ptr<Drawer> drawer, Point p1, Point p2,
                        horizontData& hh, horizontData& lh, QColor color)
 {
-    if (p1.x() > p2.x()) // хочу, чтобы x2 > x1
+    if (p1.x() > p2.x())
         std::swap(p1, p2);
 
     double dx = p2.x() - p1.x();
@@ -118,7 +118,7 @@ void draw_horizon(std::shared_ptr<Drawer> drawer, SurfaceData surface, std::shar
     bool is_first = true;
     for (double x = surface.x_start; x <= surface.x_end; x += surface.x_step)
     {
-        Point3d tmp = trans_point(transformData, x, surface.func(x, z), z,
+        Point3d tmp = transform_point(transformData, x, surface.func(x, z), z,
                                   drawer->width(), drawer->height());
         Point current(round(tmp.x), round(tmp.y));
 
@@ -139,27 +139,29 @@ void draw_surface(std::shared_ptr<Drawer> drawer, SurfaceData surface, std::shar
     horizontData high_horizon(drawer->width(), 0);
     horizontData low_horizon(drawer->width(), drawer->height());
 
-    for (double z = surface.z_end; z >= surface.z_start; z -= surface.z_step)
+    // for (double z = surface.z_end; z >= surface.z_start; z -= surface.z_step)
+    for (double z = surface.z_start; z <= surface.z_end; z += surface.z_step)
         draw_horizon(drawer, surface, transformData, high_horizon, low_horizon, z);
 
-    for (double z = surface.z_end; z > surface.z_start + surface.z_step; z -= surface.z_step)
+    // for (double z = surface.z_end; z > surface.z_start + surface.z_step; z -= surface.z_step)
+    for (double z = surface.z_start + surface.z_step; z < surface.z_end; z += surface.z_step)
     {
-        Point3d p1_3d = trans_point(transformData, surface.x_start,
+        Point3d p1_3d = transform_point(transformData, surface.x_start,
                                  surface.func(surface.x_start, z), z, drawer->width(), drawer->height());
         Point p1(round(p1_3d.x), round(p1_3d.y));
 
-        Point3d p2_3d = trans_point(transformData, surface.x_start,
+        Point3d p2_3d = transform_point(transformData, surface.x_start,
                                  surface.func(surface.x_start, z - surface.z_step), z  - surface.z_step,
                                  drawer->width(), drawer->height());
         Point p2(round(p2_3d.x), round(p2_3d.y));
         drawer->draw_line(p1, p2, surface.color);
 
 
-        p1_3d = trans_point(transformData, surface.x_end,
+        p1_3d = transform_point(transformData, surface.x_end,
                                  surface.func(surface.x_end, z), z, drawer->width(), drawer->height());
         p1 = Point(round(p1_3d.x), round(p1_3d.y));
 
-        p2_3d = trans_point(transformData, surface.x_end,
+        p2_3d = transform_point(transformData, surface.x_end,
                             surface.func(surface.x_end, z - surface.z_step), z  - surface.z_step,
                             drawer->width(), drawer->height());
         p2 = Point(round(p2_3d.x), round(p2_3d.y));

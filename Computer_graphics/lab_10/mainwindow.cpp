@@ -29,6 +29,9 @@ MainWindow::MainWindow(QWidget *parent):
     connect(ui->scale_change, &QPushButton::clicked, this,
             &MainWindow::scale_change_clicked);
 
+    connect(ui->funcsCB, &QComboBox::currentIndexChanged, this,
+            &MainWindow::surface_choosed);
+
 
     QLocale locale(QLocale::C);
     locale.setNumberOptions(QLocale::RejectGroupSeparator);
@@ -87,6 +90,8 @@ void MainWindow::surface_choosed()
 {
     std::string func_name = ui->funcsCB->currentData().toString().toStdString();
     current_func = funcs->get(func_name);
+
+    clear_clicked();
 }
 
 void MainWindow::surfaces_load()
@@ -188,6 +193,18 @@ void MainWindow::draw_clicked()
         current_func,
         surface_color
     };
+
+    if (!smt_draw)
+    {
+        double x_len = x_end - x_start;
+        double z_len = z_end - z_start;
+        int border = 100;
+        int scale = (drawer->width() - border) / std::max(x_len, z_len);
+
+        transformData->set_scale(scale);
+
+        ui->scale_coef->setText(QString::number(scale));
+    }
 
     draw();
     smt_draw = true;
