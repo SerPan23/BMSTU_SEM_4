@@ -37,7 +37,7 @@ Point3d rotateZ(double x, double y, double z, int teta_grad)
     return {x, y, z};
 }
 
-Point3d transform_point(std::shared_ptr<TransformData> transformData, double x, double y, double z, int w, int h)
+Point3d transform(std::shared_ptr<TransformData> transformData, double x, double y, double z, int w, int h)
 {
     Point3d p;
 
@@ -58,114 +58,206 @@ Point3d transform_point(std::shared_ptr<TransformData> transformData, double x, 
 
     x = x * transformData->scale_coef + w / 2;
     y = y * transformData->scale_coef + h / 2;
-    // x = x * transformData->scale_coef;
-    // y = y * transformData->scale_coef;
-    return {x, y, z};
+    // x = x * transformData.scale_coef;
+    // y = y * transformData.scale_coef;
+    return {round(x), round(y), round(z)};
 }
 
-bool is_visible(std::shared_ptr<Drawer> drawer, Point& point)
+void horizon(double start_x, double start_y, double end_x, double end_y, horizontData minh, horizontData maxh, int w, int h)
 {
-    return (0 <= point.x() && point.x() < drawer->width())
-           and (0 <= point.y() && point.y() < drawer->height());
-}
-
-bool draw_point(std::shared_ptr<Drawer> drawer, int x, double y,
-                horizontData& hh, horizontData& lh, QColor color)
-{
-    Point p(x, int(round(y)));
-
-    if (!is_visible(drawer, p))
-        return false;
-
-    if (y > hh[x])
-        hh[x] = y;
-    else if (y < lh[x])
-        lh[x] = y;
-
-    drawer->draw_point(p, color);
-
-    return true;
-}
-
-void draw_horizon_part(std::shared_ptr<Drawer> drawer, Point p1, Point p2,
-                       horizontData& hh, horizontData& lh, QColor color)
-{
-    if (p1.x() > p2.x())
-        std::swap(p1, p2);
-
-    double dx = p2.x() - p1.x();
-    double dy = p2.y() - p1.y();
-
-    double l = (dx >= dy) ? dx : dy;
-    dx /= l;
-    dy /= l;
-
-    double x = p1.x(), y = p1.y();
-
-    for (int i = 0; i < int(l) + 1; i++)
+    if (end_x == start_x)
     {
-        if (!draw_point(drawer, int(round(x)), y, hh, lh, color))
+        if (end_x >= w)
             return;
-        x += dx;
-        y += dy;
+        maxh[end_x] = std::max(maxh[end_x], end_y);
+        minh[end_x] = std::min(minh[end_x], end_y);
+    }
+    else
+    {
+        double k = (end_y - start_y) / (end_x - start_x);
+        for (int x = start_x; x < end_x + 1; x++)
+        {
+            if (x >= w)
+                break;
+
+            double y = k * (x - start_x) + start_y;
+            maxh[x] = std::max(maxh[x], y);
+            minh[x] = std::min(minh[x], y);
+        }
     }
 }
 
-void draw_horizon(std::shared_ptr<Drawer> drawer, SurfaceData surface, std::shared_ptr<TransformData> transformData,
-                  horizontData& high_horizon, horizontData& low_horizon, double z)
+int is_visible(double x, double y, horizontData minh, horizontData maxh, int w)
 {
-    Point prev;
-    bool is_first = true;
-    for (double x = surface.x_start; x <= surface.x_end; x += surface.x_step)
-    {
-        Point3d tmp = transform_point(transformData, x, surface.func(x, z), z,
-                                  drawer->width(), drawer->height());
-        Point current(round(tmp.x), round(tmp.y));
+    int x_ = int(round(x));
 
-        if (is_first)
-        {
-            is_first = false;
-        }
-        else
-        {
-            draw_horizon_part(drawer, prev, current, high_horizon, low_horizon, surface.color);
-        }
-        prev = current;
+    if (x_ < 0 or x_ >= w)
+        return 0;
+
+    if (y < maxh[x_] and y > minh[x_])
+        return 0;
+
+    if (y >= maxh[x_])
+        return 1;
+
+    return -1;
+}
+
+int sign(double a)
+{
+    if (a < 0)
+        return -1;
+    if (a > 0)
+        return 1;
+    return 0;
+}
+Point intersection(int x_start, int y_start, int x_end, int y_end, horizontData horizon, int w)
+{
+    if (x_end == x_start)
+    {
+        if (0 <= x_end < w)
+            return {x_end, static_cast<int>(horizon[x_end])};
+        return {w - 1, static_cast<int>(horizon[w - 1])};
     }
+
+    double k = (y_end - y_start) * 1.0 / (x_end - x_start);
+    int sy = sign(y_start + k - horizon[x_start + 1]);
+    int sc = sy;
+    double y = y_start + k;
+    double x = x_start + 1;
+    while (sc == sy and x < x_end and x < w)
+    {
+        sc = sign(y - horizon[x]);
+        y += k;
+        x += 1;
+    }
+
+    return {int(round(x)), int(round(y))};
 }
 
 void draw_surface(std::shared_ptr<Drawer> drawer, SurfaceData surface, std::shared_ptr<TransformData> transformData)
 {
-    horizontData high_horizon(drawer->width(), 0);
-    horizontData low_horizon(drawer->width(), drawer->height());
+    double z = surface.z_end;
+    double iz = 0;
+    bool visible = true;
+    int x_left = -1;
+    int y_left = -1;
+    int x_right = -1;
+    int y_right = -1;
 
-    // for (double z = surface.z_end; z >= surface.z_start; z -= surface.z_step)
-    for (double z = surface.z_start; z <= surface.z_end; z += surface.z_step)
-        draw_horizon(drawer, surface, transformData, high_horizon, low_horizon, z);
+    horizontData max_horizon(drawer->width(), 0);
+    horizontData min_horizon(drawer->width(), drawer->height());
 
-    // for (double z = surface.z_end; z > surface.z_start + surface.z_step; z -= surface.z_step)
-    for (double z = surface.z_start + surface.z_step; z < surface.z_end; z += surface.z_step)
+    while (z >= surface.z_start)
     {
-        Point3d p1_3d = transform_point(transformData, surface.x_start,
-                                 surface.func(surface.x_start, z), z, drawer->width(), drawer->height());
-        Point p1(round(p1_3d.x), round(p1_3d.y));
+        double x_last = surface.x_start;
+        double y_last = surface.func(surface.x_start, z);
+        double z_buf = z;
+        Point3d trans = transform(transformData, x_last, y_last, z, drawer->width(), drawer->height());
+        x_last = trans.x; y_last = trans.y; z_buf = trans.z;
 
-        Point3d p2_3d = transform_point(transformData, surface.x_start,
-                                 surface.func(surface.x_start, z - surface.z_step), z  - surface.z_step,
-                                 drawer->width(), drawer->height());
-        Point p2(round(p2_3d.x), round(p2_3d.y));
-        drawer->draw_line(p1, p2, surface.color);
+        if (x_left != -1)
+        {
+            if (is_visible(x_left, y_left, min_horizon, max_horizon, drawer->width()) and
+                is_visible(x_last, y_last, min_horizon, max_horizon, drawer->width()))
+            {
+                drawer->draw_line(x_last, y_last, x_left, y_left, surface.color);
+            }
+            horizon(x_last, y_last, x_left, y_left, min_horizon, max_horizon, drawer->width(), drawer->height());
+        }
 
+        x_left = x_last;
+        y_left = y_last;
 
-        p1_3d = transform_point(transformData, surface.x_end,
-                                 surface.func(surface.x_end, z), z, drawer->width(), drawer->height());
-        p1 = Point(round(p1_3d.x), round(p1_3d.y));
+        int prev_visibility = is_visible(x_last, y_last, min_horizon, max_horizon, drawer->width());
+        double x = surface.x_start;
 
-        p2_3d = transform_point(transformData, surface.x_end,
-                            surface.func(surface.x_end, z - surface.z_step), z  - surface.z_step,
-                            drawer->width(), drawer->height());
-        p2 = Point(round(p2_3d.x), round(p2_3d.y));
-        drawer->draw_line(p1, p2, surface.color);
+        double x_curr, y_curr;
+        while(x < surface.x_end)
+        {
+            double y = surface.func(x, z);
+            Point3d trans = transform(transformData, x, y, z, drawer->width(), drawer->height());
+            x_curr = trans.x; y_curr = trans.y; z_buf = trans.z;
+
+            int curr_visibility = is_visible(x_curr, y_curr, min_horizon, max_horizon, drawer->width());
+            if (prev_visibility == curr_visibility)
+            {
+                if (curr_visibility)
+                {
+                    drawer->draw_line(x_last, y_last, x_curr, y_curr, surface.color);
+                    horizon(x_last, y_last, x_curr, y_curr, min_horizon, max_horizon, drawer->width(), drawer->height());
+                }
+            }
+            else
+            {
+                Point inter;
+                if (!curr_visibility && (x_curr - x_last) > 1)
+                {
+
+                    if (prev_visibility == 1)
+                        inter = intersection(x_last, y_last, x_curr, y_curr, max_horizon, drawer->width());
+                    else
+                        inter = intersection(x_last, y_last, x_curr, y_curr, min_horizon, drawer->width());
+
+                    drawer->draw_line(x_last, y_last, inter.x(), inter.y(), surface.color);
+                    horizon(x_last, y_last, inter.x(), inter.y(), min_horizon, max_horizon, drawer->width(), drawer->height());
+                }
+                else if (curr_visibility == 1)
+                {
+                    if (!prev_visibility)
+                    {
+                        inter = intersection(x_last, y_last, x_curr, y_curr, max_horizon, drawer->width());
+
+                        drawer->draw_line(inter.x(), inter.y(), x_curr, y_curr, surface.color);
+                        horizon(inter.x(), inter.y(), x_curr, y_curr, min_horizon, max_horizon, drawer->width(), drawer->height());
+                    }
+                    else
+                    {
+                        inter = intersection(x_last, y_last, x_curr, y_curr, min_horizon, drawer->width());
+
+                        drawer->draw_line(x_last, y_last, inter.x(), inter.y(), surface.color);
+                        horizon(x_last, y_last, inter.x(), inter.y(), min_horizon, max_horizon, drawer->width(), drawer->height());
+
+                        inter = intersection(x_last, y_last, x_curr, y_curr, max_horizon, drawer->width());
+                        drawer->draw_line(inter.x(), inter.y(), x_curr, y_curr, surface.color);
+                        horizon(inter.x(), inter.y(), x_curr, y_curr, min_horizon, max_horizon, drawer->width(), drawer->height());
+                    }
+                }
+                else
+                {
+                    if (!prev_visibility)
+                    {
+                        inter = intersection(x_last, y_last, x_curr, y_curr, min_horizon, drawer->width());
+
+                        drawer->draw_line(inter.x(), inter.y(), x_curr, y_curr, surface.color);
+                        horizon(inter.x(), inter.y(), x_curr, y_curr, min_horizon, max_horizon, drawer->width(), drawer->height());
+                    }
+                    else
+                    {
+                        inter = intersection(x_last, y_last, x_curr, y_curr, max_horizon, drawer->width());
+
+                        drawer->draw_line(x_last, y_last, inter.x(), inter.y(), surface.color);
+                        horizon(x_last, y_last, inter.x(), inter.y(), min_horizon, max_horizon, drawer->width(), drawer->height());
+
+                        inter = intersection(x_last, y_last, x_curr, y_curr, min_horizon, drawer->width());
+                        drawer->draw_line(inter.x(), inter.y(), x_curr, y_curr, surface.color);
+                        horizon(inter.x(), inter.y(), x_curr, y_curr, min_horizon, max_horizon, drawer->width(), drawer->height());
+                    }
+                }
+            }
+            prev_visibility = curr_visibility;
+            x_last = x_curr;
+            y_last = y_curr;
+
+            x += surface.x_step;
+        }
+        if (x_right != -1)
+        {
+            drawer->draw_line(x_right, y_right, x_curr, y_curr, surface.color);
+            horizon(x_right, y_right, x_curr, y_curr, min_horizon, max_horizon, drawer->width(), drawer->height());
+        }
+        x_right = x_curr;
+        y_right = y_curr;
+        z -= surface.z_step;
     }
-
 }
