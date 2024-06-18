@@ -54,10 +54,10 @@ public:
 
     horizontData(int size, double item)
     {
-        data = std::vector<double>(size, item);
+        data = std::vector<int>(size, item);
     }
 
-    double& operator[](int index)
+    int& operator[](int index)
     {
         if (index < 0)
         {
@@ -74,7 +74,7 @@ public:
     }
 
 private:
-    std::vector<double> data;
+    std::vector<int> data;
 };
 
 void draw_surface(std::shared_ptr<Drawer> drawer, SurfaceData surface, std::shared_ptr<TransformData> transformData);
