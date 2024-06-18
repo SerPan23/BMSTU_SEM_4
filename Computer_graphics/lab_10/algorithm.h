@@ -10,7 +10,7 @@ struct TransformData
     int y_angle = 0;
     int z_angle = 0;
 
-    int scale_coef = 1;
+    double scale_coef = 1;
 
     void x_rotate(int angle)
     {
@@ -27,7 +27,7 @@ struct TransformData
         z_angle += angle;
     }
 
-    void set_scale(int scale)
+    void set_scale(double scale)
     {
         scale_coef = scale;
     }
@@ -46,7 +46,36 @@ struct Point3d
     double x, y, z;
 };
 
-using horizontData = std::vector<double>;
+// using horizontData = std::vector<double>;
+
+class horizontData
+{
+public:
+
+    horizontData(int size, double item)
+    {
+        data = std::vector<double>(size, item);
+    }
+
+    double& operator[](int index)
+    {
+        if (index < 0)
+        {
+            // qDebug() << "WROND INDEX (size = " << data.size() << " index = " << index << ")";
+            index = 0;
+        }
+        else if (index >= data.size())
+        {
+            // qDebug() << "WROND INDEX (size = " << data.size() << " index = " << index << ")";
+            index = data.size() - 1;
+        }
+
+        return data[index];
+    }
+
+private:
+    std::vector<double> data;
+};
 
 void draw_surface(std::shared_ptr<Drawer> drawer, SurfaceData surface, std::shared_ptr<TransformData> transformData);
 

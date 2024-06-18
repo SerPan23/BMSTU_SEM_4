@@ -17,6 +17,8 @@
 
 #include "algorithm.h"
 
+#define EPS 1e-8
+
 QT_BEGIN_NAMESPACE
 namespace Ui {
 class MainWindow;
@@ -60,6 +62,8 @@ private:
     void x_rotate_clicked();
     void y_rotate_clicked();
     void z_rotate_clicked();
+
+    void reset_angles_clicked();
 
     void scale_change_clicked();
 

@@ -63,12 +63,13 @@ Point3d transform(std::shared_ptr<TransformData> transformData, double x, double
     return {round(x), round(y), round(z)};
 }
 
-void horizon(double start_x, double start_y, double end_x, double end_y, horizontData minh, horizontData maxh, int w, int h)
+void horizon(double start_x, double start_y, double end_x, double end_y, horizontData& minh, horizontData& maxh, int w, int h)
 {
     if (end_x == start_x)
     {
         if (end_x >= w)
             return;
+
         maxh[end_x] = std::max(maxh[end_x], end_y);
         minh[end_x] = std::min(minh[end_x], end_y);
     }
@@ -87,7 +88,7 @@ void horizon(double start_x, double start_y, double end_x, double end_y, horizon
     }
 }
 
-int is_visible(double x, double y, horizontData minh, horizontData maxh, int w)
+int is_visible(double x, double y, horizontData& minh, horizontData& maxh, int w)
 {
     int x_ = int(round(x));
 
@@ -111,25 +112,31 @@ int sign(double a)
         return 1;
     return 0;
 }
-Point intersection(int x_start, int y_start, int x_end, int y_end, horizontData horizon, int w)
+Point intersection(double x_start, double y_start, double x_end, double y_end, horizontData& horizon, int w)
 {
     if (x_end == x_start)
     {
-        if (0 <= x_end < w)
-            return {x_end, static_cast<int>(horizon[x_end])};
+        if (0 <= x_end && x_end < w)
+            return {static_cast<int>(x_end), static_cast<int>(horizon[x_end])};
         return {w - 1, static_cast<int>(horizon[w - 1])};
     }
 
-    double k = (y_end - y_start) * 1.0 / (x_end - x_start);
+    double k = (y_end - y_start) / (x_end - x_start);
     int sy = sign(y_start + k - horizon[x_start + 1]);
     int sc = sy;
     double y = y_start + k;
     double x = x_start + 1;
-    while (sc == sy and x < x_end and x < w)
+    while (sc == sy && x < x_end && x < w)
     {
-        sc = sign(y - horizon[x]);
         y += k;
         x += 1;
+        sc = sign(y - horizon[x]);
+    }
+
+    if (abs(y - k - horizon[x - 1]) <= abs(y - horizon[x]))
+    {
+        y = y - k;
+        x = x - 1;
     }
 
     return {int(round(x)), int(round(y))};
@@ -140,10 +147,10 @@ void draw_surface(std::shared_ptr<Drawer> drawer, SurfaceData surface, std::shar
     double z = surface.z_end;
     double iz = 0;
     bool visible = true;
-    int x_left = -1;
-    int y_left = -1;
-    int x_right = -1;
-    int y_right = -1;
+    double x_left = -1;
+    double y_left = -1;
+    double x_right = -1;
+    double y_right = -1;
 
     horizontData max_horizon(drawer->width(), 0);
     horizontData min_horizon(drawer->width(), drawer->height());
@@ -152,9 +159,9 @@ void draw_surface(std::shared_ptr<Drawer> drawer, SurfaceData surface, std::shar
     {
         double x_last = surface.x_start;
         double y_last = surface.func(surface.x_start, z);
-        double z_buf = z;
+        // double z_buf = z;
         Point3d trans = transform(transformData, x_last, y_last, z, drawer->width(), drawer->height());
-        x_last = trans.x; y_last = trans.y; z_buf = trans.z;
+        x_last = trans.x; y_last = trans.y; // z_buf = trans.z;
 
         if (x_left != -1)
         {
@@ -177,7 +184,7 @@ void draw_surface(std::shared_ptr<Drawer> drawer, SurfaceData surface, std::shar
         {
             double y = surface.func(x, z);
             Point3d trans = transform(transformData, x, y, z, drawer->width(), drawer->height());
-            x_curr = trans.x; y_curr = trans.y; z_buf = trans.z;
+            x_curr = trans.x; y_curr = trans.y; // z_buf = trans.z;
 
             int curr_visibility = is_visible(x_curr, y_curr, min_horizon, max_horizon, drawer->width());
             if (prev_visibility == curr_visibility)

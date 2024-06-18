@@ -336,7 +336,7 @@
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>400</y>
+      <y>390</y>
       <width>381</width>
       <height>161</height>
      </rect>
@@ -460,7 +460,7 @@
     <property name="geometry">
      <rect>
       <x>8</x>
-      <y>590</y>
+      <y>600</y>
       <width>381</width>
       <height>33</height>
      </rect>
@@ -486,13 +486,26 @@
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>570</y>
+      <y>580</y>
       <width>201</width>
       <height>16</height>
      </rect>
     </property>
     <property name="text">
      <string>Коэффициент масштабирования</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="btn_reset_angles">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>550</y>
+      <width>396</width>
+      <height>32</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Сбросить все повороты</string>
     </property>
    </widget>
   </widget>

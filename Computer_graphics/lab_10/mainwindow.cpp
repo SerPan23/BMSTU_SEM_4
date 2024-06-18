@@ -26,6 +26,10 @@ MainWindow::MainWindow(QWidget *parent):
     connect(ui->z_rotate_btn, &QPushButton::clicked, this,
             &MainWindow::z_rotate_clicked);
 
+    connect(ui->btn_reset_angles, &QPushButton::clicked, this,
+            &MainWindow::reset_angles_clicked);
+
+
     connect(ui->scale_change, &QPushButton::clicked, this,
             &MainWindow::scale_change_clicked);
 
@@ -113,7 +117,9 @@ void MainWindow::clear_clicked()
 void MainWindow::draw()
 {
     drawer->clear();
+
     draw_surface(drawer, current_surface, transformData);
+
     drawer->render();
 }
 
@@ -199,7 +205,10 @@ void MainWindow::draw_clicked()
         double x_len = x_end - x_start;
         double z_len = z_end - z_start;
         int border = 100;
-        int scale = (drawer->width() - border) / std::max(x_len, z_len);
+        double scale = (drawer->width() - border) / std::max(x_len, z_len);
+
+        if (scale <= EPS)
+            scale = 1;
 
         transformData->set_scale(scale);
 
@@ -278,6 +287,15 @@ void MainWindow::z_rotate_clicked()
     }
 
     transformData->z_rotate(az);
+
+    draw();
+}
+
+void MainWindow::reset_angles_clicked()
+{
+    transformData->x_angle = 0;
+    transformData->y_angle = 0;
+    transformData->z_angle = 0;
 
     draw();
 }
