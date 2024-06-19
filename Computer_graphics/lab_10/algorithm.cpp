@@ -22,8 +22,8 @@ void rotateY(double& x, double& y, double& z, int teta_grad)
 {
     double teta = to_rad(teta_grad);
     double  buf = x;
-    x = cos(teta) * x - sin(teta) * z;
-    z = cos(teta) * z + sin(teta) * buf;
+    x = cos(teta) * x + sin(teta) * z;
+    z = cos(teta) * z - sin(teta) * buf;
 }
 
 void rotateZ(double& x, double& y, double& z, int teta_grad)
