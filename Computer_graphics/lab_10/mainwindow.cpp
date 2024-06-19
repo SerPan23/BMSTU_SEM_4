@@ -58,7 +58,7 @@ MainWindow::MainWindow(QWidget *parent):
     ui->y_rotate->setValidator(int_validator);
     ui->z_rotate->setValidator(int_validator);
 
-    ui->scale_coef->setValidator(int_validator);
+    ui->scale_coef->setValidator(double_validator);
 
     auto f = getFuncsList();
     funcs = std::make_shared<Funcs>(f);
